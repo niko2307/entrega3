@@ -173,9 +173,9 @@ Territorio* congo = risk->buscarTerritorio("africa", "congo");
 
 
 // Continente de Oceanía
-Territorio* indonesia = risk->buscarTerritorio("oceania", "indonesia");
-Territorio* nuevaGuinea = risk->buscarTerritorio("oceania", "nueva guinea");
-Territorio* australiaOccidental = risk->buscarTerritorio("oceania", "australia occidental");
+Territorio* indonesia = risk->buscarTerritorio("australia", "indonesia");
+Territorio* nuevaGuinea = risk->buscarTerritorio("australia", "nueva guinea");
+Territorio* australiaOccidental = risk->buscarTerritorio("australia", "australia occidental");
 Territorio* australiaOriental = risk->buscarTerritorio("australia", "australia oriental");
 
 // Continente de Asia
