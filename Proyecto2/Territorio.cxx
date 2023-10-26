@@ -76,3 +76,17 @@ void Territorio::restarFichas(int cantidadEliminar) {
         fichasEliminadas++;
     }
 }
+
+
+Ficha Territorio::obtenerFicha(std::string jugador) {
+    for (Ficha& ficha : fichas) {
+        if (ficha.obtenerColor() == jugador) {
+            return ficha;
+        }
+    }
+    // Si no se encuentra la ficha, se devuelve una ficha vacía
+    return Ficha("", "");
+}
+void Territorio::setReclamar(std::string jugador) {
+    reclamado = jugador;
+}

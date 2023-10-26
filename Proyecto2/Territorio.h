@@ -19,11 +19,13 @@ public:
     std::string getNombre();
     std::string getReclamado();
     bool esColindante(Territorio* otroTerritorio);
+    Ficha obtenerFicha(std::string jugador);
 
     std::vector<Territorio*> getTerritoriosColindantes();
     void setTerritoriosColindantes(Territorio* Territorio);
     void restarFichas(int cantidadEliminar);
-
+    void setReclamar(std::string jugador);
+    
 private:
     std::string nombre;
     std::vector<Ficha> fichas;

@@ -59,7 +59,10 @@ void crearArchivoBinario(const string& nombreArchivo,const   InformacionJugador&
 void crearArchivo(const string& nombreArchivo, const string& contenidoGuardar);
 //entrega 2
 void inicializarJuego(Risk* risk);
-void fortificar(Risk* risk, bool inicializar);
+void UbicarTropas(Risk* risk, bool inicializar);
+
+void fortificar(Risk* risk);
+
 void turno (Risk* risk);
 void atacar(Risk* risk);
 
@@ -108,7 +111,7 @@ int main() {
             case 2:
                 if(!risk.estadoPartida()){
                   inicializarJuego(&risk);
-                  fortificar(&risk, true);
+                  UbicarTropas(&risk, true);
                   risk.turnosEnCero();
                   std::cout<<"\n-** El juego se ha inicializado correctamente. **-\n"<<endl;
                 }else
@@ -580,7 +583,7 @@ arbolHuffman.construirArbol(frecuenciasFichas);
   }while(risk->territoriosLibres());
 }
 
-void fortificar(Risk* risk, bool inicializar){
+void UbicarTropas(Risk* risk, bool inicializar){
 
     string territorio = "", continente= "";
     int qFichas =0;
@@ -629,14 +632,19 @@ void fortificar(Risk* risk, bool inicializar){
 
 void turno (Risk* risk){
   //std::vector<Territorio*> territoriosJ =risk->getJugador(risk->getNameJugadorEnTurno())->getTerritorios();
+       bool Ganador = false;
+      // do{
        
        int qtropas=risk->CantidadNuevasTropas(risk->getJugador(risk->getNameJugadorEnTurno())) ;
 
      std::cout<<"jugador "<<risk->getNameJugadorEnTurno()<<"\n cantidad de tropas disponibles : "<<qtropas<<std::endl;
      risk->AgregarTropas(risk->getJugador(risk->getNameJugadorEnTurno()),qtropas) ;
-      fortificar(risk, true);
+      UbicarTropas(risk, true);
       atacar(risk);
       //risk->ubicarNuevasTropas(int qtropas );
+      
+      
+
       inf.ejercito.push_back(qtropas);
         vector<pair<char, int>> frecuen = arbolHuffman.calcularFrecuencias(to_string(qtropas));
    arbolHuffman.construirArbol(frecuen);
@@ -645,75 +653,191 @@ void turno (Risk* risk){
 
     if(risk->getFichasJugadorEnTurno()>0){
 
-         // fortificar(risk, false);
-    }else
+        fortificar(risk);
+    }else{
         std::cout <<" ¡No se puede fortificar!\n  ¡Fichas insuficientes!";
-
-
+    }
+    Ganador=risk->estadoGanador();
     risk->turnoJugado();
+
+     // }while(Ganador=true);
+
+      std::cout<<"SE ACABO EL JUEGO"<<std::endl;
+
+
+
+
+    
 }
 
 
-
 void atacar(Risk* risk){
-
- string territorio = "", continente= "", colindante = "";
+    bool conquistado = false;
+ string territorio = "", continente= "", colindante = "",combatir = " ",Fase= " ";
     int qFichas =0;
-    bool Fase = true;
     bool Colindante= true;
     std::string elegir= "";
 std::cout<<" \t RONDA DE ATAQUES \n"<<std::endl;
  do{
-    std::cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
+    cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
         <<"\n  Color: "<<risk->getColorJugadorEnTurno()
         <<"\nTerritorios disponibles: \n"<<endl;
 
-    std::cout<<risk->territoriosJugador();
+    cout<<risk->territoriosJugador();
     //evalua si el territorio seleccionado te pertenece
     do{
-        std::cout<<"Escoge el territorio atacante:\n";
+
+      do{
+        cout<<"Territorio atacante:\n";
         territorio = ingresarComando();
         continente = risk->buscarContinenteTerritorio(territorio);
 
+        //cout<<"continente: "<<continente<<endl;
+        
+        if(continente=="" || !risk->territorioJugador(continente, territorio)){
+            cout<<"\n-** Nombre de territorio no valido **-\n\n";
+        }
+
+    }while(continente=="" || !risk->territorioJugador(continente, territorio));
+
   //evalua si el territorio a atacar es colindante
         do{
-          std::cout<<"Territorios disponibles para atacar"<<endl;
-          std::cout<<risk->territoriosColindantes(territorio);
+          cout<<"\t \n TERRITORIOS DISPONIBLES PARA ATACAR \n "<<endl;
+          cout<<risk->territoriosColindantes(territorio);
 
-           std::cout<<"retroceder = si quieres escoger otro pais\n"<<endl;
-           std::cout<<"Escoge el territorio que quieres atacar:\n";   
+           cout<<"retroceder = si quieres escoger otro pais\n"<<endl;
+           cout<<"Escoge el territorio que quieres atacar:\n";   
            colindante = ingresarComando();
+           if(colindante =="retroceder"){
+            break;
+           }
+           
            if( !risk->buscarTerritorio(continente,territorio)->esColindante(risk->buscarTerritorio(continente,colindante))){
-            std::cout<<"\n-** Nombre de territorio Colindate no valido **-\n\n";
+            cout<<"\n-** Nombre de territorio Colindate no valido **-\n\n";
             Colindante= false;
         }
+          //revisa que el territorio seleciionado no pertenesca al mismo jugador
+          if(risk->territorioPerteneceAJugador(risk->buscarTerritorio(continente,colindante))->obtenerNombreJugador()==risk->getNameJugadorEnTurno()){
+            cout<<"\n-** Este territorio te pertenece **-\n\n";
+            Colindante= false;
+          }
+           
         }while(Colindante==false|| !risk->buscarTerritorio(continente,territorio)->esColindante(risk->buscarTerritorio(continente,colindante)));
-        std::cout<<"Hora de la batalla"<<std::endl;
+        
+if(colindante !="retroceder"){
+  
+        //realiza el lanzamiento de dados y perdida de fichas
+        do{
+        
+        cout<<"\t \n HORA DE LA BATALLA \n "<<endl;
         if(continente=="" || !risk->territorioJugador(continente, territorio)){
-            std::cout<<"\n-** Nombre de territorio no valido **-\n\n";
+            cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
+          risk->resultadoAtaque(territorio,colindante);
+          system("cls");
+          std::cout<<"Quieres seguir combatiendo con este pais:"<<std::endl;
+          std::cout<<"SI \nNO"<<std::endl;
+          combatir = ingresarComando();
+          
+        }while(combatir == "SI");
+       
+    }
 
     }while(continente=="" || !risk->territorioJugador(continente, territorio)||elegir=="retroceder");
     //evalua si el territorio seleccionado para atacar es colindante
-    
-    do{
+    system("cls");
+    std::cout<<"Quieres pasar de fase:"<<std::endl;
+          std::cout<<"SI \nNO"<<std::endl;
+        Fase=ingresarComando();
+  
+
+  }while(Fase =="NO");
 
 
 
-        std::cout<<"Numero de fichas a mover: "<<endl;
-        qFichas = stoi(ingresarComando());
-    }while(qFichas>risk->getFichasJugadorEnTurno());
-    
-
-    risk->moverFichasJugador(qFichas, continente, territorio);
-    inf.fichasd.push_back(risk->moverFichasJugador(qFichas, continente, territorio));
-
-    if(Fase ==true)
-        risk->turnoJugadoatacar();
-        system("cls");
-
-  }while(Fase ==true);
 
 }
 
+
+void fortificar(Risk* risk){
+system("cls");
+  std::cout<<"FORTIFICAR"<<std::endl;
+
+ // Obtener el jugador en turno risk->getNameJugadorEnTurno()
+    Jugador* jugadorEnTurno = risk->getJugador(risk->getNameJugadorEnTurno());
+    string nombreTerritorioOrigen = "", continenteOrigen= "",nombreTerritorioDestino= "",continenteDestino= "";
+
+     cout<<risk->territoriosJugador();
+
+// Solicitar el nombre del territorio de origen y destino
+  
+    do{
+        cout<<"Ingrese el nombre del territorio de origen:\n";
+         nombreTerritorioOrigen = ingresarComando();
+        continenteOrigen = risk->buscarContinenteTerritorio(nombreTerritorioOrigen);
+
+       
+        
+        if(continenteOrigen=="" || !risk->territorioJugador(continenteOrigen, nombreTerritorioOrigen)){
+            cout<<"\n-** Nombre de territorio no valido **-\n\n";
+        }
+
+    }while(continenteOrigen=="" || !risk->territorioJugador(continenteOrigen, nombreTerritorioOrigen));
+
+    do{
+        cout<<"\nIngrese el nombre del territorio de Destino:\n";
+        nombreTerritorioDestino = ingresarComando();
+        continenteDestino = risk->buscarContinenteTerritorio(nombreTerritorioDestino);
+
+      
+        
+        if(continenteDestino=="" || !risk->territorioJugador(continenteDestino, nombreTerritorioDestino)){
+            cout<<"\n-** Nombre de territorio no valido **-\n\n";
+        }
+
+    }while(continenteDestino=="" || !risk->territorioJugador(continenteDestino, nombreTerritorioDestino));
+
+    
+   
+
+    // Buscar los territorios de origen y destino
+    Territorio* territorioOrigen = risk->buscarTerritorio(continenteOrigen,nombreTerritorioOrigen);
+    Territorio* territorioDestino = risk->buscarTerritorio(continenteDestino,nombreTerritorioDestino);
+
+    // Verificar si los territorios pertenecen al mismo jugador
+    if ( risk->territorioPerteneceAJugador(territorioOrigen)->obtenerNombreJugador() == risk->territorioPerteneceAJugador(territorioDestino)->obtenerNombreJugador()) {
+        // Solicitar la cantidad de fichas a mover
+        int cantidadFichas;
+        std::cout << "Ingrese la cantidad de fichas a mover: ";
+        cantidadFichas=stoi(ingresarComando());
+
+        // Verificar si el territorio de origen tiene suficientes fichas
+        if (territorioOrigen->ContarFichas(jugadorEnTurno->obtenerColor()) >= cantidadFichas) {
+            
+            // Mover las fichas del territorio de origen al territorio de destino
+            for (int i = 0; i < cantidadFichas; i++) {
+                Ficha ficha = territorioOrigen->obtenerFicha(jugadorEnTurno->obtenerNombreJugador());
+                if(ficha.obtenerColor()!=""){
+                territorioDestino->addFicha(ficha);
+                }
+                
+                
+            }
+            territorioOrigen->restarFichas(cantidadFichas);
+
+            // Mostrar mensaje de Ã©xito
+            std::cout << "Se han movido " << cantidadFichas << " fichas del territorio " << nombreTerritorioOrigen << " al territorio " << nombreTerritorioDestino << "." << std::endl;
+        } else {
+            std::cout << "El territorio de origen no tiene suficientes fichas." << std::endl;
+        }
+    } else {
+        std::cout << "Los territorios no pertenecen al mismo jugador." << std::endl;
+    }
+
+
+
+
+
+
+}
 
