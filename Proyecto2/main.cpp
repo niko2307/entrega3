@@ -633,6 +633,7 @@ void UbicarTropas(Risk* risk, bool inicializar){
 void turno (Risk* risk){
   //std::vector<Territorio*> territoriosJ =risk->getJugador(risk->getNameJugadorEnTurno())->getTerritorios();
        bool Ganador = false;
+       std::string elegirFortificar= "";
       // do{
        
        int qtropas=risk->CantidadNuevasTropas(risk->getJugador(risk->getNameJugadorEnTurno())) ;
@@ -640,11 +641,13 @@ void turno (Risk* risk){
      std::cout<<"jugador "<<risk->getNameJugadorEnTurno()<<"\n cantidad de tropas disponibles : "<<qtropas<<std::endl;
      risk->AgregarTropas(risk->getJugador(risk->getNameJugadorEnTurno()),qtropas) ;
       UbicarTropas(risk, true);
+
+      
       atacar(risk);
       //risk->ubicarNuevasTropas(int qtropas );
       
       
-
+//HUFFMAN, MODIFICAR
       inf.ejercito.push_back(qtropas);
         vector<pair<char, int>> frecuen = arbolHuffman.calcularFrecuencias(to_string(qtropas));
    arbolHuffman.construirArbol(frecuen);
@@ -652,8 +655,14 @@ void turno (Risk* risk){
    crearArchivoBinario("guardar",jugadorInfo);
 
     if(risk->getFichasJugadorEnTurno()>0){
+      std::cout<<"Deseas Fortificar un territorio \n SI \n NO"<<std::endl;
+        elegirFortificar = ingresarComando();
 
+        if(elegirFortificar == "SI"){
         fortificar(risk);
+        }else{
+          std::cout<<"SIGUIENTE TURNO"<<std::endl;
+        }
     }else{
         std::cout <<" ¡No se puede fortificar!\n  ¡Fichas insuficientes!";
     }
