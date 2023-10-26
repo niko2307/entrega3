@@ -1039,7 +1039,7 @@ std::string Risk::territoriosColindantes(std::string nombreTerritorio) {
 
 
 
-void Risk::resultadoAtaque(std::string Territorioatacante, std::string TerritorioDefensor) {
+void Risk::resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor) {
     bool continuar = true;
 
     // Obtener el jugador atacante y el jugador defensor

@@ -733,7 +733,7 @@ if(colindante !="retroceder"){
         if(continente=="" || !risk->territorioJugador(continente, territorio)){
             cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
-          risk->resultadoAtaque(territorio,colindante);
+          risk->resultadoDADOSAtaque(territorio,colindante);
           system("cls");
           std::cout<<"Quieres seguir combatiendo con este pais:"<<std::endl;
           std::cout<<"SI \nNO"<<std::endl;
