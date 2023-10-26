@@ -647,14 +647,14 @@ void turno (Risk* risk){
 
 
 
-//PROCESO DE FORTIFICAR
+//PROCESO DE ATACAR
 std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
         elegiratacar = ingresarComando();
 
         if(elegiratacar == "SI"){
         atacar(risk);
         }else{
-          std::cout<<"NO se realizo un ataque"<<std::endl;
+          std::cout<<"NO se realizo ningun ataque"<<std::endl;
         }
 
       
@@ -668,10 +668,13 @@ std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
    jugadorInfo.cantidadEjercito.push_back(arbolHuffman.codificar(to_string(qtropas)));
    crearArchivoBinario("guardar",jugadorInfo);
 
+
+
+
+//PROCESO DE FORTIFICAR
     if(risk->getFichasJugadorEnTurno()>0){
       std::cout<<"Deseas Fortificar un territorio \n SI \n NO"<<std::endl;
         elegirFortificar = ingresarComando();
-
         if(elegirFortificar == "SI"){
         fortificar(risk);
         }else{
@@ -680,6 +683,9 @@ std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
     }else{
         std::cout <<" ¡No se puede fortificar!\n  ¡Fichas insuficientes!";
     }
+
+
+    //VERIFICAR SI EXISTE UN GANADOR
     Ganador=risk->estadoGanador();
     risk->turnoJugado();
 
