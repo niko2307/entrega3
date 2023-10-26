@@ -633,17 +633,31 @@ void UbicarTropas(Risk* risk, bool inicializar){
 void turno (Risk* risk){
   //std::vector<Territorio*> territoriosJ =risk->getJugador(risk->getNameJugadorEnTurno())->getTerritorios();
        bool Ganador = false;
-       std::string elegirFortificar= "";
+       std::string elegirFortificar= "",elegiratacar= "";
       // do{
        
        int qtropas=risk->CantidadNuevasTropas(risk->getJugador(risk->getNameJugadorEnTurno())) ;
 
      std::cout<<"jugador "<<risk->getNameJugadorEnTurno()<<"\n cantidad de tropas disponibles : "<<qtropas<<std::endl;
      risk->AgregarTropas(risk->getJugador(risk->getNameJugadorEnTurno()),qtropas) ;
+      
+      //se colocan las nuevas tropas
       UbicarTropas(risk, true);
 
+
+
+
+//PROCESO DE FORTIFICAR
+std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
+        elegiratacar = ingresarComando();
+
+        if(elegiratacar == "SI"){
+        atacar(risk);
+        }else{
+          std::cout<<"NO se realizo un ataque"<<std::endl;
+        }
+
       
-      atacar(risk);
       //risk->ubicarNuevasTropas(int qtropas );
       
       
