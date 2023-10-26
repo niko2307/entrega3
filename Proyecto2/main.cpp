@@ -110,9 +110,9 @@ int main() {
                   inicializarJuego(&risk);
                   fortificar(&risk, true);
                   risk.turnosEnCero();
-                  cout<<"\n-** El juego se ha inicializado correctamente. **-\n"<<endl;
+                  std::cout<<"\n-** El juego se ha inicializado correctamente. **-\n"<<endl;
                 }else
-                  cout<<"Esta partida ya ha sido inicializada"<<endl;
+                  std::cout<<"Esta partida ya ha sido inicializada"<<endl;
 
                 break;
               //turno id_jugador
@@ -120,20 +120,20 @@ int main() {
                 turnoAux = separarEspacio(respuesta, true);
 
                 if(!risk.estadoPartida()){
-                    cout<<"-** Esta partida no ha sido inicializada correctamente **-\n";
+                    std::cout<<"-** Esta partida no ha sido inicializada correctamente **-\n";
                 }else if (risk.estadoGanador()){
-                    cout<<"-** Esta partida ya tuvo un ganador **-\n";
+                    std::cout<<"-** Esta partida ya tuvo un ganador **-\n";
                 }else if(risk.esTurnoJugador(turnoAux)){
 
                     turno (&risk);
 
                 }else if (risk.jugadorExiste(turnoAux)){
-                    cout<<"-** No es el turno del jugador <"<< turnoAux<<"> **-\n"; 
+                    std::cout<<"-** No es el turno del jugador <"<< turnoAux<<"> **-\n"; 
                 }else
-                    cout<<"-** El jugador <"<< turnoAux<<"> no forma parte de esta partida. **-\n";
+                    std::cout<<"-** El jugador <"<< turnoAux<<"> no forma parte de esta partida. **-\n";
                                    
 
-                cout << "id_jugador " << turnoAux << endl;
+                std::cout << "id_jugador " << turnoAux << endl;
                 
                 break;
               //salir
@@ -164,28 +164,28 @@ int main() {
                 break;
               //costo_conquista <territorio>
             case 7:
-                cout << "comando exitoso\n" << "costo_conquista <territorio>\n";
+                std::cout << "comando exitoso\n" << "costo_conquista <territorio>\n";
                 break;
               //conquista_mas_barata
             case 8:
-                cout << "comando exitoso\n" << "conquista_mas_barata\n";
+                std::cout << "comando exitoso\n" << "conquista_mas_barata\n";
                 break;
 
             case 9:
-                cout << "comando exitoso" << endl;
+                std::cout << "comando exitoso" << endl;
                 break;
 
             
             case 10:
-                cout << "help <comando>: Proporciona información de ayuda para los comandos de Risk.\n\nComandos disponibles:\n";
+                std::cout << "help <comando>: Proporciona información de ayuda para los comandos de Risk.\n\nComandos disponibles:\n";
 
-              cout << "inicializar - Inicializa un nuevo juego" << endl;
-  cout << "turno - Muestra el turno" << endl; 
-  cout << "salir - Salir del programa" << endl;
-  cout << "guardar -  Guarda el progreso" << endl;
-  cout << "guardar_comprimido - Guarda el progreso en un formato .zip" << endl;
-  cout << "costo_conquista - Muestra el costo de conquista de un territorio" << endl;
-  cout << "conquista_mas_barata - Muestra costo de conquista mas barato" << endl;        
+              std::cout << "inicializar - Inicializa un nuevo juego" << endl;
+  std::cout << "turno - Muestra el turno" << endl; 
+  std::cout << "salir - Salir del programa" << endl;
+  std::cout << "guardar -  Guarda el progreso" << endl;
+  std::cout << "guardar_comprimido - Guarda el progreso en un formato .zip" << endl;
+  std::cout << "costo_conquista - Muestra el costo de conquista de un territorio" << endl;
+  std::cout << "conquista_mas_barata - Muestra costo de conquista mas barato" << endl;        
                 break;
 
           case 11:
@@ -193,7 +193,7 @@ int main() {
             break;
 
             default:
-                cout << "\"" << respuesta << "\"" << " no se reconoce como un comando interno o parametros incorrectos.\n\n";
+                std::cout << "\"" << respuesta << "\"" << " no se reconoce como un comando interno o parametros incorrectos.\n\n";
                 break;
         }
 
@@ -228,9 +228,9 @@ void crearArchivo(const string& nombreArchivo) {
 
 
         archivo.close();
-        cout << "La partida ha sido guardada correctamente en " << nombreArchivo  << endl;
+        std::cout << "La partida ha sido guardada correctamente en " << nombreArchivo  << endl;
     } else {
-        cout << "La partida no ha sido guardada correctamente." << endl;
+        std::cout << "La partida no ha sido guardada correctamente." << endl;
     }
 }
 
@@ -266,19 +266,19 @@ void crearArchivoBinario(const string& nombreArchivo, const  InformacionJugador&
     }
              
             archivo.close();
-            cout << "La partida ha sido guardada correctamente en " << nombreArchivo << "_codificado.bin." << std::endl;
+            std::cout << "La partida ha sido guardada correctamente en " << nombreArchivo << "_codificado.bin." << std::endl;
         } else {
-            cout << "No se pudo abrir el archivo para escritura." << endl;
+            std::cout << "No se pudo abrir el archivo para escritura." << endl;
         }
     } catch (const std::exception& e) {
-        cout << "Error al escribir en el archivo: " << e.what() << endl;
+        std::cout << "Error al escribir en el archivo: " << e.what() << endl;
     }
 }
 
 //permite leer la información de un archivo
 void leerArchivo(const string &nombreArchivo)
 {
-  cout << "Ingrese que tipo de archivo desea leer: \n"
+  std::cout << "Ingrese que tipo de archivo desea leer: \n"
        << "1. Archivo de texto\n"
        << "2. Archivo binario\n";
   int opcion;
@@ -301,27 +301,27 @@ void leerArchivo(const string &nombreArchivo)
         binaryContent += bitset<8>(buffer[i]).to_string();
       }
       string decoded = arbolHuffman.decodificar(binaryContent);
-      cout << decoded << endl;
+      std::cout << decoded << endl;
     }
     else if (opcion == 1)
     {
       for (int i = 0; i < length; i++)
       {
-        cout << buffer[i];
+        std::cout << buffer[i];
       }
     }
     else
     {
       cerr << "Error: no se encontro el archivo\n";
     }
-    cout << endl;
+    std::cout << endl;
 
     delete[] buffer;
     archivo.close();
   }
   else
   {
-    cout  << "Error: could not open file " << nombreArchivo << endl;
+    std::cout  << "Error: could not open file " << nombreArchivo << endl;
   }
  
 }
@@ -342,43 +342,43 @@ string separarEspacio(string cadena, bool parametro) {
 
 void mostrarAyudaComando(const string& comando) {
   string com = separarEspacio(comando, true);
-  cout << endl;
+  std::cout << endl;
     if (com == "inicializar") {
-        cout << "inicializar <nombre_archivo>\n\n";
+        std::cout << "inicializar <nombre_archivo>\n\n";
       infoInicializar();     
     } else if (com == "turno") {
-        cout << "turno <id_jugador>\n\n";
+        std::cout << "turno <id_jugador>\n\n";
       infoTurno();
     } else if (com == "salir") {
-        cout << "salir <>\n\n";
+        std::cout << "salir <>\n\n";
       infoSalir();
     } else if (com == "guardar") {
-        cout << "guardar <nombre_archivo>\n\n";
+        std::cout << "guardar <nombre_archivo>\n\n";
       infoGuardar();
     } else if (com == "guardar_comprimido") {
-        cout << "guardar_comprimido <nombre_archivo>\n\n";
+        std::cout << "guardar_comprimido <nombre_archivo>\n\n";
       infoGuardarComprimido();
     } else if (com == "costo_conquista") {
-        cout << "costo_conquista <territorio>\n\n";
+        std::cout << "costo_conquista <territorio>\n\n";
       infoCostoConquista();
     } else if (com == "conquista_mas_barata") {
-        cout << "conquista_mas_barata <>\n\n";
+        std::cout << "conquista_mas_barata <>\n\n";
       infoConquistaMasBarata();
     } else if (com == "help") {
-        cout << "help <comando>\n\n";
+        std::cout << "help <comando>\n\n";
     }  else {
-        cout << "El comando \"" << com << "\" no tiene una descripción de ayuda.\n";
+        std::cout << "El comando \"" << com << "\" no tiene una descripción de ayuda.\n";
     }
 }
 
 void mensajeBienvenida() {
   system("cls");
-    cout << "!Bienvenido a RISK?\nanimate a jugar :)\n";
+    std::cout << "!Bienvenido a RISK?\nanimate a jugar :)\n";
 }
 
 string ingresarComando() {
     string cadena;
-    cout << "\n$";
+    std::cout << "\n$";
     getline(cin, cadena);
     return cadena;
 }
@@ -435,33 +435,33 @@ int identificarComando(string cadena){
 }
 
 void infoInicializar(void){
-  cout << "Realiza las operaciones necesarias para inicializar el juego.\n\n El comando pregunta la cantidad de jugadores, para cada jugador su nombre o identificador, y luego, por turnos, pregunta a cada jugador en qué territorio desea ubicar sus unidades de ejército. \n\nEn cada turno, el jugador sólo puede indicar un único territorio a ocupar.\n" << endl;
+  std::cout << "Realiza las operaciones necesarias para inicializar el juego.\n\n El comando pregunta la cantidad de jugadores, para cada jugador su nombre o identificador, y luego, por turnos, pregunta a cada jugador en qué territorio desea ubicar sus unidades de ejército. \n\nEn cada turno, el jugador sólo puede indicar un único territorio a ocupar.\n" << endl;
 }
 
 void infoTurno(void){
-  cout<<"Realiza las operaciones descritas dentro del turno de un jugador (obtener nuevas unidades, atacar y fortificar).\n\n El comando informa al jugador cuántas unidades adicionales puede reclamar luego pregunta en cuáles de sus territorios las quiere asignar y en qué cantidad.\n\n A continuación pregunta la configuración del ataque, desde cuál territorio y hacia cuál territorio, verificando las condiciones ya descritas.\n\n Luego informa los valores obtenidos con los dados, y la cantidad de unidades que se ganan o pierden. \n\nEste proceso se repite hasta que alguno de los dos territorios se quede sin unidades, o hasta que el atacante decida detenerse. \n\nFinalmente, el comando pregunta al jugador los territorios vecinos que desea seleccionar para la fortificación, así como la cantidad de unidades que se trasladarán de uno al otro.\n" << endl;
+  std::cout<<"Realiza las operaciones descritas dentro del turno de un jugador (obtener nuevas unidades, atacar y fortificar).\n\n El comando informa al jugador cuántas unidades adicionales puede reclamar luego pregunta en cuáles de sus territorios las quiere asignar y en qué cantidad.\n\n A continuación pregunta la configuración del ataque, desde cuál territorio y hacia cuál territorio, verificando las condiciones ya descritas.\n\n Luego informa los valores obtenidos con los dados, y la cantidad de unidades que se ganan o pierden. \n\nEste proceso se repite hasta que alguno de los dos territorios se quede sin unidades, o hasta que el atacante decida detenerse. \n\nFinalmente, el comando pregunta al jugador los territorios vecinos que desea seleccionar para la fortificación, así como la cantidad de unidades que se trasladarán de uno al otro.\n" << endl;
 }
 
 void infoSalir(void){
-  cout<<"Termina la ejecución de la aplicación \n" << endl; 
+  std::cout<<"Termina la ejecución de la aplicación \n" << endl; 
 }
 
 void infoGuardar(void){ 
-  cout<<"El estado actual del juego es guardado en un archivo de texto. \n\nEl archivo contiene la cantidad de jugadores, y para cada jugador almacena su nombre, su color de jugador, la cantidad de países que ocupa, el identificador de cada país junto con la cantidad de unidades de ejército en él, la cantidad de tarjetas que posee y el identificador de cada tarjeta.\n" << endl;
+  std::cout<<"El estado actual del juego es guardado en un archivo de texto. \n\nEl archivo contiene la cantidad de jugadores, y para cada jugador almacena su nombre, su color de jugador, la cantidad de países que ocupa, el identificador de cada país junto con la cantidad de unidades de ejército en él, la cantidad de tarjetas que posee y el identificador de cada tarjeta.\n" << endl;
 
 }
 
 void infoGuardarComprimido(void){
-  cout<< "El estado actual del juego es guardado en un archivo binario (con extensión .bin) con la información (nombre del jugador, cantidad de países que ocupa, identificador de cada país, cantidad de unidades de ejército en paises, tarjetas que posee, identificador de cada tarjeta) comprimida.\n" << endl;
+  std::cout<< "El estado actual del juego es guardado en un archivo binario (con extensión .bin) con la información (nombre del jugador, cantidad de países que ocupa, identificador de cada país, cantidad de unidades de ejército en paises, tarjetas que posee, identificador de cada tarjeta) comprimida.\n" << endl;
 }
 
 void infoCostoConquista(void){
-  cout<<"Calcula el costo y la secuencia de territorios a ser conquistados para lograr controlar el territorio dado por el usuario. \n\nEl territorio desde donde debe atacar debe ser aquel que el jugador tenga controlado más cerca al dado por el jugador. \n\nEsta información se analiza desde el punto de vista del jugador que tiene el turno de juego.\n" << endl;
+  std::cout<<"Calcula el costo y la secuencia de territorios a ser conquistados para lograr controlar el territorio dado por el usuario. \n\nEl territorio desde donde debe atacar debe ser aquel que el jugador tenga controlado más cerca al dado por el jugador. \n\nEsta información se analiza desde el punto de vista del jugador que tiene el turno de juego.\n" << endl;
 
 }
 
 void infoConquistaMasBarata(void){
-  cout<<"En todos los territorios posibles, revisa cual puede implicar un menor número de unidades de ejército perdidas.\n\n Esta información se analiza desde el punto de vista del jugador que tiene el turno de juego." << endl;
+  std::cout<<"En todos los territorios posibles, revisa cual puede implicar un menor número de unidades de ejército perdidas.\n\n Esta información se analiza desde el punto de vista del jugador que tiene el turno de juego." << endl;
 }
 
 void inicializarJuego(Risk* risk){
@@ -474,7 +474,7 @@ void inicializarJuego(Risk* risk){
   //pide la cantidad de jugadores
   //hasta que esté entre 3 y 6
   do{
-    cout<<"ingrese la cantidad de jugadores (3-6)"<<endl;
+    std::cout<<"ingrese la cantidad de jugadores (3-6)"<<endl;
     cantidadJugadores = stoi(ingresarComando());
     vector<pair<char, int>> frecuencias = arbolHuffman.calcularFrecuencias(to_string(cantidadJugadores));
    arbolHuffman.construirArbol(frecuencias);
@@ -488,7 +488,7 @@ void inicializarJuego(Risk* risk){
 
 system("cls");
   for(int i=0; i<cantidadJugadores; i++){
-    cout<<"Ingrese el nombre del jugador "<< i+1<<" : \n";
+    std::cout<<"Ingrese el nombre del jugador "<< i+1<<" : \n";
     nombreJug = ingresarComando();
   inf.nombrejug.push_back(nombreJug);
    vector<pair<char, int>> frecuenciaNombre = arbolHuffman.calcularFrecuencias(nombreJug);
@@ -498,53 +498,53 @@ system("cls");
     crearArchivoBinario("guardar", jugadorInfo);
   }
  
-  cout<<risk->infoJug()<<endl;
+  std::cout<<risk->infoJug()<<endl;
 
   system ("cls");
 
 
-  cout<<"\t -** Reclamar territorio **-"<<endl;
+  std::cout<<"\t -** Reclamar territorio **-"<<endl;
   do{
 
-    cout<<"\n  Turno de: "<<risk->getNameJugadorEnTurno()<<"\n  Color: "<<risk->getColorJugadorEnTurno()<<"\n  FichasDisponibles: "<<risk->getFichasJugadorEnTurno()<<endl;
+    std::cout<<"\n  Turno de: "<<risk->getNameJugadorEnTurno()<<"\n  Color: "<<risk->getColorJugadorEnTurno()<<"\n  FichasDisponibles: "<<risk->getFichasJugadorEnTurno()<<endl;
   //iniciarlizar tablero 
 
-    cout<<"\tContinentes disponibles:"<<endl;
+    std::cout<<"\tContinentes disponibles:"<<endl;
     
-    cout<<risk->infoContinente()<<endl;
+    std::cout<<risk->infoContinente()<<endl;
     
   
     do{
-      cout<<"\tNombre del continente:"<<endl;
+      std::cout<<"\tNombre del continente:"<<endl;
       continente = ingresarComando();
     
       auxTerritorios=risk->infoTerritorios(continente);
           
         if(auxTerritorios!=""){
-            cout<<auxTerritorios;
+            std::cout<<auxTerritorios;
             continenteValido=true;
         }else{
-          cout<<"\tNo se reconoce el continente ingresado"<<endl;
+          std::cout<<"\tNo se reconoce el continente ingresado"<<endl;
           continenteValido=false;
         }
       
     }while(!continenteValido);
   
     do{
-      cout<<"\tNombre del Territorio:"<<endl;
+      std::cout<<"\tNombre del Territorio:"<<endl;
       territorio = ingresarComando();
     
       if(risk->estadoTerritorio(continente , territorio)){
           territorioValido=true;
       }else{
-        cout<<"\tNo se reconoce el territorio ingresado"<<endl;
+        std::cout<<"\tNo se reconoce el territorio ingresado"<<endl;
         territorioValido=false;
       }
       
     }while(!territorioValido);
 
     //mueve una ficha de un jugador al territorio del continente ingresado
-    cout<<risk->infoJug()<<endl;
+    std::cout<<risk->infoJug()<<endl;
 
     //guardar el puntero hacia el territorio dentro del jugador para poder acceder a la informacion mas facil 
     Territorio* Nterritorio = risk->buscarTerritorio(continente,territorio);
@@ -552,7 +552,7 @@ system("cls");
 
     risk->moverFichasJugador(1, continente, territorio);
 
-    cout<<risk->infoJug()<<endl;
+    std::cout<<risk->infoJug()<<endl;
     risk->turnoJugado(); 
     system("cls");
     inf.color.push_back(risk->getColorJugadorEnTurno());
@@ -585,32 +585,32 @@ void fortificar(Risk* risk, bool inicializar){
     string territorio = "", continente= "";
     int qFichas =0;
 
-    cout<<"\n\t--**Ubicar Fichas disponibles**--"<<endl;
+    std::cout<<"\n\t--**Ubicar Fichas disponibles**--"<<endl;
 
   do{
-    cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
+    std::cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
         <<"\n  Color: "<<risk->getColorJugadorEnTurno()
         <<"\n  Fichas disponibles: "<<risk->getFichasJugadorEnTurno()
         <<"\nTerritorios disponibles: \n"<<endl;
 
-    cout<<risk->territoriosJugador();
+    std::cout<<risk->territoriosJugador();
 
 
     do{
-        cout<<"Nombre territorio:\n";
+        std::cout<<"Nombre territorio:\n";
         territorio = ingresarComando();
         continente = risk->buscarContinenteTerritorio(territorio);
 
-        cout<<"continente: "<<continente<<endl;
+        std::cout<<"continente: "<<continente<<endl;
         
         if(continente=="" || !risk->territorioJugador(continente, territorio)){
-            cout<<"\n-** Nombre de territorio no valido **-\n\n";
+            std::cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
 
     }while(continente=="" || !risk->territorioJugador(continente, territorio));
     
     do{
-        cout<<"Numero de fichas a mover: "<<endl;
+        std::cout<<"Numero de fichas a mover: "<<endl;
         qFichas = stoi(ingresarComando());
     }while(qFichas>risk->getFichasJugadorEnTurno());
     
@@ -647,7 +647,7 @@ void turno (Risk* risk){
 
          // fortificar(risk, false);
     }else
-        cout <<" ¡No se puede fortificar!\n  ¡Fichas insuficientes!";
+        std::cout <<" ¡No se puede fortificar!\n  ¡Fichas insuficientes!";
 
 
     risk->turnoJugado();
@@ -664,33 +664,33 @@ void atacar(Risk* risk){
     std::string elegir= "";
 std::cout<<" \t RONDA DE ATAQUES \n"<<std::endl;
  do{
-    cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
+    std::cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
         <<"\n  Color: "<<risk->getColorJugadorEnTurno()
         <<"\nTerritorios disponibles: \n"<<endl;
 
-    cout<<risk->territoriosJugador();
+    std::cout<<risk->territoriosJugador();
     //evalua si el territorio seleccionado te pertenece
     do{
-        cout<<"Escoge el territorio atacante:\n";
+        std::cout<<"Escoge el territorio atacante:\n";
         territorio = ingresarComando();
         continente = risk->buscarContinenteTerritorio(territorio);
 
   //evalua si el territorio a atacar es colindante
         do{
-          cout<<"Territorios disponibles para atacar"<<endl;
-          cout<<risk->territoriosColindantes(territorio);
+          std::cout<<"Territorios disponibles para atacar"<<endl;
+          std::cout<<risk->territoriosColindantes(territorio);
 
-           cout<<"retroceder = si quieres escoger otro pais\n"<<endl;
-           cout<<"Escoge el territorio que quieres atacar:\n";   
+           std::cout<<"retroceder = si quieres escoger otro pais\n"<<endl;
+           std::cout<<"Escoge el territorio que quieres atacar:\n";   
            colindante = ingresarComando();
            if( !risk->buscarTerritorio(continente,territorio)->esColindante(risk->buscarTerritorio(continente,colindante))){
-            cout<<"\n-** Nombre de territorio Colindate no valido **-\n\n";
+            std::cout<<"\n-** Nombre de territorio Colindate no valido **-\n\n";
             Colindante= false;
         }
         }while(Colindante==false|| !risk->buscarTerritorio(continente,territorio)->esColindante(risk->buscarTerritorio(continente,colindante)));
         std::cout<<"Hora de la batalla"<<std::endl;
         if(continente=="" || !risk->territorioJugador(continente, territorio)){
-            cout<<"\n-** Nombre de territorio no valido **-\n\n";
+            std::cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
 
     }while(continente=="" || !risk->territorioJugador(continente, territorio)||elegir=="retroceder");
@@ -700,7 +700,7 @@ std::cout<<" \t RONDA DE ATAQUES \n"<<std::endl;
 
 
 
-        cout<<"Numero de fichas a mover: "<<endl;
+        std::cout<<"Numero de fichas a mover: "<<endl;
         qFichas = stoi(ingresarComando());
     }while(qFichas>risk->getFichasJugadorEnTurno());
     
