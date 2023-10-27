@@ -734,7 +734,7 @@ std::cout<<" \t RONDA DE ATAQUES \n"<<std::endl;
           cout<<"\t \n TERRITORIOS DISPONIBLES PARA ATACAR \n "<<endl;
           cout<<risk->territoriosColindantes(territorio);
 
-           cout<<"retroceder = si quieres escoger otro pais\n"<<endl;
+           cout<<"retrocedere = si quieres escoger otro pais\n"<<endl;
            cout<<"Escoge el territorio que quieres atacar:\n";   
            colindante = ingresarComando();
            if(colindante =="retroceder"){

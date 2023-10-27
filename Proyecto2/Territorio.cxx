@@ -87,6 +87,4 @@ Ficha Territorio::obtenerFicha(std::string jugador) {
     // Si no se encuentra la ficha, se devuelve una ficha vacía
     return Ficha("", "");
 }
-void Territorio::setReclamar(std::string jugador) {
-    reclamado = jugador;
-}
+
