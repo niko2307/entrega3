@@ -648,6 +648,7 @@ void turno (Risk* risk){
 
 
 //PROCESO DE ATACAR
+
 std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
         elegiratacar = ingresarComando();
 
@@ -672,7 +673,7 @@ std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
 
 
 //PROCESO DE FORTIFICAR
-    if(risk->getFichasJugadorEnTurno()>0){
+     //if(risk->getFichasJugadorEnTurno()>0){
       std::cout<<"Deseas Fortificar un territorio \n SI \n NO"<<std::endl;
         elegirFortificar = ingresarComando();
         if(elegirFortificar == "SI"){
@@ -680,9 +681,7 @@ std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
         }else{
           std::cout<<"SIGUIENTE TURNO"<<std::endl;
         }
-    }else{
-        std::cout <<" ¡No se puede fortificar!\n  ¡Fichas insuficientes!";
-    }
+    
 
 
     //VERIFICAR SI EXISTE UN GANADOR

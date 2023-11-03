@@ -8,6 +8,7 @@
 #include "Ficha.h" 
 #include "Carta.h"
 #include "Territorio.h"
+#include <list>
 
 class Jugador {
 public:
@@ -16,7 +17,7 @@ public:
     std::string obtenerColor() ;
     std::vector<Carta> obtenerCartas() ;
     int obeterTotalFichas();
-    std::vector<Ficha> obtenerFichas() ;
+    std::list<Ficha> obtenerFichas() ;
     std::vector<Territorio*>& getTerritorios();  
     std::string obtenerNombreJugador() ;
     
@@ -36,7 +37,7 @@ public:
    private:
     std::string color;
     std::vector<Carta> cartasJugador;
-    std::vector<Ficha> fichas;
+    std::list <Ficha> fichas;
     std::vector<Territorio *>territorios;
     std::string nombreJugador;
     //Territorio* territorioActual;

@@ -562,11 +562,14 @@ void Risk::CrearCartasJuego() {
 }
 //
 void Risk::AgregarTropas(Jugador* jugador, int total) {
-    Ficha batallon(colorJugador(), "infanteria");
+    
     while(total!=0){
+      Ficha batallon(colorJugador(), "infanteria");
+    
     jugador->agregarFicha(batallon);
     total--;
   }
+
 
 }
 void Risk::agregarTerritorioaJugador(std::string nombreIngresado,Territorio* nuevoTerritorio ){

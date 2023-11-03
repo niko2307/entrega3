@@ -24,13 +24,16 @@ std::string Jugador::obtenerNombreJugador() {
 // agregar ficha 
 void Jugador::agregarFicha(Ficha ficha) {
     fichas.push_back(ficha);
+    
 }
 
-std::vector<Ficha> Jugador::obtenerFichas() {
+std::list<Ficha> Jugador::obtenerFichas() {
     return fichas;
 }
 
   int Jugador::obeterTotalFichas(){
+    
+    
     return fichas.size();
   }
 
