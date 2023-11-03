@@ -845,16 +845,18 @@ system("cls");
             // Mover las fichas del territorio de origen al territorio de destino
             for (int i = 0; i < cantidadFichas; i++) {
                 Ficha ficha = territorioOrigen->obtenerFicha(jugadorEnTurno->obtenerNombreJugador());
-                if(ficha.obtenerColor()!=""){
+                std::cout<<ficha.obtenerColor()<<std::endl;
+                
                 territorioDestino->addFicha(ficha);
-                }
+                
                 
                 
             }
             territorioOrigen->restarFichas(cantidadFichas);
 
-            // Mostrar mensaje de Ã©xito
+            // Mostrar mensaje de exito
             std::cout << "Se han movido " << cantidadFichas << " fichas del territorio " << nombreTerritorioOrigen << " al territorio " << nombreTerritorioDestino << "." << std::endl;
+            cout<<risk->territoriosJugador();
         } else {
             std::cout << "El territorio de origen no tiene suficientes fichas." << std::endl;
         }
