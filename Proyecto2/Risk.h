@@ -67,7 +67,7 @@ public:
     Jugador* territorioPerteneceAJugador(Territorio* territorio);
 
     // Funciones extras
-    int LanzarDado();
+    int lanzarDado();
 
 private:
     std::vector<Jugador> jugadores;

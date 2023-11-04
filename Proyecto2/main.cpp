@@ -705,18 +705,20 @@ void atacar(Risk* risk){
     int qFichas =0;
     bool Colindante= true;
     std::string elegir= "";
-std::cout<<" \t RONDA DE ATAQUES \n"<<std::endl;
+
  do{
-    cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
+  do{
+    std::cout<<" \t RONDA DE ATAQUES \n"<<std::endl;
+    cout<<"  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
         <<"\n  Color: "<<risk->getColorJugadorEnTurno()
-        <<"\nTerritorios disponibles: \n"<<endl;
+        <<"\n\nTUS TERRITORIOS: \n"<<endl;
 
     cout<<risk->territoriosJugador();
     //evalua si el territorio seleccionado te pertenece
-    do{
+    
 
       do{
-        cout<<"Territorio atacante:\n";
+        cout<<"\nElige el territorio con el que quieres atacar:\n";
         territorio = ingresarComando();
         continente = risk->buscarContinenteTerritorio(territorio);
 
@@ -730,10 +732,10 @@ std::cout<<" \t RONDA DE ATAQUES \n"<<std::endl;
 
   //evalua si el territorio a atacar es colindante
         do{
-          cout<<"\t \n TERRITORIOS DISPONIBLES PARA ATACAR \n "<<endl;
+          cout<<"\t \n\n TERRITORIOS DISPONIBLES PARA ATACAR \n "<<endl;
           cout<<risk->territoriosColindantes(territorio);
 
-           cout<<"retrocedere = si quieres escoger otro pais\n"<<endl;
+           cout<<"retroceder = si quieres escoger otro pais con el que atacar\n"<<endl;
            cout<<"Escoge el territorio que quieres atacar:\n";   
            colindante = ingresarComando();
            if(colindante =="retroceder"){
@@ -762,7 +764,7 @@ if(colindante !="retroceder"){
             cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
           risk->resultadoDADOSAtaque(territorio,colindante);
-          system("cls");
+          //system("cls");
           std::cout<<"Quieres seguir combatiendo con este pais:"<<std::endl;
           std::cout<<"SI \nNO"<<std::endl;
           combatir = ingresarComando();
@@ -771,10 +773,10 @@ if(colindante !="retroceder"){
        
     }
 
-    }while(continente=="" || !risk->territorioJugador(continente, territorio)||elegir=="retroceder");
+    }while(continente=="" || !risk->territorioJugador(continente, territorio)||colindante=="retroceder");
     //evalua si el territorio seleccionado para atacar es colindante
     system("cls");
-    std::cout<<"Quieres pasar de fase:"<<std::endl;
+    std::cout<<"Quieres pasar de la fase atacar:"<<std::endl;
           std::cout<<"SI \nNO"<<std::endl;
         Fase=ingresarComando();
   

@@ -6,6 +6,9 @@
 #include <queue>
 #include <string>
 #include <algorithm>
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
 
 Risk::Risk() {
   Partida=false;
@@ -14,13 +17,15 @@ Risk::Risk() {
   Totalturnos=0;
 }
 
-int Risk::LanzarDado() {
-    // Implementación para lanzar un dado y retornar el número aleatorio de 1 a 6
-    // esto retorna unb numero de ese rango de aletorios 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> distribution(1, 6);
-    return distribution(gen);
+int Risk::lanzarDado() {
+    // Generar una semilla aleatoria única para cada ejecución
+    auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+    srand(seed);
+
+    // Generar un número aleatorio entre 1 y 6 (correspondiente a las caras del dado)
+    int resultado = (rand() % 6) + 1;
+
+    return resultado;
 }
 //pone la bandera de partida en verdadero
 void Risk::iniciarPartida() {
@@ -1014,24 +1019,26 @@ while (!cartasTemporales.empty()) {
 
 std::string Risk::territoriosColindantes(std::string nombreTerritorio) {
   std::string retorno = "";
+ // int i=0;
   Territorio* territorio = nullptr;
 
   // Buscar el territorio por su nombre
   for (Continente& continente : continentes) {
     territorio = continente.buscarTerritorio(nombreTerritorio);
     if (territorio != nullptr) {
-      
-      std::cout<<"territorio"<<territorio->getNombre()<<std::endl;
+      //i++;
+      //std::cout<<i<<". "<<territorio->getNombre()<<std::endl;
       break;
     }
   }
+
 
   if (territorio != nullptr) {
       int contador = 0;
     for (int i = 0; i < territorio->getTerritoriosColindantes().size(); i++) {
       Territorio* colindante = territorio->getTerritoriosColindantes()[i];
       int Nu_FichasJugador = colindante->ContarFichas(territorioPerteneceAJugador(colindante)->obtenerColor());
-      std::cout<<"numero de fichas jugador contrincancte"<<Nu_FichasJugador <<territorioPerteneceAJugador(colindante)->obtenerNombreJugador()<<std::endl;
+      //std::cout<<"numero de fichas jugador contrincancte"<<Nu_FichasJugador <<territorioPerteneceAJugador(colindante)->obtenerNombreJugador()<<std::endl;
       retorno += std::to_string(contador + 1) + ". " + colindante->getNombre() + " - FichasContrincante: " + std::to_string(Nu_FichasJugador) + "\n";
       contador++;
     }
@@ -1063,12 +1070,20 @@ void Risk::resultadoDADOSAtaque(std::string Territorioatacante, std::string Terr
     // Lanzar los dados para el atacante y el defensor
     std::vector<int> dadosAtacante;
     std::vector<int> dadosDefensor;
+    std::cout<<"Dados de "<<atacante->obtenerNombreJugador()<<": ";
     for (int i = 0; i < 3; i++) {
-        dadosAtacante.push_back(LanzarDado());
+          int  dadoA=lanzarDado();
+          std::cout<<dadoA<<", ";
+        dadosAtacante.push_back(dadoA);
     }
+    std::cout<<"\n";
+    std::cout<<"Dados de "<<defensor->obtenerNombreJugador()<<": ";
     for (int i = 0; i < 2; i++) {
-        dadosDefensor.push_back(LanzarDado());
+      int  dadoD=lanzarDado();
+      std::cout<<dadoD<<", ";
+        dadosDefensor.push_back(dadoD);
     }
+    std::cout<<"\n";
 
  // Ordenar los dados de mayor a menor
 for (int i = 0; i < dadosAtacante.size() - 1; i++) {
@@ -1088,10 +1103,11 @@ for (int i = 0; i < dadosDefensor.size() - 1; i++) {
 }
 
 // Comparar los dados y determinar el resultado del ataque 
+//numDados:indica el valor minimo entre la cantidad de dados
 int numDados = dadosAtacante.size() < dadosDefensor.size() ? dadosAtacante.size() : dadosDefensor.size();
 int unidadesPerdidasAtacante = 0;
 int unidadesPerdidasDefensor = 0;
-std::cout<<"numerod dados:"<<numDados<<std::endl;
+
 for (int i = 0; i < numDados; i++) {
     if (dadosAtacante[i] >= dadosDefensor[i]) {
         unidadesPerdidasDefensor++;
@@ -1104,7 +1120,12 @@ for (int i = 0; i < numDados; i++) {
     atacante->restarUnidades(unidadesPerdidasAtacante,Territorioatacante);
     defensor->restarUnidades(unidadesPerdidasDefensor,TerritorioDefensor);
 
-
+Territorio* territorioA = buscarTerritorio ("america del norte",Territorioatacante);
+std::cout<<"\n"<<defensor->obtenerNombreJugador()<<" perdio: "<<unidadesPerdidasDefensor<<"fichas"<<std::endl;
+std::cout<<territorioD->getNombre()<<" - F: "<<territorioD->GetQFichas()<<std::endl;   
+std::cout<<atacante->obtenerNombreJugador()<<" perdio: "<<unidadesPerdidasAtacante<<"fichas"<<std::endl;  
+std::cout<<territorioA->getNombre()<<" - F: "<<territorioA->GetQFichas()<<std::endl;
+   
     
 
 
