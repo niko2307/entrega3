@@ -729,7 +729,7 @@ void atacar(Risk* risk){
         }
 
     }while(continente=="" || !risk->territorioJugador(continente, territorio));
-
+system("cls");
   //evalua si el territorio a atacar es colindante
         do{
           cout<<"\t \n\n TERRITORIOS DISPONIBLES PARA ATACAR \n "<<endl;
@@ -755,7 +755,7 @@ void atacar(Risk* risk){
         }while(Colindante==false|| !risk->buscarTerritorio(continente,territorio)->esColindante(risk->buscarTerritorio(continente,colindante)));
         
 if(colindante !="retroceder"){
-  
+  system("cls");
         //realiza el lanzamiento de dados y perdida de fichas
         do{
         
@@ -764,6 +764,7 @@ if(colindante !="retroceder"){
             cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
           risk->resultadoDADOSAtaque(territorio,colindante);
+          //risk->EvaluarConquistaTerritorio();
           //system("cls");
           std::cout<<"Quieres seguir combatiendo con este pais:"<<std::endl;
           std::cout<<"SI \nNO"<<std::endl;

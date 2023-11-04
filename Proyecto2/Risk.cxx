@@ -1126,12 +1126,14 @@ std::cout<<territorioD->getNombre()<<" - F: "<<territorioD->GetQFichas()<<std::e
 std::cout<<atacante->obtenerNombreJugador()<<" perdio: "<<unidadesPerdidasAtacante<<"fichas"<<std::endl;  
 std::cout<<territorioA->getNombre()<<" - F: "<<territorioA->GetQFichas()<<std::endl;
    
-    
+
 
 
 
 }
 
 
+void Risk::EvaluarConquistaTerritorio(Jugador* jugador){
 
+}
 

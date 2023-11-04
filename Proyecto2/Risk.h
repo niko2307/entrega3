@@ -20,6 +20,7 @@ public:
     void CrearTarjetas(std::string tipo, std::string territorio, std::string ficha, std::string mision);
     void resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor);
     //void AgregarTropas(Jugador jugador);
+
     void CrearJugador(std::string nombre, int qJugadores);
     std::string colorJugador();
     
@@ -37,6 +38,9 @@ public:
     void CrearCartasJuego();
     void AgregarTropas(Jugador *jugador, int total);
     int CantidadNuevasTropas(Jugador* jugador);
+    void EvaluarConquistaTerritorio(Jugador* jugador);
+
+
 
     // Funciones de información
     std::string infoContinente();
