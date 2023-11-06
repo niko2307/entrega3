@@ -18,7 +18,7 @@ public:
 
     void iniciarPartida();
     bool estadoPartida();
-    void asignarGanador();
+    bool evaluarexistenciaGanador();
     void crearContinente();
     void CrearTarjetas(std::string tipo, std::string territorio, std::string ficha, std::string mision);
     std::string resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor);

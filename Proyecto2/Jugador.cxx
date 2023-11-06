@@ -76,7 +76,9 @@ if (territorio->getNombre() == Nterritorio) {
 }
 
 void Jugador::agregarCarta(Carta carta){
+  std::cout<<"agreagrecarta"<<std::endl;
     this->cartasJugador.push_back(carta);
+    std::cout<<"seagreagrecarta"<<std::endl;
 }
 
 void Jugador::eliminarTerritorio(Territorio* territorio) {

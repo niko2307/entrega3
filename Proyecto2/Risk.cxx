@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
+#include <windows.h>
 
 Risk::Risk() {
   Partida=false;
@@ -19,6 +20,7 @@ Risk::Risk() {
 
 int Risk::lanzarDado() {
     // Generar una semilla aleatoria única para cada ejecución
+    Sleep(10);
     auto seed = std::chrono::system_clock::now().time_since_epoch().count();
     srand(seed);
 
@@ -36,8 +38,16 @@ bool Risk::estadoPartida(){
   return Partida;
 }
 
-void Risk::asignarGanador() {
-    // Implementación para asignar un ganador y terminar la partida
+bool Risk::evaluarexistenciaGanador() {
+    // Iterar sobre los jugadores
+    for (Jugador& jugador : jugadores) {
+        // Verificar si el jugador tiene todos los territorios
+        if (jugador.getTerritorios().size() == 42) {
+            Ganador = true; // Actualizar variable Ganador
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Risk::estadoGanador(){
@@ -561,7 +571,7 @@ void Risk::CrearCartasJuego() {
     std::shuffle(VecCartasTemp.begin(), VecCartasTemp.end(), std::default_random_engine());
     // se pasa la lista revuelta a una cola para que los jugadores puedan sacar de a 1 carta facilmente
     // Pasar las cartas desde el vector a la cola
-        for (Carta& carta : VecCartasTemp) {
+        for (Carta carta : VecCartasTemp) {
           this->Cartas.push(carta);
 }
 }
@@ -703,8 +713,17 @@ int Risk::getFichasJugadorEnTurno(){
 }
 
 void Risk::turnoJugado(){
+  
+  Jugador* aux=getJugador(this->getNameJugadorEnTurno());
+  
+  Carta card = this->Cartas.front();
+  
+  aux->agregarCarta(card);
+  
+  this->Cartas.pop();
   Totalturnos+=1;
   turnoActual=Totalturnos%jugadores.size();
+  
 }
 void Risk::turnoJugadoatacar(){
   this->getJugador(this->getNameJugadorEnTurno())->agregarCarta(this->Cartas.front());
@@ -1149,6 +1168,7 @@ Jugador* atacante = territorioPerteneceAJugador(territorioA);
 
 if(territorioD->GetQFichas()==0){
   int cantidad=0;
+  system("cls");
  do{
   std::cout<<"HAS CONQUISTADO "<<territorioD->getNombre()<<std::endl;
 std::cout<<"\ncuantas fichas deseas mover a: "<<territorioD->getNombre()<<std::endl;

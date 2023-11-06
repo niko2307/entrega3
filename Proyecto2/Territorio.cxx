@@ -18,7 +18,7 @@ bool Territorio::ChekFicha(std::string jugador) {
     for (Ficha& ficha : fichas) {
         if (ficha.obtenerColor() == jugador) {
 
-            std::cout<<"la ficha pertenece al color del jugador"<<jugador<<"=="<<ficha.obtenerColor()<<std::endl;
+            //std::cout<<"la ficha pertenece al color del jugador"<<jugador<<"=="<<ficha.obtenerColor()<<std::endl;
             return true;
         }
     }
