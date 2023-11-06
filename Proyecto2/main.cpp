@@ -515,7 +515,7 @@ system("cls");
 
     std::cout<<"\tContinentes disponibles:"<<endl;
     
-    std::cout<<risk->infoContinente()<<endl;
+    std::cout<<risk->infoContinentes()<<endl;
     
   
     do{
@@ -538,7 +538,7 @@ system("cls");
       std::cout<<"\tNombre del Territorio:"<<endl;
       territorio = ingresarComando();
     
-      if(risk->estadoTerritorio(continente , territorio)){
+      if(risk->estadoTerritorioLibre(continente , territorio)){
           territorioValido=true;
       }else{
         std::cout<<"\tNo se reconoce el territorio ingresado"<<endl;
@@ -552,9 +552,9 @@ system("cls");
 
     //guardar el puntero hacia el territorio dentro del jugador para poder acceder a la informacion mas facil 
     Territorio* Nterritorio = risk->getTerritorio(continente,territorio);
-    risk->agregarTerritorioaJugador(risk->getNameJugadorEnTurno(),Nterritorio);
+    risk->setTerritorioaJugador(risk->getNameJugadorEnTurno(),Nterritorio);
 
-    risk->moverFichasJugador(1, continente, territorio);
+    risk->moverFichasDisponiblesNuevoTerritorio(1, continente, territorio);
 
     std::cout<<risk->infoJug()<<endl;
     risk->turnoJugado(); 
@@ -581,7 +581,7 @@ arbolHuffman.construirArbol(frecuenciasFichas);
     crearArchivoBinario("guardar", jugadorInfo);
     jugadorInfo.cantidadPaises = arbolHuffman.codificar(to_string (risk->getFichasJugadorEnTurno()));
     crearArchivoBinario("guardar", jugadorInfo);
-  }while(risk->territoriosLibres());
+  }while(risk->ExistenterritoriosLibres());
 }
 
 void UbicarTropas(Risk* risk, bool inicializar){
@@ -597,7 +597,7 @@ void UbicarTropas(Risk* risk, bool inicializar){
         <<"\n  Fichas disponibles: "<<risk->getFichasJugadorEnTurno()
         <<"\nTerritorios disponibles: \n"<<endl;
 
-    std::cout<<risk->territoriosJugador();
+    std::cout<<risk->buscarterritoriosJugador();
 
 
     do{
@@ -607,11 +607,11 @@ void UbicarTropas(Risk* risk, bool inicializar){
 
         std::cout<<"continente: "<<continente<<endl;
         
-        if(continente=="" || !risk->territorioJugador(continente, territorio)){
+        if(continente=="" || !risk->EsterritorioJugador(continente, territorio)){
             std::cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
 
-    }while(continente=="" || !risk->territorioJugador(continente, territorio));
+    }while(continente=="" || !risk->EsterritorioJugador(continente, territorio));
     
     do{
         std::cout<<"Numero de fichas a mover: "<<endl;
@@ -619,7 +619,7 @@ void UbicarTropas(Risk* risk, bool inicializar){
     }while(qFichas>risk->getFichasJugadorEnTurno());
     
 
-    risk->moverFichasJugador(qFichas, continente, territorio);
+    risk->moverFichasDisponiblesNuevoTerritorio(qFichas, continente, territorio);
 
     if(inicializar && risk->getFichasJugadorEnTurno()==0)
         risk->turnoJugado();
@@ -639,10 +639,10 @@ void turno (Risk* risk){
        do{
         system("cls");
        
-       int qtropas=risk->CantidadNuevasTropas(risk->getJugador(risk->getNameJugadorEnTurno())) ;
+       int qtropas=risk->CantidadNuevasFICHASTropasxTurno(risk->getJugador(risk->getNameJugadorEnTurno())) ;
 
      //std::cout<<"jugador "<<risk->getNameJugadorEnTurno()<<"\n cantidad de tropas disponibles : "<<qtropas<<std::endl;
-     risk->AgregarTropas(risk->getJugador(risk->getNameJugadorEnTurno()),qtropas) ;
+     risk->AgregarFichasTropas(risk->getJugador(risk->getNameJugadorEnTurno()),qtropas) ;
       
       //se colocan las nuevas tropas
       UbicarTropas(risk, true);
@@ -721,7 +721,7 @@ void atacar(Risk* risk){
         <<"\n  Color: "<<risk->getColorJugadorEnTurno()
         <<"\n\nTUS TERRITORIOS: \n"<<endl;
 
-    cout<<risk->territoriosJugador();
+    cout<<risk->buscarterritoriosJugador();
     std::cout<<"salir - para salir de la fase de ataque"<<std::endl;
     //evalua si el territorio seleccionado te pertenece
     
@@ -735,11 +735,11 @@ void atacar(Risk* risk){
         }
         //cout<<"continente: "<<continente<<endl;
         
-        if(continente=="" || !risk->territorioJugador(continente, territorio)){
+        if(continente=="" || !risk->EsterritorioJugador(continente, territorio)){
             cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
 
-    }while(continente=="" || !risk->territorioJugador(continente, territorio));
+    }while(continente=="" || !risk->EsterritorioJugador(continente, territorio));
 system("cls");
 if(territorio =="salir"){
           break;
@@ -747,7 +747,7 @@ if(territorio =="salir"){
   //evalua si el territorio a atacar es colindante
         do{
           cout<<"\t \n\n TERRITORIOS DISPONIBLES PARA ATACAR \n "<<endl;
-          cout<<risk->territoriosColindantes(territorio);
+          cout<<risk->buscarterritoriosColindantes(territorio);
 
            cout<<"retroceder = si quieres escoger otro pais con el que atacar\n"<<endl;
            cout<<"Escoge el territorio que quieres atacar:\n";   
@@ -774,12 +774,12 @@ if(colindante !="retroceder"){
         do{
         
         cout<<"\t \n HORA DE LA BATALLA \n "<<endl;
-        if(continente=="" || !risk->territorioJugador(continente, territorio)){
+        if(continente=="" || !risk->EsterritorioJugador(continente, territorio)){
             cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
 
         
-          std::string dados=risk->resultadoDADOSAtaque(territorio,colindante);
+          std::string dados=risk->OperacionesDADOSAtaque(territorio,colindante);
           std::cout<<dados<<std::endl;
 
           risk->EvaluarConquistaTerritorio(territorio, colindante);
@@ -792,7 +792,7 @@ if(colindante !="retroceder"){
        
     }
 
-    }while(continente=="" || !risk->territorioJugador(continente, territorio)||colindante=="retroceder");
+    }while(continente=="" || !risk->EsterritorioJugador(continente, territorio)||colindante=="retroceder");
     //evalua si el territorio seleccionado para atacar es colindante
     
     std::cout<<"Quieres pasar de la fase atacar:"<<std::endl;
@@ -816,7 +816,7 @@ system("cls");
     Jugador* jugadorEnTurno = risk->getJugador(risk->getNameJugadorEnTurno());
     string nombreTerritorioOrigen = "", continenteOrigen= "",nombreTerritorioDestino= "",continenteDestino= "";
 
-     cout<<risk->territoriosJugador();
+     cout<<risk->buscarterritoriosJugador();
       std::cout<<"\nsalir - para salir de la fase de fortificar\n"<<std::endl;
 // Solicitar el nombre del territorio de origen y destino
   
@@ -830,11 +830,11 @@ system("cls");
 
        
         
-        if(continenteOrigen=="" || !risk->territorioJugador(continenteOrigen, nombreTerritorioOrigen)){
+        if(continenteOrigen=="" || !risk->EsterritorioJugador(continenteOrigen, nombreTerritorioOrigen)){
             cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
 
-    }while(continenteOrigen=="" || !risk->territorioJugador(continenteOrigen, nombreTerritorioOrigen));
+    }while(continenteOrigen=="" || !risk->EsterritorioJugador(continenteOrigen, nombreTerritorioOrigen));
 
     do{
       if(nombreTerritorioOrigen=="salir"){
@@ -846,11 +846,11 @@ system("cls");
 
       
         
-        if(continenteDestino=="" || !risk->territorioJugador(continenteDestino, nombreTerritorioDestino)){
+        if(continenteDestino=="" || !risk->EsterritorioJugador(continenteDestino, nombreTerritorioDestino)){
             cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
 
-    }while(continenteDestino=="" || !risk->territorioJugador(continenteDestino, nombreTerritorioDestino));
+    }while(continenteDestino=="" || !risk->EsterritorioJugador(continenteDestino, nombreTerritorioDestino));
 
     
    
@@ -883,7 +883,7 @@ if(nombreTerritorioOrigen!="salir"){
 
             // Mostrar mensaje de exito
             std::cout << "Se han movido " << cantidadFichas << " fichas del territorio " << nombreTerritorioOrigen << " al territorio " << nombreTerritorioDestino << "." << std::endl;
-            cout<<risk->territoriosJugador();
+            cout<<risk->buscarterritoriosJugador();
         } else {
             std::cout << "El territorio de origen no tiene suficientes fichas." << std::endl;
         }

@@ -576,10 +576,10 @@ void Risk::CrearCartasJuego() {
 }
 }
 //
-void Risk::AgregarTropas(Jugador* jugador, int total) {
+void Risk::AgregarFichasTropas(Jugador* jugador, int total) {
     
     while(total!=0){
-      Ficha batallon(colorJugador(), "infanteria");
+      Ficha batallon(InicializarcolorJugador(), "infanteria");
     
     jugador->agregarFicha(batallon);
     total--;
@@ -587,7 +587,7 @@ void Risk::AgregarTropas(Jugador* jugador, int total) {
 
 
 }
-void Risk::agregarTerritorioaJugador(std::string nombreJugador,Territorio* nuevoTerritorio ){
+void Risk::setTerritorioaJugador(std::string nombreJugador,Territorio* nuevoTerritorio ){
 for(int i =0; i<jugadores.size(); i++){
     if(jugadores[i].obtenerNombreJugador()==nombreJugador){
       jugadores[i].setTerritorio(nuevoTerritorio);
@@ -603,7 +603,7 @@ for(int i =0; i<jugadores.size(); i++){
 
 
 //retorna el nombre de un continente disponible 
-std::string Risk::infoContinente(){
+std::string Risk::infoContinentes(){
   std::string retorno ="";
   int contador=0;
   for(int i=0; i<6; i++){
@@ -641,7 +641,7 @@ std::string Risk::infoTerritorios(std::string nameContinente){
 }
 //retorna una cadena de caracteres con salida en pantalla donde se indican los continentes
 //disponibles para consultar los territorios disponibles para conquistar.
-bool Risk::estadoTerritorio(std::string nameContinente, std::string nameTerritorio){
+bool Risk::estadoTerritorioLibre(std::string nameContinente, std::string nameTerritorio){
    for(int i=0; i<6; i++){
     if(continentes[i].obtenerNombre()==nameContinente){
       return continentes[i].territorioValido(nameTerritorio);
@@ -653,9 +653,9 @@ bool Risk::estadoTerritorio(std::string nameContinente, std::string nameTerritor
 //recibo el nombre de un jugador y lo guardo en el vector de jugadores
 void Risk::CrearJugador(std::string nombre, int qJugadores){
 
-  int total = qUnidades(qJugadores);
-  Jugador aux(nombre, colorJugador());
-  Ficha batallon(colorJugador(), "infanteria");
+  int total = QTropasIniciales(qJugadores);
+  Jugador aux(nombre, InicializarcolorJugador());
+  Ficha batallon(InicializarcolorJugador(), "infanteria");
   //agrega qUnidades de infanteria al jugador
   while(total!=0){
     aux.agregarFicha(batallon);
@@ -667,7 +667,7 @@ void Risk::CrearJugador(std::string nombre, int qJugadores){
 }
 
 //retorna el color que se le debe asignar a un jugador
-std::string Risk::colorJugador(){
+std::string Risk::InicializarcolorJugador(){
   switch(jugadores.size()+1){
     case 1:return "verde";
     case 2:return "azul";
@@ -680,7 +680,7 @@ std::string Risk::colorJugador(){
 }
 
 //identifica las unidad ed de batallón inicial
-int Risk::qUnidades(int qJugadores){
+int Risk::QTropasIniciales(int qJugadores){
   switch(qJugadores){
     case 3: return 35;
     case 4: return 30;
@@ -725,19 +725,13 @@ void Risk::turnoJugado(){
   turnoActual=Totalturnos%jugadores.size();
   
 }
-void Risk::turnoJugadoatacar(){
-  this->getJugador(this->getNameJugadorEnTurno())->agregarCarta(this->Cartas.front());
-  this->Cartas.pop();
-  Totalturnos+=1;
-  turnoActual=Totalturnos%jugadores.size();
-  
-}
+
 
 
 
 //mueve una cantidad de fichas de un jugador a un territorio de un continente en especifico
 //y permite ocupar ese territorio por el jugador
-bool Risk::moverFichasJugador(int qFichas, std::string continente, std::string territorio){
+bool Risk::moverFichasDisponiblesNuevoTerritorio(int qFichas, std::string continente, std::string territorio){
   int iContinente = indiceContinente( continente);
   int iTerritorio = indiceTerritorio(iContinente, territorio);
 
@@ -771,7 +765,7 @@ int Risk::indiceTerritorio(int iContinente, std::string territorio){
 }
 
 //indica si todos los territorios de todos los continentes han sido ocupados
-bool Risk::territoriosLibres(){
+bool Risk::ExistenterritoriosLibres(){
   int qContiOcupados=0;
   for(int i=0; i<continentes.size(); i++){
     if(continentes[i].getTerritoriosOcupados()==continentes[i].cantidadTerritorios())
@@ -786,7 +780,7 @@ bool Risk::territoriosLibres(){
 //retorna una cadena de caracteres con la salida a la pantalla de los territorios que le pertenecen al usuairo en turno
 //usada para mostrar en fortificar y decirle al usuario cuales son los territorios con la cantidad de fichas que tiene en cada uno
 
-std::string Risk::territoriosJugador(){
+std::string Risk::buscarterritoriosJugador(){
   std::string retorno="";
   int contador =0;
 
@@ -832,7 +826,7 @@ std::string Risk::buscarContinenteTerritorio(std::string territorio){
 
 //revisa que el territorio ingresado corresponda al jugador que se encuentra en turno
 //usada en reforzar para que solo pueda ingresar el nombre de un territorio que le pertenece al jugador que está reforzando 
-bool Risk::territorioJugador(std::string continente, std::string territorio){
+bool Risk::EsterritorioJugador(std::string continente, std::string territorio){
   int conti = indiceContinente(continente);
   int iTerritorio = indiceTerritorio(conti, territorio);
 
@@ -896,7 +890,7 @@ void Risk::setGrupo_de_Cartas(int valor) {
 }
 
 
-int Risk::CantidadNuevasTropas(Jugador* jugador) {
+int Risk::CantidadNuevasFICHASTropasxTurno(Jugador* jugador) {
     int nuevasUnidades = 10;
     int territoriosOcupados = jugador->contarTerritorios();
     int continentesOcupados = 0;
@@ -1036,7 +1030,7 @@ while (!cartasTemporales.empty()) {
     return nuevasUnidades;
 }
 
-std::string Risk::territoriosColindantes(std::string nombreTerritorio) {
+std::string Risk::buscarterritoriosColindantes(std::string nombreTerritorio) {
   std::string retorno = "";
  // int i=0;
   Territorio* territorio = nullptr;
@@ -1071,7 +1065,7 @@ std::string Risk::territoriosColindantes(std::string nombreTerritorio) {
 
 
 
-std::string Risk::resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor) {
+std::string Risk::OperacionesDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor) {
     std::string resultado;
     bool continuar = true;
     
@@ -1198,7 +1192,7 @@ std::string Risk::ConquistarTerritorio(Territorio* territorioOrigen, Territorio*
         
         if (territorioOrigen->GetQFichas() >= cantidadFichas) {
          
-           agregarTerritorioaJugador(jugadorEnTurno->obtenerNombreJugador(),territorioConquistado);
+           setTerritorioaJugador(jugadorEnTurno->obtenerNombreJugador(),territorioConquistado);
            territorioConquistado->setReclamar(jugadorEnTurno->obtenerNombreJugador());
            jugadorDerrotado->eliminarTerritorio(territorioConquistado);
             // Mover las fichas del territorio de origen al territorio de destino
@@ -1221,7 +1215,7 @@ std::string Risk::ConquistarTerritorio(Territorio* territorioOrigen, Territorio*
     }
     
     // Agregar lista actualizada de territorios del jugador al resultado
-    resultado += territoriosJugador() + "\n";
+    resultado += buscarterritoriosJugador() + "\n";
     
     return resultado;
 }

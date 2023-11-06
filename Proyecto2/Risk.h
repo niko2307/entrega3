@@ -11,68 +11,73 @@
 
 class Risk {
 public:
-    // Constructor y funciones básicas
+    // Partida
     Risk();
-   
-
-
     void iniciarPartida();
     bool estadoPartida();
     bool evaluarexistenciaGanador();
+
+    //crear/inicializar
     void crearContinente();
-    void CrearTarjetas(std::string tipo, std::string territorio, std::string ficha, std::string mision);
-    std::string resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor);
-    //void AgregarTropas(Jugador jugador);
-
-    void CrearJugador(std::string nombre, int qJugadores);
-    std::string colorJugador();
-    
-    //void crearBatallon(int numeroJugadores);
-    bool moverFichasJugador(int qFichas, std::string continente, std::string territorio);
-    bool territoriosLibres();
-
-    // Setter y funciones relacionadas a Risk
-    void setGrupo_de_Cartas(int valor);
-    int qUnidades(int qJugadores);
     void InicializarTerritoriosColindantes(Risk* risk);
-
-    // Setter y funciones relacionadas a Jugador
-    void agregarTerritorioaJugador(std::string nombreIngresado, Territorio* nuevoTerritorio);
     void CrearCartasJuego();
-    void AgregarTropas(Jugador *jugador, int total);
-    int CantidadNuevasTropas(Jugador* jugador);
-    void EvaluarConquistaTerritorio(std::string Territorioatacante, std::string TerritorioDefensor);
-    std::string ConquistarTerritorio(Territorio* territorioOrigen, Territorio* territorioDestino, Jugador* jugadorEnTurno,Jugador* jugadorDerrotado, int cantidadFichas);
+    void CrearJugador(std::string nombre, int qJugadores);
+    int QTropasIniciales(int qJugadores);
 
+    std::string InicializarcolorJugador();
 
-    // Funciones de información
-    std::string infoContinente();
-    std::string infoJug();
-    std::string infoTerritorios(std::string nameContinente);
-    bool estadoTerritorio(std::string nameContinente, std::string nameTerritorio);
-    void turnoJugado();
-    void turnoJugadoatacar();
-    
-    std::string getNameJugadorEnTurno();
-    std::string getColorJugadorEnTurno();
-    int indiceContinente(std::string continente);
-    int indiceTerritorio(int iContinente, std::string territorio);
-    std::string territoriosJugador();
-    int getFichasJugadorEnTurno();
-    std::string buscarContinenteTerritorio(std::string territorio);
-    bool territorioJugador(std::string continente, std::string territorio);
-    std::string territoriosColindantes(std::string nombreTerritorio);
-
-    // Funciones de acceso a objetos (GETTERS)
-    Territorio* getTerritorio(std::string nombreContinente, std::string nombreTerritorio);
-    Jugador* getJugador(std::string nombreJugador);
-    Continente* getContinentedelPais(std::string nombreTerritorio);
-    int getGrupo_de_Cartas();
+   //estado vvalor
+    bool ExistenterritoriosLibres();
+    void EvaluarConquistaTerritorio(std::string Territorioatacante, std::string TerritorioDefensor); //pendientemovermain
+    bool estadoTerritorioLibre(std::string nameContinente, std::string nameTerritorio);
+    bool EsterritorioJugador(std::string continente, std::string territorio);
     bool estadoGanador();
     bool esTurnoJugador(std::string nombreIngresado);
     bool jugadorExiste(std::string nombreIngresado);
+
+    //atatcar
+    std::string OperacionesDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor);
+   
+
+    //MovimientoFichas
+    int CantidadNuevasFICHASTropasxTurno(Jugador* jugador);
+    bool moverFichasDisponiblesNuevoTerritorio(int qFichas, std::string continente, std::string territorio);
+    void AgregarFichasTropas(Jugador *jugador, int total);
+    
+    //MovimientoTerritorios
+    std::string ConquistarTerritorio(Territorio* territorioOrigen, Territorio* territorioDestino, Jugador* jugadorEnTurno,Jugador* jugadorDerrotado, int cantidadFichas);
+
+    // Setters
+    void setGrupo_de_Cartas(int valor); //No se usa
+    void setTerritorioaJugador(std::string nombreIngresado, Territorio* nuevoTerritorio);
+    
+
+    // Funciones buscar de información
+    
+    std::string infoJug();
+    std::string getNameJugadorEnTurno();
+    std::string getColorJugadorEnTurno();
+    int getFichasJugadorEnTurno();
+    std::string buscarterritoriosJugador();
+    std::string infoTerritorios(std::string nameContinente);
+    std::string buscarterritoriosColindantes(std::string nombreTerritorio);
+    std::string infoContinentes();
+    std::string buscarContinenteTerritorio(std::string territorio);
+    
+
+    int indiceContinente(std::string continente);
+    int indiceTerritorio(int iContinente, std::string territorio);
+
+    //funciones de turnos
+    void turnoJugado();
     void turnosEnCero();
+    
+    // Funciones de acceso a objetos (GETTERS)
+    Territorio* getTerritorio(std::string nombreContinente, std::string nombreTerritorio);
+    Jugador* getJugador(std::string nombreJugador);
     Jugador* territorioPerteneceAJugador(Territorio* territorio);
+    Continente* getContinentedelPais(std::string nombreTerritorio);
+    int getGrupo_de_Cartas();
 
     // Funciones extras
     int lanzarDado();
