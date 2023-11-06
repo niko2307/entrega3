@@ -6,12 +6,12 @@ Jugador::Jugador( std::string nombre, std::string nColor) {
   color= nColor;
 }
 // get color 
-std::string Jugador::obtenerColor() {
+std::string Jugador::GetColor() {
     return color;
 }
 
 //get Nombre del jugador 
-std::string Jugador::obtenerNombreJugador() {
+std::string Jugador::GetNombreJugador() {
     return nombreJugador;
 }
 
@@ -27,11 +27,11 @@ void Jugador::agregarFicha(Ficha ficha) {
     
 }
 
-std::list<Ficha> Jugador::obtenerFichas() {
+std::list<Ficha> Jugador::GetFichas() {
     return fichas;
 }
 
-  int Jugador::obeterTotalFichas(){
+  int Jugador::GetTotalFichas(){
     
     
     return fichas.size();
@@ -43,7 +43,7 @@ Ficha Jugador::moverFicha(){
   return aux;
 }
 
-std::vector<Territorio*>& Jugador::getTerritorios() {
+std::vector<Territorio*>& Jugador::GetTerritorios() {
         return territorios;
     }
 
@@ -55,7 +55,7 @@ std::vector<Territorio*>& Jugador::getTerritorios() {
     
     return territorios.size();
 }
-std::vector<Carta> Jugador::obtenerCartas() {
+std::vector<Carta> Jugador::GetCartas() {
     return cartasJugador;
 }
 

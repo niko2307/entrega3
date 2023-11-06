@@ -14,9 +14,9 @@ void Territorio::deleteFicha( std::string jugador) {
 }
 
 // mirar la ficha 
-bool Territorio::ChekFicha(std::string jugador) {
+bool Territorio::EsFichadeJugador(std::string jugador) {
     for (Ficha& ficha : fichas) {
-        if (ficha.obtenerColor() == jugador) {
+        if (ficha.GetColor() == jugador) {
 
             //std::cout<<"la ficha pertenece al color del jugador"<<jugador<<"=="<<ficha.obtenerColor()<<std::endl;
             return true;
@@ -70,9 +70,9 @@ void Territorio::restarFichas(int cantidadEliminar) {
 }
 
 
-Ficha Territorio::obtenerFicha(std::string jugador) {
+Ficha Territorio::GetFicha(std::string jugador) {
     for (Ficha& ficha : fichas) {
-        if (ficha.obtenerColor() == jugador) {
+        if (ficha.GetColor() == jugador) {
             return ficha;
         }
     }

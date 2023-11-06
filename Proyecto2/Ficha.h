@@ -8,8 +8,8 @@ public:
     Ficha(std::string nColor,  std::string nFigura);
     
     // Getters
-    std::string obtenerColor() ;
-    std::string obtenerFigura() ;
+    std::string GetColor() ;
+    std::string GetFigura() ;
 
 private:
     std::string color;

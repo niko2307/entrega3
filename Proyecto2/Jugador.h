@@ -13,13 +13,14 @@
 class Jugador {
 public:
     Jugador(std::string nombre, std::string nColor);
+
     //getters
-    std::string obtenerColor() ;
-    std::vector<Carta> obtenerCartas() ;
-    int obeterTotalFichas();
-    std::list<Ficha> obtenerFichas() ;
-    std::vector<Territorio*>& getTerritorios();  
-    std::string obtenerNombreJugador() ;
+    std::string GetColor() ;
+    std::vector<Carta> GetCartas() ;
+    int GetTotalFichas();
+    std::list<Ficha> GetFichas() ;
+    std::vector<Territorio*>& GetTerritorios();  
+    std::string GetNombreJugador() ;
     
 
 

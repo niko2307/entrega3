@@ -6,7 +6,7 @@ Continente::Continente( std::string nNombre){
   territoriosOcupados=0;
 }
 
-std::string Continente::obtenerNombre(){
+std::string Continente::GetNombreContinente(){
   return nombre;
 }
 
@@ -28,7 +28,7 @@ void Continente::ocuparTerritorio(Ficha ficha, int nTerritorio, std::string nomb
     territoriosOcupados++;
 }
 
-int Continente::cantidadTerritorios(){
+int Continente::GetcantidadTerritorios(){
   return territorios.size();
 }
 
@@ -75,7 +75,7 @@ Territorio* Continente::buscarTerritorio(std::string nombreTerritorio) {
     }
     return nullptr;
 }
-std::vector<Territorio> Continente::obtenerTerritorios() {
+std::vector<Territorio> Continente::GetTerritorios() {
     return territorios;
 }
 

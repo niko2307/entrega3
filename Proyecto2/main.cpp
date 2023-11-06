@@ -761,7 +761,7 @@ if(territorio =="salir"){
             Colindante= false;
         }
           //revisa que el territorio seleciionado no pertenesca al mismo jugador
-          if(risk->territorioPerteneceAJugador(risk->getTerritorio(continente,colindante))->obtenerNombreJugador()==risk->getNameJugadorEnTurno()){
+          if(risk->territorioPerteneceAJugador(risk->getTerritorio(continente,colindante))->GetNombreJugador()==risk->getNameJugadorEnTurno()){
             cout<<"\n-** Este territorio te pertenece **-\n\n";
             Colindante= false;
           }
@@ -860,7 +860,7 @@ if(nombreTerritorioOrigen!="salir"){
     Territorio* territorioDestino = risk->getTerritorio(continenteDestino,nombreTerritorioDestino);
 
     // Verificar si los territorios pertenecen al mismo jugador
-    if ( risk->territorioPerteneceAJugador(territorioOrigen)->obtenerNombreJugador() == risk->territorioPerteneceAJugador(territorioDestino)->obtenerNombreJugador()) {
+    if ( risk->territorioPerteneceAJugador(territorioOrigen)->GetNombreJugador() == risk->territorioPerteneceAJugador(territorioDestino)->GetNombreJugador()) {
         // Solicitar la cantidad de fichas a mover
         int cantidadFichas;
         std::cout << "Ingrese la cantidad de fichas a mover: ";
@@ -871,8 +871,8 @@ if(nombreTerritorioOrigen!="salir"){
             
             // Mover las fichas del territorio de origen al territorio de destino
             for (int i = 0; i < cantidadFichas; i++) {
-                Ficha ficha = territorioOrigen->obtenerFicha(jugadorEnTurno->obtenerNombreJugador());
-                std::cout<<ficha.obtenerColor()<<std::endl;
+                Ficha ficha = territorioOrigen->GetFicha(jugadorEnTurno->GetNombreJugador());
+                std::cout<<ficha.GetColor()<<std::endl;
                 
                 territorioDestino->addFicha(ficha);
                 

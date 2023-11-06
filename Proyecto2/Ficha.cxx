@@ -6,10 +6,10 @@ Ficha::Ficha(std::string nColor,  std::string nFigura) {
   figura = nFigura;
 }
 // get de  color 
-std::string Ficha::obtenerColor()  {
+std::string Ficha::GetColor()  {
     return color;
 }
 // getter de figura 
-std::string Ficha::obtenerFigura()  {
+std::string Ficha::GetFigura()  {
     return figura;
 }

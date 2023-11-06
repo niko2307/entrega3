@@ -42,7 +42,7 @@ bool Risk::evaluarexistenciaGanador() {
     // Iterar sobre los jugadores
     for (Jugador& jugador : jugadores) {
         // Verificar si el jugador tiene todos los territorios
-        if (jugador.getTerritorios().size() == 42) {
+        if (jugador.GetTerritorios().size() == 42) {
             Ganador = true; // Actualizar variable Ganador
             return true;
         }
@@ -589,7 +589,7 @@ void Risk::AgregarFichasTropas(Jugador* jugador, int total) {
 }
 void Risk::setTerritorioaJugador(std::string nombreJugador,Territorio* nuevoTerritorio ){
 for(int i =0; i<jugadores.size(); i++){
-    if(jugadores[i].obtenerNombreJugador()==nombreJugador){
+    if(jugadores[i].GetNombreJugador()==nombreJugador){
       jugadores[i].setTerritorio(nuevoTerritorio);
      
     }
@@ -607,8 +607,8 @@ std::string Risk::infoContinentes(){
   std::string retorno ="";
   int contador=0;
   for(int i=0; i<6; i++){
-    if(continentes[i].getTerritoriosOcupados()!=continentes[i].cantidadTerritorios()){
-      retorno+="\t"+std::to_string(contador+1)+". "+ continentes[i].obtenerNombre()+"\n";
+    if(continentes[i].getTerritoriosOcupados()!=continentes[i].GetcantidadTerritorios()){
+      retorno+="\t"+std::to_string(contador+1)+". "+ continentes[i].GetNombreContinente()+"\n";
       contador++;
     }
   
@@ -623,9 +623,9 @@ std::string Risk::infoTerritorios(std::string nameContinente){
   int qTerritorios =0, cont=0;
   
   for(int i=0; i<6; i++){
-    if(continentes[i].obtenerNombre()==nameContinente){
+    if(continentes[i].GetNombreContinente()==nameContinente){
       
-      qTerritorios = continentes[i].cantidadTerritorios();
+      qTerritorios = continentes[i].GetcantidadTerritorios();
       
       for(int terri=0; terri<qTerritorios; terri++){
         if(continentes[i].reclamado(terri)==""){
@@ -643,7 +643,7 @@ std::string Risk::infoTerritorios(std::string nameContinente){
 //disponibles para consultar los territorios disponibles para conquistar.
 bool Risk::estadoTerritorioLibre(std::string nameContinente, std::string nameTerritorio){
    for(int i=0; i<6; i++){
-    if(continentes[i].obtenerNombre()==nameContinente){
+    if(continentes[i].GetNombreContinente()==nameContinente){
       return continentes[i].territorioValido(nameTerritorio);
     }
   }
@@ -694,22 +694,22 @@ int Risk::QTropasIniciales(int qJugadores){
 std::string Risk::infoJug(){
   std::string retorno = "";
 
-  retorno = jugadores[turnoActual].obtenerNombreJugador() + " : "+ std::to_string(jugadores[turnoActual].obeterTotalFichas());
+  retorno = jugadores[turnoActual].GetNombreJugador() + " : "+ std::to_string(jugadores[turnoActual].GetTotalFichas());
   return retorno;
 }
 
 //retorna el nombre del jugador en turno
 std::string Risk::getNameJugadorEnTurno(){
-  return jugadores[turnoActual].obtenerNombreJugador();
+  return jugadores[turnoActual].GetNombreJugador();
 }
 
 //retorna el color del juagdor en turno
 std::string Risk::getColorJugadorEnTurno(){
-  return jugadores[turnoActual].obtenerColor();
+  return jugadores[turnoActual].GetColor();
 }
 //retorna la cantidad de fichas que tiene el jugador en turno
 int Risk::getFichasJugadorEnTurno(){
-  return jugadores[turnoActual].obeterTotalFichas();
+  return jugadores[turnoActual].GetTotalFichas();
 }
 
 void Risk::turnoJugado(){
@@ -735,9 +735,9 @@ bool Risk::moverFichasDisponiblesNuevoTerritorio(int qFichas, std::string contin
   int iContinente = indiceContinente( continente);
   int iTerritorio = indiceTerritorio(iContinente, territorio);
 
-  if(jugadores[turnoActual].obeterTotalFichas()>=qFichas){
+  if(jugadores[turnoActual].GetTotalFichas()>=qFichas){
     for(int i=0; i<qFichas; i++){
-      continentes[iContinente].ocuparTerritorio(jugadores[turnoActual].moverFicha(), iTerritorio, jugadores[turnoActual].obtenerNombreJugador() );
+      continentes[iContinente].ocuparTerritorio(jugadores[turnoActual].moverFicha(), iTerritorio, jugadores[turnoActual].GetNombreJugador() );
    }
     return true;
   }else
@@ -748,7 +748,7 @@ bool Risk::moverFichasDisponiblesNuevoTerritorio(int qFichas, std::string contin
 //busca en el vector de continentes el indice de un continente 
 int Risk::indiceContinente(std::string continente){
   for(int i=0; i<continentes.size(); i++){
-    if(continentes[i].obtenerNombre()==continente)
+    if(continentes[i].GetNombreContinente()==continente)
       return i;
   }
   return -1;
@@ -756,7 +756,7 @@ int Risk::indiceContinente(std::string continente){
 
 //busca en el vector de territorio todos los indices
 int Risk::indiceTerritorio(int iContinente, std::string territorio){
-  for(int i=0; i<continentes[iContinente].cantidadTerritorios(); i++){
+  for(int i=0; i<continentes[iContinente].GetcantidadTerritorios(); i++){
     if(continentes[iContinente].getNombreTerritorio(i)==territorio){
         return i;
     }    
@@ -768,7 +768,7 @@ int Risk::indiceTerritorio(int iContinente, std::string territorio){
 bool Risk::ExistenterritoriosLibres(){
   int qContiOcupados=0;
   for(int i=0; i<continentes.size(); i++){
-    if(continentes[i].getTerritoriosOcupados()==continentes[i].cantidadTerritorios())
+    if(continentes[i].getTerritoriosOcupados()==continentes[i].GetcantidadTerritorios())
       qContiOcupados++;
   }
 
@@ -785,8 +785,8 @@ std::string Risk::buscarterritoriosJugador(){
   int contador =0;
 
   for(int i=0; i<continentes.size(); i++){
-    for(int terri=0; terri<continentes[i].cantidadTerritorios(); terri++){
-      if(continentes[i].reclamado(terri)==jugadores[turnoActual].obtenerNombreJugador()){
+    for(int terri=0; terri<continentes[i].GetcantidadTerritorios(); terri++){
+      if(continentes[i].reclamado(terri)==jugadores[turnoActual].GetNombreJugador()){
         retorno+=std::to_string(contador+1)+". "+continentes[i].getNombreTerritorio(terri)+ " - F: "+std::to_string(continentes[i].getFichasEnTerritorio(terri))+"\n";
         contador++;
      }
@@ -797,7 +797,7 @@ std::string Risk::buscarterritoriosJugador(){
 
 Jugador* Risk::territorioPerteneceAJugador(Territorio* territorio) {
     for (Jugador& jugador : jugadores) {
-        for (Territorio* t : jugador.getTerritorios()) {
+        for (Territorio* t : jugador.GetTerritorios()) {
             if (t == territorio) {
                 return &jugador;
             }
@@ -814,10 +814,10 @@ Jugador* Risk::territorioPerteneceAJugador(Territorio* territorio) {
 std::string Risk::buscarContinenteTerritorio(std::string territorio){
   for(int conti=0; conti<continentes.size(); conti++){
 
-    for(int terri=0; terri<continentes[conti].cantidadTerritorios(); terri++){
+    for(int terri=0; terri<continentes[conti].GetcantidadTerritorios(); terri++){
 
       if(continentes[conti].getNombreTerritorio(terri)==territorio)
-        return continentes[conti].obtenerNombre();
+        return continentes[conti].GetNombreContinente();
     }
 
   }
@@ -830,7 +830,7 @@ bool Risk::EsterritorioJugador(std::string continente, std::string territorio){
   int conti = indiceContinente(continente);
   int iTerritorio = indiceTerritorio(conti, territorio);
 
-  if(continentes[conti].reclamado(iTerritorio)==jugadores[turnoActual].obtenerNombreJugador())
+  if(continentes[conti].reclamado(iTerritorio)==jugadores[turnoActual].GetNombreJugador())
     return true;
   return false;
 }
@@ -840,8 +840,8 @@ bool Risk::EsterritorioJugador(std::string continente, std::string territorio){
 //retorna true, cuando el nombre ingresado es el mismo del jugador actual
 bool Risk::esTurnoJugador(std::string nombreIngresado){
   for(int i =0; i<jugadores.size(); i++){
-    if(jugadores[i].obtenerNombreJugador()==nombreIngresado){
-      if(jugadores[turnoActual].obtenerNombreJugador()==nombreIngresado)
+    if(jugadores[i].GetNombreJugador()==nombreIngresado){
+      if(jugadores[turnoActual].GetNombreJugador()==nombreIngresado)
       return true;
     }
   }
@@ -852,7 +852,7 @@ bool Risk::esTurnoJugador(std::string nombreIngresado){
 //en la partida actual
 bool Risk::jugadorExiste(std::string nombreIngresado){
   for(int i=0; i<jugadores.size(); i++){
-    if(jugadores[i].obtenerNombreJugador()== nombreIngresado)
+    if(jugadores[i].GetNombreJugador()== nombreIngresado)
       return true;
   }
   return false;
@@ -861,7 +861,7 @@ bool Risk::jugadorExiste(std::string nombreIngresado){
 
 Territorio* Risk::getTerritorio(std::string nombreContinente, std::string nombreTerritorio) {
     for (Continente& continente : continentes) {
-        if (continente.obtenerNombre() == nombreContinente) {
+        if (continente.GetNombreContinente() == nombreContinente) {
            return continente.buscarTerritorio(nombreTerritorio);
        
         }
@@ -871,7 +871,7 @@ Territorio* Risk::getTerritorio(std::string nombreContinente, std::string nombre
 }
 Jugador* Risk::getJugador(std::string nombreJugador) {
     for (Jugador& jugador : jugadores) {
-        if (jugador.obtenerNombreJugador() == nombreJugador) {
+        if (jugador.GetNombreJugador() == nombreJugador) {
             return &jugador;
         }
     }
@@ -896,7 +896,7 @@ int Risk::CantidadNuevasFICHASTropasxTurno(Jugador* jugador) {
     int continentesOcupados = 0;
     int cartasIntercambiadas = 0;
     int cartasTerritoriosOcupados = 0;
-    std::vector<Carta> cartasJugador = jugador->obtenerCartas();
+    std::vector<Carta> cartasJugador = jugador->GetCartas();
     int cantidadCartas = cartasJugador.size();
 
     // Obtener unidades por territorios
@@ -905,21 +905,21 @@ int Risk::CantidadNuevasFICHASTropasxTurno(Jugador* jugador) {
     // Obtener unidades por continentes
     for (int i = 0; i < continentes.size(); i++) {
         bool continenteOcupado = true;
-        std::vector<Territorio> territoriosContinente = continentes[i].obtenerTerritorios();
+        std::vector<Territorio> territoriosContinente = continentes[i].GetTerritorios();
         for (int j = 0; j < territoriosContinente.size(); j++) {
-            if (!territoriosContinente[j].ChekFicha(jugador->obtenerColor())) {
+            if (!territoriosContinente[j].EsFichadeJugador(jugador->GetColor())) {
                 continenteOcupado = false;
                 break;
             }
         }
         if (continenteOcupado) {
-            if (continentes[i].obtenerNombre() == "America del Sur" || continentes[i].obtenerNombre() == "Australia") {
+            if (continentes[i].GetNombreContinente() == "America del Sur" || continentes[i].GetNombreContinente() == "Australia") {
                 nuevasUnidades += 2;
-            } else if (continentes[i].obtenerNombre() == "Africa") {
+            } else if (continentes[i].GetNombreContinente() == "Africa") {
                 nuevasUnidades += 3;
-            } else if (continentes[i].obtenerNombre() == "America del Norte" || continentes[i].obtenerNombre() == "Europa") {
+            } else if (continentes[i].GetNombreContinente() == "America del Norte" || continentes[i].GetNombreContinente() == "Europa") {
                 nuevasUnidades += 5;
-            } else if (continentes[i].obtenerNombre() == "Asia") {
+            } else if (continentes[i].GetNombreContinente() == "Asia") {
                 nuevasUnidades += 7;
             }
             continentesOcupados++;
@@ -991,7 +991,7 @@ while (!cartasTemporales.empty()) {
     Carta cartaActual = cartasTemporales.front();
     cartasTemporales.pop();
     bool territorioEnJugador = false;
-    const std::vector<Territorio*>& territoriosJugador = jugador->getTerritorios();
+    const std::vector<Territorio*>& territoriosJugador = jugador->GetTerritorios();
     for (int j = 0; j < territoriosJugador.size(); j++) {
         if (territoriosJugador[j]->getNombre() == cartaActual .obtenerTerritorio()) {
             territorioEnJugador = true;
@@ -1072,12 +1072,12 @@ std::string Risk::OperacionesDADOSAtaque(std::string Territorioatacante, std::st
     // Obtener el jugador atacante y el jugador defensor
     Jugador* atacante = &jugadores[turnoActual];
     Continente* continenteD = getContinentedelPais(TerritorioDefensor);
-    Territorio* territorioD = getTerritorio(continenteD->obtenerNombre(), TerritorioDefensor);
+    Territorio* territorioD = getTerritorio(continenteD->GetNombreContinente(), TerritorioDefensor);
     Jugador* defensor = territorioPerteneceAJugador(territorioD);
 
     // Para revisar que el jugador no se vaya a atacar a sí mismo
     for (Jugador& jugador : jugadores) {
-        if (jugador.obtenerNombreJugador() == atacante->obtenerNombreJugador()) {
+        if (jugador.GetNombreJugador() == atacante->GetNombreJugador()) {
             continuar = false;
         }
     }
@@ -1085,14 +1085,14 @@ std::string Risk::OperacionesDADOSAtaque(std::string Territorioatacante, std::st
     // Lanzar los dados para el atacante y el defensor
     std::vector<int> dadosAtacante;
     std::vector<int> dadosDefensor;
-    resultado += "Dados de " + atacante->obtenerNombreJugador() + ": ";
+    resultado += "Dados de " + atacante->GetNombreJugador() + ": ";
     for (int i = 0; i < 3; i++) {
         int dadoA = lanzarDado();
         resultado += std::to_string(dadoA) + ", ";
         dadosAtacante.push_back(dadoA);
     }
     resultado += "\n";
-    resultado += "Dados de " + defensor->obtenerNombreJugador() + ": ";
+    resultado += "Dados de " + defensor->GetNombreJugador() + ": ";
     for (int i = 0; i < 2; i++) {
         int dadoD = lanzarDado();
         resultado += std::to_string(dadoD) + ", ";
@@ -1134,11 +1134,11 @@ std::string Risk::OperacionesDADOSAtaque(std::string Territorioatacante, std::st
     defensor->restarUnidades(unidadesPerdidasDefensor, TerritorioDefensor);
     
     Continente* continenteA = getContinentedelPais(Territorioatacante);
-    Territorio* territorioA = getTerritorio(continenteA->obtenerNombre(), Territorioatacante);
+    Territorio* territorioA = getTerritorio(continenteA->GetNombreContinente(), Territorioatacante);
     
-    resultado += "\n" + defensor->obtenerNombreJugador() + " perdio: " + std::to_string(unidadesPerdidasDefensor) + " fichas\n";
+    resultado += "\n" + defensor->GetNombreJugador() + " perdio: " + std::to_string(unidadesPerdidasDefensor) + " fichas\n";
     resultado += territorioD->getNombre() + " - F: " + std::to_string(territorioD->GetQFichas()) + "\n";
-    resultado += atacante->obtenerNombreJugador() + " perdio: " + std::to_string(unidadesPerdidasAtacante) + " fichas\n";
+    resultado += atacante->GetNombreJugador() + " perdio: " + std::to_string(unidadesPerdidasAtacante) + " fichas\n";
     resultado += territorioA->getNombre() + " - F: " + std::to_string(territorioA->GetQFichas()) + "\n";
 
     return resultado;
@@ -1150,12 +1150,12 @@ void Risk::EvaluarConquistaTerritorio(std::string Territorioatacante, std::strin
 
 //territorio del que esta siendo atacado
 Continente* continenteD = getContinentedelPais(TerritorioDefensor);
-  Territorio* territorioD =getTerritorio (continenteD->obtenerNombre(),TerritorioDefensor);
+  Territorio* territorioD =getTerritorio (continenteD->GetNombreContinente(),TerritorioDefensor);
     Jugador* defensor = territorioPerteneceAJugador(territorioD);
 
 //Territorio que esta atacadndo
 Continente* continenteA = getContinentedelPais(Territorioatacante);
-Territorio* territorioA = getTerritorio (continenteA->obtenerNombre(),Territorioatacante);
+Territorio* territorioA = getTerritorio (continenteA->GetNombreContinente(),Territorioatacante);
 Jugador* atacante = territorioPerteneceAJugador(territorioA);
 
 //comparar si el territorio que esta siendo atacado tiene 0 fichas ->moverlo a otro jugador
@@ -1192,12 +1192,12 @@ std::string Risk::ConquistarTerritorio(Territorio* territorioOrigen, Territorio*
         
         if (territorioOrigen->GetQFichas() >= cantidadFichas) {
          
-           setTerritorioaJugador(jugadorEnTurno->obtenerNombreJugador(),territorioConquistado);
-           territorioConquistado->setReclamar(jugadorEnTurno->obtenerNombreJugador());
+           setTerritorioaJugador(jugadorEnTurno->GetNombreJugador(),territorioConquistado);
+           territorioConquistado->setReclamar(jugadorEnTurno->GetNombreJugador());
            jugadorDerrotado->eliminarTerritorio(territorioConquistado);
             // Mover las fichas del territorio de origen al territorio de destino
             for (int i = 0; i < cantidadFichas; i++) {
-                Ficha ficha = territorioOrigen->obtenerFicha(jugadorEnTurno->obtenerNombreJugador());
+                Ficha ficha = territorioOrigen->GetFicha(jugadorEnTurno->GetNombreJugador());
                 territorioConquistado->addFicha(ficha);
             }
            
@@ -1222,8 +1222,8 @@ std::string Risk::ConquistarTerritorio(Territorio* territorioOrigen, Territorio*
 
 Continente* Risk::getContinentedelPais(std::string nombreTerritorio) {
     for (int i = 0; i < continentes.size(); ++i) {
-        for (int j = 0; j < continentes[i].obtenerTerritorios().size(); ++j) {
-            if (continentes[i].obtenerTerritorios()[j].getNombre() == nombreTerritorio) {
+        for (int j = 0; j < continentes[i].GetTerritorios().size(); ++j) {
+            if (continentes[i].GetTerritorios()[j].getNombre() == nombreTerritorio) {
                 return &(continentes[i]);
             }
         }
