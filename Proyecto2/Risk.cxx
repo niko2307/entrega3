@@ -139,63 +139,63 @@ void Risk::crearContinente() {
 void Risk::InicializarTerritoriosColindantes(Risk* risk){
  
 // Continente de América del Norte
-Territorio* americaCentral = risk->buscarTerritorio("america del norte", "america central");
-Territorio* estadosUnidosOrientales = risk->buscarTerritorio("america del norte", "estados unidos orientales");
-Territorio* groenlandia = risk->buscarTerritorio("america del norte", "groenlandia");
-Territorio* territorioNoroccidental = risk->buscarTerritorio("america del norte", "territorio noroccidental");
-Territorio* ontario = risk->buscarTerritorio("america del norte", "ontario");
-Territorio* quebec = risk->buscarTerritorio("america del norte", "quebec");
-Territorio* estadosUnidosOccidentales = risk->buscarTerritorio("america del norte", "estados unidos occidentales");
-Territorio* alaska = risk->buscarTerritorio("america del norte", "alaska");
-Territorio* alberta = risk->buscarTerritorio("america del norte", "alberta");
+Territorio* americaCentral = risk->getTerritorio("america del norte", "america central");
+Territorio* estadosUnidosOrientales = risk->getTerritorio("america del norte", "estados unidos orientales");
+Territorio* groenlandia = risk->getTerritorio("america del norte", "groenlandia");
+Territorio* territorioNoroccidental = risk->getTerritorio("america del norte", "territorio noroccidental");
+Territorio* ontario = risk->getTerritorio("america del norte", "ontario");
+Territorio* quebec = risk->getTerritorio("america del norte", "quebec");
+Territorio* estadosUnidosOccidentales = risk->getTerritorio("america del norte", "estados unidos occidentales");
+Territorio* alaska = risk->getTerritorio("america del norte", "alaska");
+Territorio* alberta = risk->getTerritorio("america del norte", "alberta");
 
 
 // Continente de Europa
-Territorio* islandia = risk->buscarTerritorio("europa", "islandia");
-Territorio* europaDelNorte = risk->buscarTerritorio("europa", "europa del norte");
-Territorio* escandinavia = risk->buscarTerritorio("europa", "escandinavia");
-Territorio* europaDelSur = risk->buscarTerritorio("europa", "europa del sur");
-Territorio* ucrania = risk->buscarTerritorio("europa", "ucrania");
-Territorio* europaOccidental = risk->buscarTerritorio("europa", "europa occidental");
-Territorio* granBretana = risk->buscarTerritorio("europa", "gran bretana");
+Territorio* islandia = risk->getTerritorio("europa", "islandia");
+Territorio* europaDelNorte = risk->getTerritorio("europa", "europa del norte");
+Territorio* escandinavia = risk->getTerritorio("europa", "escandinavia");
+Territorio* europaDelSur = risk->getTerritorio("europa", "europa del sur");
+Territorio* ucrania = risk->getTerritorio("europa", "ucrania");
+Territorio* europaOccidental = risk->getTerritorio("europa", "europa occidental");
+Territorio* granBretana = risk->getTerritorio("europa", "gran bretana");
 
 
 
 // Continente de América del Sur
-Territorio* brasil = risk->buscarTerritorio("america del sur", "brasil");
-Territorio* colombia = risk->buscarTerritorio("america del sur", "colombia");
-Territorio* peru = risk->buscarTerritorio("america del sur", "peru");
-Territorio* argentina = risk->buscarTerritorio("america del sur", "argentina");
+Territorio* brasil = risk->getTerritorio("america del sur", "brasil");
+Territorio* colombia = risk->getTerritorio("america del sur", "colombia");
+Territorio* peru = risk->getTerritorio("america del sur", "peru");
+Territorio* argentina = risk->getTerritorio("america del sur", "argentina");
 
 
 // Continente de África
-Territorio* africaOriental = risk->buscarTerritorio("africa", "africa oriental");
-Territorio* egipto = risk->buscarTerritorio("africa", "egipto");
-Territorio* madagascar = risk->buscarTerritorio("africa", "madagascar");
-Territorio* africaDelNorte = risk->buscarTerritorio("africa", "africa del norte");
-Territorio* africaDelSur = risk->buscarTerritorio("africa", "africa del sur");
-Territorio* congo = risk->buscarTerritorio("africa", "congo");
+Territorio* africaOriental = risk->getTerritorio("africa", "africa oriental");
+Territorio* egipto = risk->getTerritorio("africa", "egipto");
+Territorio* madagascar = risk->getTerritorio("africa", "madagascar");
+Territorio* africaDelNorte = risk->getTerritorio("africa", "africa del norte");
+Territorio* africaDelSur = risk->getTerritorio("africa", "africa del sur");
+Territorio* congo = risk->getTerritorio("africa", "congo");
 
 
 // Continente de Oceanía
-Territorio* indonesia = risk->buscarTerritorio("australia", "indonesia");
-Territorio* nuevaGuinea = risk->buscarTerritorio("australia", "nueva guinea");
-Territorio* australiaOccidental = risk->buscarTerritorio("australia", "australia occidental");
-Territorio* australiaOriental = risk->buscarTerritorio("australia", "australia oriental");
+Territorio* indonesia = risk->getTerritorio("australia", "indonesia");
+Territorio* nuevaGuinea = risk->getTerritorio("australia", "nueva guinea");
+Territorio* australiaOccidental = risk->getTerritorio("australia", "australia occidental");
+Territorio* australiaOriental = risk->getTerritorio("australia", "australia oriental");
 
 // Continente de Asia
-Territorio* china = risk->buscarTerritorio("asia", "china");
-Territorio* india = risk->buscarTerritorio("asia", "india");
-Territorio* irkutsk = risk->buscarTerritorio("asia", "irkutsk");
-Territorio* japon = risk->buscarTerritorio("asia", "japon");
-Territorio* kamchatka = risk->buscarTerritorio("asia", "kamchatka");
-Territorio* medioOriente = risk->buscarTerritorio("asia", "medio oriente");
-Territorio* mongolia = risk->buscarTerritorio("asia", "mongolia");
-Territorio* siam = risk->buscarTerritorio("asia", "siam");
-Territorio* siberia = risk->buscarTerritorio("asia", "siberia");
-Territorio* ural = risk->buscarTerritorio("asia", "ural");
-Territorio* yakutsk = risk->buscarTerritorio("asia", "yakutsk");
-Territorio* afghanistan = risk->buscarTerritorio("asia", "afghanistan");
+Territorio* china = risk->getTerritorio("asia", "china");
+Territorio* india = risk->getTerritorio("asia", "india");
+Territorio* irkutsk = risk->getTerritorio("asia", "irkutsk");
+Territorio* japon = risk->getTerritorio("asia", "japon");
+Territorio* kamchatka = risk->getTerritorio("asia", "kamchatka");
+Territorio* medioOriente = risk->getTerritorio("asia", "medio oriente");
+Territorio* mongolia = risk->getTerritorio("asia", "mongolia");
+Territorio* siam = risk->getTerritorio("asia", "siam");
+Territorio* siberia = risk->getTerritorio("asia", "siberia");
+Territorio* ural = risk->getTerritorio("asia", "ural");
+Territorio* yakutsk = risk->getTerritorio("asia", "yakutsk");
+Territorio* afghanistan = risk->getTerritorio("asia", "afghanistan");
 //cout<<"entre inicalizar"<<std::endl;
 
 // América del Norte
@@ -577,10 +577,10 @@ void Risk::AgregarTropas(Jugador* jugador, int total) {
 
 
 }
-void Risk::agregarTerritorioaJugador(std::string nombreIngresado,Territorio* nuevoTerritorio ){
+void Risk::agregarTerritorioaJugador(std::string nombreJugador,Territorio* nuevoTerritorio ){
 for(int i =0; i<jugadores.size(); i++){
-    if(jugadores[i].obtenerNombreJugador()==nombreIngresado){
-      jugadores[turnoActual].setTerritorio(nuevoTerritorio);
+    if(jugadores[i].obtenerNombreJugador()==nombreJugador){
+      jugadores[i].setTerritorio(nuevoTerritorio);
      
     }
   }
@@ -846,7 +846,7 @@ bool Risk::jugadorExiste(std::string nombreIngresado){
 }
 
 
-Territorio* Risk::buscarTerritorio(std::string nombreContinente, std::string nombreTerritorio) {
+Territorio* Risk::getTerritorio(std::string nombreContinente, std::string nombreTerritorio) {
     for (Continente& continente : continentes) {
         if (continente.obtenerNombre() == nombreContinente) {
            return continente.buscarTerritorio(nombreTerritorio);
@@ -1036,11 +1036,14 @@ std::string Risk::territoriosColindantes(std::string nombreTerritorio) {
   if (territorio != nullptr) {
       int contador = 0;
     for (int i = 0; i < territorio->getTerritoriosColindantes().size(); i++) {
-      Territorio* colindante = territorio->getTerritoriosColindantes()[i];
-      int Nu_FichasJugador = colindante->ContarFichas(territorioPerteneceAJugador(colindante)->obtenerColor());
+     Territorio* colindante = territorio->getTerritoriosColindantes()[i];
+      if(territorio->getReclamado()!=colindante->getReclamado()){
+      
+      int Nu_FichasJugador = colindante->GetQFichas();
       //std::cout<<"numero de fichas jugador contrincancte"<<Nu_FichasJugador <<territorioPerteneceAJugador(colindante)->obtenerNombreJugador()<<std::endl;
       retorno += std::to_string(contador + 1) + ". " + colindante->getNombre() + " - FichasContrincante: " + std::to_string(Nu_FichasJugador) + "\n";
       contador++;
+      }
     }
   }
 
@@ -1049,83 +1052,113 @@ std::string Risk::territoriosColindantes(std::string nombreTerritorio) {
 
 
 
-void Risk::resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor) {
+std::string Risk::resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor) {
+    std::string resultado;
     bool continuar = true;
-
+    
     // Obtener el jugador atacante y el jugador defensor
     Jugador* atacante = &jugadores[turnoActual];
-    Territorio* territorioD = buscarTerritorio ("america del norte",TerritorioDefensor);
+    Continente* continenteD = getContinentedelPais(TerritorioDefensor);
+    Territorio* territorioD = getTerritorio(continenteD->obtenerNombre(), TerritorioDefensor);
     Jugador* defensor = territorioPerteneceAJugador(territorioD);
-  
 
-//para revisar que el jugador no se vaya a atacar a si mismo  
+    // Para revisar que el jugador no se vaya a atacar a sí mismo
     for (Jugador& jugador : jugadores) {
-
         if (jugador.obtenerNombreJugador() == atacante->obtenerNombreJugador()) {
-           continuar = false;
-           
+            continuar = false;
         }
     }
 
     // Lanzar los dados para el atacante y el defensor
     std::vector<int> dadosAtacante;
     std::vector<int> dadosDefensor;
-    std::cout<<"Dados de "<<atacante->obtenerNombreJugador()<<": ";
+    resultado += "Dados de " + atacante->obtenerNombreJugador() + ": ";
     for (int i = 0; i < 3; i++) {
-          int  dadoA=lanzarDado();
-          std::cout<<dadoA<<", ";
+        int dadoA = lanzarDado();
+        resultado += std::to_string(dadoA) + ", ";
         dadosAtacante.push_back(dadoA);
     }
-    std::cout<<"\n";
-    std::cout<<"Dados de "<<defensor->obtenerNombreJugador()<<": ";
+    resultado += "\n";
+    resultado += "Dados de " + defensor->obtenerNombreJugador() + ": ";
     for (int i = 0; i < 2; i++) {
-      int  dadoD=lanzarDado();
-      std::cout<<dadoD<<", ";
+        int dadoD = lanzarDado();
+        resultado += std::to_string(dadoD) + ", ";
         dadosDefensor.push_back(dadoD);
     }
-    std::cout<<"\n";
+    resultado += "\n";
 
- // Ordenar los dados de mayor a menor
-for (int i = 0; i < dadosAtacante.size() - 1; i++) {
-    for (int j = 0; j < dadosAtacante.size() - i - 1; j++) {
-        if (dadosAtacante[j] < dadosAtacante[j + 1]) {
-            std::swap(dadosAtacante[j], dadosAtacante[j + 1]);
+    // Ordenar los dados de mayor a menor
+    for (int i = 0; i < dadosAtacante.size() - 1; i++) {
+        for (int j = 0; j < dadosAtacante.size() - i - 1; j++) {
+            if (dadosAtacante[j] < dadosAtacante[j + 1]) {
+                std::swap(dadosAtacante[j], dadosAtacante[j + 1]);
+            }
         }
     }
-}
-
-for (int i = 0; i < dadosDefensor.size() - 1; i++) {
-    for (int j = 0; j < dadosDefensor.size() - i - 1; j++) {
-        if (dadosDefensor[j] < dadosDefensor[j + 1]) {
-            std::swap(dadosDefensor[j], dadosDefensor[j + 1]);
+    for (int i = 0; i < dadosDefensor.size() - 1; i++) {
+        for (int j = 0; j < dadosDefensor.size() - i - 1; j++) {
+            if (dadosDefensor[j] < dadosDefensor[j + 1]) {
+                std::swap(dadosDefensor[j], dadosDefensor[j + 1]);
+            }
         }
     }
-}
 
-// Comparar los dados y determinar el resultado del ataque 
-//numDados:indica el valor minimo entre la cantidad de dados
-int numDados = dadosAtacante.size() < dadosDefensor.size() ? dadosAtacante.size() : dadosDefensor.size();
-int unidadesPerdidasAtacante = 0;
-int unidadesPerdidasDefensor = 0;
-
-for (int i = 0; i < numDados; i++) {
-    if (dadosAtacante[i] >= dadosDefensor[i]) {
-        unidadesPerdidasDefensor++;
-    } else {
-        unidadesPerdidasAtacante++;
+    // Comparar los dados y determinar el resultado del ataque
+    // numDados: indica el valor mínimo entre la cantidad de dados
+    int numDados = dadosAtacante.size() < dadosDefensor.size() ? dadosAtacante.size() : dadosDefensor.size();
+    int unidadesPerdidasAtacante = 0;
+    int unidadesPerdidasDefensor = 0;
+    for (int i = 0; i < numDados; i++) {
+        if (dadosAtacante[i] >= dadosDefensor[i]) {
+            unidadesPerdidasDefensor++;
+        } else {
+            unidadesPerdidasAtacante++;
+        }
     }
-}
 
     // Actualizar las unidades de ejército de cada jugador
-    atacante->restarUnidades(unidadesPerdidasAtacante,Territorioatacante);
-    defensor->restarUnidades(unidadesPerdidasDefensor,TerritorioDefensor);
+    atacante->restarUnidades(unidadesPerdidasAtacante, Territorioatacante);
+    defensor->restarUnidades(unidadesPerdidasDefensor, TerritorioDefensor);
+    
+    Continente* continenteA = getContinentedelPais(Territorioatacante);
+    Territorio* territorioA = getTerritorio(continenteA->obtenerNombre(), Territorioatacante);
+    
+    resultado += "\n" + defensor->obtenerNombreJugador() + " perdio: " + std::to_string(unidadesPerdidasDefensor) + " fichas\n";
+    resultado += territorioD->getNombre() + " - F: " + std::to_string(territorioD->GetQFichas()) + "\n";
+    resultado += atacante->obtenerNombreJugador() + " perdio: " + std::to_string(unidadesPerdidasAtacante) + " fichas\n";
+    resultado += territorioA->getNombre() + " - F: " + std::to_string(territorioA->GetQFichas()) + "\n";
 
-Territorio* territorioA = buscarTerritorio ("america del norte",Territorioatacante);
-std::cout<<"\n"<<defensor->obtenerNombreJugador()<<" perdio: "<<unidadesPerdidasDefensor<<"fichas"<<std::endl;
-std::cout<<territorioD->getNombre()<<" - F: "<<territorioD->GetQFichas()<<std::endl;   
-std::cout<<atacante->obtenerNombreJugador()<<" perdio: "<<unidadesPerdidasAtacante<<"fichas"<<std::endl;  
-std::cout<<territorioA->getNombre()<<" - F: "<<territorioA->GetQFichas()<<std::endl;
-   
+    return resultado;
+}
+
+
+void Risk::EvaluarConquistaTerritorio(std::string Territorioatacante, std::string TerritorioDefensor){
+
+
+//territorio del que esta siendo atacado
+Continente* continenteD = getContinentedelPais(TerritorioDefensor);
+  Territorio* territorioD =getTerritorio (continenteD->obtenerNombre(),TerritorioDefensor);
+    Jugador* defensor = territorioPerteneceAJugador(territorioD);
+
+//Territorio que esta atacadndo
+Continente* continenteA = getContinentedelPais(Territorioatacante);
+Territorio* territorioA = getTerritorio (continenteA->obtenerNombre(),Territorioatacante);
+Jugador* atacante = territorioPerteneceAJugador(territorioA);
+
+//comparar si el territorio que esta siendo atacado tiene 0 fichas ->moverlo a otro jugador
+
+if(territorioD->GetQFichas()==0){
+  int cantidad=0;
+ do{
+  std::cout<<"HAS CONQUISTADO "<<territorioD->getNombre()<<std::endl;
+std::cout<<"\ncuantas fichas deseas mover a: "<<territorioD->getNombre()<<std::endl;
+std::cin>>cantidad;
+
+ }while(cantidad<=0 || (territorioA->GetQFichas())-1<cantidad);
+
+std::string movimientofichas=ConquistarTerritorio( territorioA,territorioD,atacante,cantidad);
+std::cout<<movimientofichas<<std::endl;
+}
 
 
 
@@ -1133,7 +1166,54 @@ std::cout<<territorioA->getNombre()<<" - F: "<<territorioA->GetQFichas()<<std::e
 }
 
 
-void Risk::EvaluarConquistaTerritorio(Jugador* jugador){
+std::string Risk::ConquistarTerritorio(Territorio* territorioOrigen, Territorio* territorioDestino, Jugador* jugadorEnTurno, int cantidadFichas) {
+    std::string resultado;
+    
 
+   
+    // Verificar si el territorio esta disponible
+    if (territorioPerteneceAJugador(territorioOrigen) != territorioPerteneceAJugador(territorioDestino)) {
+
+        // Verificar si el territorio de origen tiene suficientes fichas
+        
+        if (territorioOrigen->GetQFichas() >= cantidadFichas) {
+         
+           agregarTerritorioaJugador(jugadorEnTurno->obtenerNombreJugador(),territorioDestino);
+           territorioDestino->setReclamar(jugadorEnTurno->obtenerNombreJugador());
+          //eliminarTerritoriodeJugador();
+            // Mover las fichas del territorio de origen al territorio de destino
+            for (int i = 0; i < cantidadFichas; i++) {
+                Ficha ficha = territorioOrigen->obtenerFicha(jugadorEnTurno->obtenerNombreJugador());
+                territorioDestino->addFicha(ficha);
+            }
+           
+             territorioOrigen->restarFichas(cantidadFichas);
+
+            // Agregar mensaje de éxito al resultado
+            resultado += "Se han movido " + std::to_string(cantidadFichas) + " fichas del territorio " + territorioOrigen->getNombre() + " al territorio " + territorioDestino->getNombre() + ".\n";
+        } else {
+            // Agregar mensaje de error al resultado
+            resultado += "El territorio de origen no tiene suficientes fichas.\n";
+        }
+    } else {
+        // Agregar mensaje de error al resultado
+        resultado += "Los territorios no pertenecen al mismo jugador.\n";
+    }
+    
+    // Agregar lista actualizada de territorios del jugador al resultado
+    resultado += territoriosJugador() + "\n";
+    
+    return resultado;
+}
+
+Continente* Risk::getContinentedelPais(std::string nombreTerritorio) {
+    for (int i = 0; i < continentes.size(); ++i) {
+        for (int j = 0; j < continentes[i].obtenerTerritorios().size(); ++j) {
+            if (continentes[i].obtenerTerritorios()[j].getNombre() == nombreTerritorio) {
+                return &(continentes[i]);
+            }
+        }
+    }
+    return nullptr; // Si no se encuentra el continente
 }
 

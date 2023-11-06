@@ -13,12 +13,15 @@ class Risk {
 public:
     // Constructor y funciones básicas
     Risk();
+   
+
+
     void iniciarPartida();
     bool estadoPartida();
     void asignarGanador();
     void crearContinente();
     void CrearTarjetas(std::string tipo, std::string territorio, std::string ficha, std::string mision);
-    void resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor);
+    std::string resultadoDADOSAtaque(std::string Territorioatacante, std::string TerritorioDefensor);
     //void AgregarTropas(Jugador jugador);
 
     void CrearJugador(std::string nombre, int qJugadores);
@@ -38,8 +41,8 @@ public:
     void CrearCartasJuego();
     void AgregarTropas(Jugador *jugador, int total);
     int CantidadNuevasTropas(Jugador* jugador);
-    void EvaluarConquistaTerritorio(Jugador* jugador);
-
+    void EvaluarConquistaTerritorio(std::string Territorioatacante, std::string TerritorioDefensor);
+    std::string ConquistarTerritorio(Territorio* territorioOrigen, Territorio* territorioDestino, Jugador* jugadorEnTurno, int cantidadFichas);
 
 
     // Funciones de información
@@ -61,8 +64,9 @@ public:
     std::string territoriosColindantes(std::string nombreTerritorio);
 
     // Funciones de acceso a objetos (GETTERS)
-    Territorio* buscarTerritorio(std::string nombreContinente, std::string nombreTerritorio);
+    Territorio* getTerritorio(std::string nombreContinente, std::string nombreTerritorio);
     Jugador* getJugador(std::string nombreJugador);
+    Continente* getContinentedelPais(std::string nombreTerritorio);
     int getGrupo_de_Cartas();
     bool estadoGanador();
     bool esTurnoJugador(std::string nombreIngresado);

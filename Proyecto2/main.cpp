@@ -550,7 +550,7 @@ system("cls");
     std::cout<<risk->infoJug()<<endl;
 
     //guardar el puntero hacia el territorio dentro del jugador para poder acceder a la informacion mas facil 
-    Territorio* Nterritorio = risk->buscarTerritorio(continente,territorio);
+    Territorio* Nterritorio = risk->getTerritorio(continente,territorio);
     risk->agregarTerritorioaJugador(risk->getNameJugadorEnTurno(),Nterritorio);
 
     risk->moverFichasJugador(1, continente, territorio);
@@ -742,17 +742,17 @@ system("cls");
             break;
            }
            
-           if( !risk->buscarTerritorio(continente,territorio)->esColindante(risk->buscarTerritorio(continente,colindante))){
+           if( !risk->getTerritorio(continente,territorio)->esColindante(risk->getTerritorio(continente,colindante))){
             cout<<"\n-** Nombre de territorio Colindate no valido **-\n\n";
             Colindante= false;
         }
           //revisa que el territorio seleciionado no pertenesca al mismo jugador
-          if(risk->territorioPerteneceAJugador(risk->buscarTerritorio(continente,colindante))->obtenerNombreJugador()==risk->getNameJugadorEnTurno()){
+          if(risk->territorioPerteneceAJugador(risk->getTerritorio(continente,colindante))->obtenerNombreJugador()==risk->getNameJugadorEnTurno()){
             cout<<"\n-** Este territorio te pertenece **-\n\n";
             Colindante= false;
           }
            
-        }while(Colindante==false|| !risk->buscarTerritorio(continente,territorio)->esColindante(risk->buscarTerritorio(continente,colindante)));
+        }while(Colindante==false|| !risk->getTerritorio(continente,territorio)->esColindante(risk->getTerritorio(continente,colindante)));
         
 if(colindante !="retroceder"){
   system("cls");
@@ -763,8 +763,12 @@ if(colindante !="retroceder"){
         if(continente=="" || !risk->territorioJugador(continente, territorio)){
             cout<<"\n-** Nombre de territorio no valido **-\n\n";
         }
-          risk->resultadoDADOSAtaque(territorio,colindante);
-          //risk->EvaluarConquistaTerritorio();
+
+        
+          std::string dados=risk->resultadoDADOSAtaque(territorio,colindante);
+          std::cout<<dados<<std::endl;
+
+          risk->EvaluarConquistaTerritorio(territorio, colindante);
           //system("cls");
           std::cout<<"Quieres seguir combatiendo con este pais:"<<std::endl;
           std::cout<<"SI \nNO"<<std::endl;
@@ -776,11 +780,11 @@ if(colindante !="retroceder"){
 
     }while(continente=="" || !risk->territorioJugador(continente, territorio)||colindante=="retroceder");
     //evalua si el territorio seleccionado para atacar es colindante
-    system("cls");
+    
     std::cout<<"Quieres pasar de la fase atacar:"<<std::endl;
           std::cout<<"SI \nNO"<<std::endl;
         Fase=ingresarComando();
-  
+  system("cls");
 
   }while(Fase =="NO");
 
@@ -832,8 +836,8 @@ system("cls");
    
 
     // Buscar los territorios de origen y destino
-    Territorio* territorioOrigen = risk->buscarTerritorio(continenteOrigen,nombreTerritorioOrigen);
-    Territorio* territorioDestino = risk->buscarTerritorio(continenteDestino,nombreTerritorioDestino);
+    Territorio* territorioOrigen = risk->getTerritorio(continenteOrigen,nombreTerritorioOrigen);
+    Territorio* territorioDestino = risk->getTerritorio(continenteDestino,nombreTerritorioDestino);
 
     // Verificar si los territorios pertenecen al mismo jugador
     if ( risk->territorioPerteneceAJugador(territorioOrigen)->obtenerNombreJugador() == risk->territorioPerteneceAJugador(territorioDestino)->obtenerNombreJugador()) {
@@ -843,7 +847,7 @@ system("cls");
         cantidadFichas=stoi(ingresarComando());
 
         // Verificar si el territorio de origen tiene suficientes fichas
-        if (territorioOrigen->ContarFichas(jugadorEnTurno->obtenerColor()) >= cantidadFichas) {
+        if (territorioOrigen->GetQFichas() >= cantidadFichas) {
             
             // Mover las fichas del territorio de origen al territorio de destino
             for (int i = 0; i < cantidadFichas; i++) {
