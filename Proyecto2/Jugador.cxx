@@ -78,3 +78,14 @@ if (territorio->getNombre() == Nterritorio) {
 void Jugador::agregarCarta(Carta carta){
     this->cartasJugador.push_back(carta);
 }
+
+void Jugador::eliminarTerritorio(Territorio* territorio) {
+    // Buscar el territorio en la lista de territorios del jugador
+    for (size_t i = 0; i < territorios.size(); i++) {
+        if (territorios[i] == territorio) {
+            // Eliminar el territorio de la lista
+            territorios.erase(territorios.begin() + i);
+            break;
+        }
+    }
+}

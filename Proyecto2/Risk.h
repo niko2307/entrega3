@@ -42,7 +42,7 @@ public:
     void AgregarTropas(Jugador *jugador, int total);
     int CantidadNuevasTropas(Jugador* jugador);
     void EvaluarConquistaTerritorio(std::string Territorioatacante, std::string TerritorioDefensor);
-    std::string ConquistarTerritorio(Territorio* territorioOrigen, Territorio* territorioDestino, Jugador* jugadorEnTurno, int cantidadFichas);
+    std::string ConquistarTerritorio(Territorio* territorioOrigen, Territorio* territorioDestino, Jugador* jugadorEnTurno,Jugador* jugadorDerrotado, int cantidadFichas);
 
 
     // Funciones de información

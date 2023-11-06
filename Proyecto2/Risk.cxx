@@ -1156,7 +1156,7 @@ std::cin>>cantidad;
 
  }while(cantidad<=0 || (territorioA->GetQFichas())-1<cantidad);
 
-std::string movimientofichas=ConquistarTerritorio( territorioA,territorioD,atacante,cantidad);
+std::string movimientofichas=ConquistarTerritorio( territorioA,territorioD,atacante,defensor,cantidad);
 std::cout<<movimientofichas<<std::endl;
 }
 
@@ -1166,31 +1166,31 @@ std::cout<<movimientofichas<<std::endl;
 }
 
 
-std::string Risk::ConquistarTerritorio(Territorio* territorioOrigen, Territorio* territorioDestino, Jugador* jugadorEnTurno, int cantidadFichas) {
+std::string Risk::ConquistarTerritorio(Territorio* territorioOrigen, Territorio* territorioConquistado, Jugador* jugadorEnTurno,Jugador* jugadorDerrotado, int cantidadFichas) {
     std::string resultado;
     
 
    
     // Verificar si el territorio esta disponible
-    if (territorioPerteneceAJugador(territorioOrigen) != territorioPerteneceAJugador(territorioDestino)) {
+    if (territorioPerteneceAJugador(territorioOrigen) != territorioPerteneceAJugador(territorioConquistado)) {
 
         // Verificar si el territorio de origen tiene suficientes fichas
         
         if (territorioOrigen->GetQFichas() >= cantidadFichas) {
          
-           agregarTerritorioaJugador(jugadorEnTurno->obtenerNombreJugador(),territorioDestino);
-           territorioDestino->setReclamar(jugadorEnTurno->obtenerNombreJugador());
-          //eliminarTerritoriodeJugador();
+           agregarTerritorioaJugador(jugadorEnTurno->obtenerNombreJugador(),territorioConquistado);
+           territorioConquistado->setReclamar(jugadorEnTurno->obtenerNombreJugador());
+           jugadorDerrotado->eliminarTerritorio(territorioConquistado);
             // Mover las fichas del territorio de origen al territorio de destino
             for (int i = 0; i < cantidadFichas; i++) {
                 Ficha ficha = territorioOrigen->obtenerFicha(jugadorEnTurno->obtenerNombreJugador());
-                territorioDestino->addFicha(ficha);
+                territorioConquistado->addFicha(ficha);
             }
            
              territorioOrigen->restarFichas(cantidadFichas);
 
             // Agregar mensaje de éxito al resultado
-            resultado += "Se han movido " + std::to_string(cantidadFichas) + " fichas del territorio " + territorioOrigen->getNombre() + " al territorio " + territorioDestino->getNombre() + ".\n";
+            resultado += "Se han movido " + std::to_string(cantidadFichas) + " fichas del territorio " + territorioOrigen->getNombre() + " al territorio " + territorioConquistado->getNombre() + ".\n";
         } else {
             // Agregar mensaje de error al resultado
             resultado += "El territorio de origen no tiene suficientes fichas.\n";
