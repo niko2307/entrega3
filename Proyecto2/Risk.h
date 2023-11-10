@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <queue>
+#include<stdlib.h>
 #include <string>
 #include "Jugador.h"
 #include "Carta.h"
@@ -20,6 +21,7 @@ public:
     //crear/inicializar
     void crearContinente();
     void InicializarTerritoriosColindantes(Risk* risk);
+    
     void CrearCartasJuego();
     void CrearJugador(std::string nombre, int qJugadores);
     int QTropasIniciales(int qJugadores);

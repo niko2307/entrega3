@@ -25,7 +25,7 @@ public:
     std::string getReclamado();
     std::vector<Territorio*> getTerritoriosColindantes();
     
-    
+   
 private:
     std::string nombre;
     std::vector<Ficha> fichas;
