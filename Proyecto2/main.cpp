@@ -68,6 +68,7 @@ void turno (Risk* risk);
 void atacar(Risk* risk);
 
 string nombreArchivo;
+string identificante="";
 infodos inf;
  InformacionJugador jugadorInfo;
  ArbolHuffman<char> arbolHuffman;
@@ -425,18 +426,25 @@ int identificarComando(string cadena){
 
     if (respuesta == "inicializar" && qParametros(cadena) == true) { 
         valor=1;
+        identificante=cadena;
     } else if(respuesta == "inicializar"){
         valor=2;
+
     } else if (respuesta == "turno" && qParametros(cadena) == true) {   
         valor=3;   
+        identificante=cadena;
     } else if (respuesta == "salir") { 
         valor=4;
     } else if (respuesta == "guardar" && qParametros(cadena) == true) {
         valor=5;
+        identificante=cadena;
     } else if (respuesta == "guardar_comprimido" && qParametros(cadena) == true) {
         valor=6;
+        identificante=cadena;
     } else if (respuesta == "costo_conquista" && qParametros(cadena) == true) {
         valor=7;
+        identificante=cadena;
+
     } else if (respuesta == "conquista_mas_barata") {
         valor=8;
     } else if (respuesta == "help" && qParametros(cadena) == true && separarEspacio(cadena, true)=="help"){
@@ -647,19 +655,22 @@ void turno (Risk* risk){
   
   //std::vector<Territorio*> territoriosJ =risk->getJugador(risk->getNameJugadorEnTurno())->getTerritorios();
        bool Ganador = false;
-       std::string elegirFortificar= "",elegiratacar= "",jugar = "";
+       std::string elegirNuevasTropas= "", elegirFortificar= "",elegiratacar= "",jugar = "";
        do{
         system("cls");
         
        grafo.imprimirInformacionGrafo();
        int qtropas=risk->CantidadNuevasFICHASTropasxTurno(risk->getJugador(risk->getNameJugadorEnTurno())) ;
-      
+      std::cout<<"Nuevas Tropas Disponibles: "<<qtropas<<std::endl;
+      std::cout<<"Deseas ubicar tus Nuevas tropas?\nSI\nNO\n--|Si no ubicas tus Nuevas Tropas se perderan|--"<<std::endl;
+      elegirNuevasTropas = ingresarComando();
+      if(elegirNuevasTropas=="SI"){
      //std::cout<<"jugador "<<risk->getNameJugadorEnTurno()<<"\n cantidad de tropas disponibles : "<<qtropas<<std::endl;
      risk->AgregarFichasTropas(risk->getJugador(risk->getNameJugadorEnTurno()),qtropas) ;
       
       //se colocan las nuevas tropas
       UbicarTropas(risk, true);
-
+      }
 
 
 

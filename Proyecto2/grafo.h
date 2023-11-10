@@ -21,6 +21,7 @@ class Grafo{
         void inicializarGrafo(Risk* risk);
          void imprimirInformacionGrafo();
          void actualizarMatrizAdyacencia();
+        
 };
 
 
