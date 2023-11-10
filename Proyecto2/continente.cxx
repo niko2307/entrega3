@@ -79,3 +79,10 @@ std::vector<Territorio> Continente::GetTerritorios() {
     return territorios;
 }
 
+std::vector<Territorio*> Continente::GetPTerritorios() {
+    std::vector<Territorio*> pTerritorios;
+    for (Territorio& territorio : territorios) {
+        pTerritorios.push_back(&territorio);
+    }
+    return pTerritorios;
+}

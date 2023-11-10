@@ -19,6 +19,7 @@ public:
     int getFichasEnTerritorio(int indice);
     int getTerritoriosOcupados();
     std::vector<Territorio> GetTerritorios();
+    std::vector<Territorio*> GetPTerritorios();
 
     void ocuparTerritorio(Ficha ficha, int nTerritorio, std::string nombreJugador); 
     void InicializarTerritorio( std::string nombre);

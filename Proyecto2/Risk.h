@@ -79,6 +79,7 @@ public:
     Jugador* getJugador(std::string nombreJugador);
     Jugador* territorioPerteneceAJugador(Territorio* territorio);
     Continente* getContinentedelPais(std::string nombreTerritorio);
+    std::vector <Continente*> getContinentes();
     int getGrupo_de_Cartas();
 
     // Funciones extras

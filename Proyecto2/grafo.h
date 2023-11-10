@@ -19,7 +19,8 @@ class Grafo{
     public:
         Grafo();
         void inicializarGrafo(Risk* risk);
-
+         void imprimirInformacionGrafo();
+         void actualizarMatrizAdyacencia();
 };
 
 

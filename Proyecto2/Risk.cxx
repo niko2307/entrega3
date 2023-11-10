@@ -1231,3 +1231,10 @@ Continente* Risk::getContinentedelPais(std::string nombreTerritorio) {
     return nullptr; // Si no se encuentra el continente
 }
 
+std::vector<Continente*> Risk::getContinentes() {
+    std::vector<Continente*> listaContinentes;
+    for (Continente& continente : continentes) {
+        listaContinentes.push_back(&continente);
+    }
+    return listaContinentes;
+}
