@@ -1,7 +1,9 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 
-#include<vector>
+#include <queue>
+#include <vector>
+#include <limits>
 #include<stdlib.h>
 #include <iostream>
 #include"Continente.h"
@@ -21,7 +23,10 @@ class Grafo{
         void inicializarGrafo(Risk* risk);
          void imprimirInformacionGrafo();
          void actualizarMatrizAdyacencia();
-        
+        int indiceTerritoriosMatrizAristas(Territorio* territorio);
+        int indiceColindantesMatrizAristas(Territorio* territorio);
+        std::vector<Territorio*> buscarCaminoDijkstra(Territorio* territorioOrigen, Territorio* territorioDestino); 
+ 
 };
 
 

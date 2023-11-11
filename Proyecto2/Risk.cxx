@@ -56,7 +56,7 @@ bool Risk::estadoGanador(){
 
 //pone el contador de turnos en cero para volver a empezar desde el jugador 0
 void Risk::turnosEnCero(){
-  Totalturnos = 0;
+  Totalturnos = 1;
 }
 
 void Risk::crearContinente() {
@@ -68,7 +68,7 @@ void Risk::crearContinente() {
     continente1.InicializarTerritorio("alaska");
 
     continente1.InicializarTerritorio("alberta");
-    /*
+    
     continente1.InicializarTerritorio("america central");
     continente1.InicializarTerritorio("estados unidos orientales");
     continente1.InicializarTerritorio("groenlandia");
@@ -76,54 +76,54 @@ void Risk::crearContinente() {
     continente1.InicializarTerritorio("ontario");
     continente1.InicializarTerritorio("quebec");
     continente1.InicializarTerritorio("estados unidos occidentales");
-    */
+    
 
   //Continente de europa 
    Continente continente2 ("europa");
 
     continente2.InicializarTerritorio("gran bretana");
-    /*
+    
     continente2.InicializarTerritorio("islandia");
     continente2.InicializarTerritorio("europa del norte");
     continente2.InicializarTerritorio("escandinavia");
     continente2.InicializarTerritorio("europa del sur");
     continente2.InicializarTerritorio("ucrania");
     continente2.InicializarTerritorio("europa occidental");
-    */
+    
 
   //Continente de America del sur 
     Continente continente3 ("america del sur");
     continente3.InicializarTerritorio("argentina");
-    /*
+    
     continente3.InicializarTerritorio("brasil");
     continente3.InicializarTerritorio("colombia");
     continente3.InicializarTerritorio("peru");
-    */
+    
 
   //continente de Africa 
     Continente continente4 ("africa");
     continente4.InicializarTerritorio("congo");
-    /*
+    
     continente4.InicializarTerritorio("africa oriental");
     continente4.InicializarTerritorio("egipto");
     continente4.InicializarTerritorio("madagascar");
     continente4.InicializarTerritorio("africa del norte");
-    s
+    
     continente4.InicializarTerritorio("africa del sur");
-    */
+    
   //continete de Oceania
    Continente continente5 ("australia");
     continente5.InicializarTerritorio("australia oriental");
-    /*
+    
     continente5.InicializarTerritorio("indonesia");
     continente5.InicializarTerritorio("nueva guinea");
     continente5.InicializarTerritorio("australia occidental");
-    */
+    
 
     //continente de Asia 
     Continente continente6 ("asia");
     continente6.InicializarTerritorio("afghanistan");
-    /*
+    
     continente6.InicializarTerritorio("china");
     continente6.InicializarTerritorio("india");
     continente6.InicializarTerritorio("irkutsk");
@@ -135,7 +135,7 @@ void Risk::crearContinente() {
     continente6.InicializarTerritorio("siberia");
     continente6.InicializarTerritorio("ural");
     continente6.InicializarTerritorio("yakutsk");
-    */
+    
    // Agregar los continentes al tablero del juego
     continentes.push_back(continente1);
     continentes.push_back(continente2);
@@ -211,7 +211,7 @@ Territorio* afghanistan = risk->getTerritorio("asia", "afghanistan");
 // América del Norte
 alaska->setTerritoriosColindantes(alberta);
 alberta->setTerritoriosColindantes(alaska);
-/*
+
 alaska->setTerritoriosColindantes(territorioNoroccidental);
 alaska->setTerritoriosColindantes(kamchatka);
 
@@ -457,7 +457,7 @@ nuevaGuinea->setTerritoriosColindantes(australiaOriental);
 australiaOccidental->setTerritoriosColindantes(nuevaGuinea);
 australiaOccidental->setTerritoriosColindantes(australiaOriental);
 australiaOccidental->setTerritoriosColindantes(indonesia);
-*/
+
 }
 
 
@@ -713,17 +713,18 @@ int Risk::getFichasJugadorEnTurno(){
 }
 
 void Risk::turnoJugado(){
-  
+  std::cout<<"entro turno"<<std::endl;
   Jugador* aux=getJugador(this->getNameJugadorEnTurno());
-  
-  Carta card = this->Cartas.front();
-  
-  aux->agregarCarta(card);
-  
-  this->Cartas.pop();
+  std::cout<<"no carta"<<std::endl;
+
+  //Carta card = this->Cartas.front();
+
+  //aux->agregarCarta(card);
+   std::cout<<"carta"<<std::endl;
+  //this->Cartas.pop();
   Totalturnos+=1;
   turnoActual=Totalturnos%jugadores.size();
-  
+  std::cout<<"salir turno"<<std::endl;
 }
 
 
@@ -1238,3 +1239,19 @@ std::vector<Continente*> Risk::getContinentes() {
     }
     return listaContinentes;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

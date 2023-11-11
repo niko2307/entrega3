@@ -67,6 +67,8 @@ void fortificar(Risk* risk);
 void turno (Risk* risk);
 void atacar(Risk* risk);
 
+void costo_conquista(Risk* risk,std::string NTerritorio);
+
 string nombreArchivo;
 string identificante="";
 infodos inf;
@@ -98,7 +100,7 @@ grafo.inicializarGrafo(&risk);
     string turnoAux;
     //indica si hay algún ganador
     int ganador = -1;
-     
+     string Nombrevar;
     
 
     do {
@@ -132,6 +134,7 @@ grafo.inicializarGrafo(&risk);
                 break;
               //turno id_jugador
             case 3:
+            risk.turnosEnCero();
                 turnoAux = separarEspacio(respuesta, true);
 
                 if(!risk.estadoPartida()){
@@ -179,8 +182,15 @@ grafo.inicializarGrafo(&risk);
                 break;
               //costo_conquista <territorio>
             case 7:
-            
-                std::cout << "comando exitoso\n" << "costo_conquista <territorio>\n";
+              Nombrevar=identificante;
+              if(!risk.estadoGanador()){
+                    std::cout << "comando exitoso\n" << "costo_conquista <territorio>\n";
+                    
+                    costo_conquista(& risk,Nombrevar);
+
+                }else if (risk.estadoGanador()){}
+                    std::cout<<"-** Esta partida ya tuvo un ganador **-\n";
+                
                 break;
               //conquista_mas_barata
             case 8:
@@ -351,6 +361,7 @@ string separarEspacio(string cadena, bool parametro) {
             comando = cadena.substr(0, separar);
         } else {
             comando = cadena.substr(separar + 1);
+            identificante=comando;
         }
     }
     return comando;
@@ -407,9 +418,11 @@ bool qParametros(string respuesta) {
     for (int i = 0; i < respuesta.length(); i++) {
         if (respuesta[i] == ' ') {
             espacios++;
+            
         }
     }
-
+  
+ 
     if (espacios == 1 && p2 != "") {
         return true;
     }
@@ -426,24 +439,24 @@ int identificarComando(string cadena){
 
     if (respuesta == "inicializar" && qParametros(cadena) == true) { 
         valor=1;
-        identificante=cadena;
+        
     } else if(respuesta == "inicializar"){
         valor=2;
 
     } else if (respuesta == "turno" && qParametros(cadena) == true) {   
         valor=3;   
-        identificante=cadena;
+        
     } else if (respuesta == "salir") { 
         valor=4;
     } else if (respuesta == "guardar" && qParametros(cadena) == true) {
         valor=5;
-        identificante=cadena;
+       
     } else if (respuesta == "guardar_comprimido" && qParametros(cadena) == true) {
         valor=6;
-        identificante=cadena;
+       
     } else if (respuesta == "costo_conquista" && qParametros(cadena) == true) {
         valor=7;
-        identificante=cadena;
+       
 
     } else if (respuesta == "conquista_mas_barata") {
         valor=8;
@@ -641,8 +654,12 @@ void UbicarTropas(Risk* risk, bool inicializar){
 
     risk->moverFichasDisponiblesNuevoTerritorio(qFichas, continente, territorio);
 
-    if(inicializar && risk->getFichasJugadorEnTurno()==0)
-        risk->turnoJugado();
+    if(inicializar && risk->getFichasJugadorEnTurno()==0){
+      risk->turnoJugado();
+
+
+    }
+        
         system("cls");
 
 
@@ -669,7 +686,7 @@ void turno (Risk* risk){
      risk->AgregarFichasTropas(risk->getJugador(risk->getNameJugadorEnTurno()),qtropas) ;
       
       //se colocan las nuevas tropas
-      UbicarTropas(risk, true);
+      UbicarTropas(risk, false);
       }
 
 
@@ -711,10 +728,12 @@ std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
     
 
     risk->evaluarexistenciaGanador();
+    
     //VERIFICAR SI EXISTE UN GANADOR
     Ganador=risk->estadoGanador();
+    std::cout<<"se reviso existencia ganador"<<std::endl;
     risk->turnoJugado();
-
+  std::cout<<"se reviso existencia ganador"<<std::endl;
 
     std::cout<<"Quieres seguir jugando?\n"<<"continuar-pasar al siguiente turno\n"<<"salir-salir del juego\n"<<std::endl;
     jugar = ingresarComando();
@@ -921,4 +940,61 @@ if(nombreTerritorioOrigen!="salir"){
 
 
 }
+
+void costo_conquista(Risk* risk, std::string NTerritorio) {
+ std::cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
+        <<"\n  Color: "<<risk->getColorJugadorEnTurno()
+        <<"\n  Fichas disponibles: "<<risk->getFichasJugadorEnTurno()<<std::endl;
+       
+
+    std::cout<<risk->buscarterritoriosJugador();
+  
+/*
+  std::string prueba;
+  std::cout<<NTerritorio<<std::endl;
+  cin>>prueba;
+*/
+
+    Jugador* jugador = risk->getJugador(risk->getNameJugadorEnTurno());
+    std::vector<Territorio*> territorios_jugador = jugador->GetTerritorios();
+
+    Continente* cont = risk->getContinentedelPais(NTerritorio);
+    Territorio* territorioatacado = risk->getTerritorio(cont->GetNombreContinente(), NTerritorio);
+
+    if (NTerritorio != territorioatacado->getNombre()) {
+        std::cout << "Este territorio no está disponible." << std::endl;
+        return;
+    } else {
+        // Inicializar información del camino con el costo mínimo
+        int costoMinimo = 1000000;  // Puedes ajustar este valor según tus necesidades
+        std::vector<Territorio*> caminoMinimo;
+
+        for (int i = 0; i < territorios_jugador.size(); i++) {
+            std::vector<Territorio*> caminoActual = grafo.buscarCaminoDijkstra(territorios_jugador[i], territorioatacado);
+
+            // Calcular el costo total en base a las fichas del territorio
+            int costoTotal = 0;
+            for (int j = 0; j < caminoActual.size(); ++j) {
+                costoTotal += caminoActual[j]->GetQFichas();
+            }
+
+            // Comparar con el mínimo actual
+            if (costoTotal < costoMinimo) {
+                costoMinimo = costoTotal;
+                caminoMinimo = caminoActual;
+            }
+        }
+
+        // Imprimir la información del camino con el costo mínimo
+        std::cout << "Camino más corto con menor costo total desde " << territorios_jugador[0]->getNombre() << " hasta " << territorioatacado->getNombre() << ": ";
+        for (int j = 0; j < caminoMinimo.size(); ++j) {
+            std::cout << caminoMinimo[j]->getNombre();
+            if (j < caminoMinimo.size() - 1) {
+                std::cout << " -> ";
+            }
+        }
+        std::cout << " (Costo total: " << costoMinimo << ")" << std::endl;
+    }
+}
+
 
