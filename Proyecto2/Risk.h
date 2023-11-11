@@ -55,7 +55,7 @@ public:
     
 
     // Funciones buscar de información
-    
+    std::string imprimirJugadoresInformacion();
     std::string infoJug();
     std::string getNameJugadorEnTurno();
     std::string getColorJugadorEnTurno();

@@ -104,6 +104,11 @@ grafo.inicializarGrafo(&risk);
     
 
     do {
+      
+      //std::cout<<"\t\tTURNO DEL JUGADOR "<<risk.getNameJugadorEnTurno()<<std::endl;
+    
+      std::cout<<risk.imprimirJugadoresInformacion()<<std::endl;
+      std::cout<<"Introduce un comando Risk:"<<std::endl;
         respuesta = ingresarComando();
         valor = identificarComando(respuesta);
         grafo.actualizarMatrizAdyacencia();

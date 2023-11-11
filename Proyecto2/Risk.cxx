@@ -1240,9 +1240,26 @@ std::vector<Continente*> Risk::getContinentes() {
     return listaContinentes;
 }
 
+std::string Risk::imprimirJugadoresInformacion() {
+    std::string informacionJugadores;
 
+    for (int i = 0; i < jugadores.size(); i++) {
+        informacionJugadores += "Jugador: " + jugadores[i].GetNombreJugador() + "\n";
+        informacionJugadores += "Color: " + jugadores[i].GetColor() + "\n";
 
+        informacionJugadores += "Territorios: ";
+        std::vector<Territorio*> territorios = jugadores[i].GetTerritorios();
+        for (int j = 0; j < territorios.size(); j++) {
+            informacionJugadores += territorios[j]->getNombre();
+            if (j != territorios.size() - 1) {
+                informacionJugadores += ", ";
+            }
+        }
+        informacionJugadores += "\n\n";
+    }
 
+    return informacionJugadores;
+}
 
 
 
