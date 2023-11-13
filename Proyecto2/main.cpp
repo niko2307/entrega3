@@ -190,7 +190,7 @@ grafo.inicializarGrafo(&risk);
               Nombrevar=identificante;
               if(!risk.estadoGanador()){
                     std::cout << "comando exitoso\n" << "costo_conquista <territorio>\n";
-                    
+                    std::cout<<identificante<<std::endl;
                     costo_conquista(& risk,Nombrevar);
 
                 }else if (risk.estadoGanador()){}
@@ -947,6 +947,7 @@ if(nombreTerritorioOrigen!="salir"){
 }
 
 void costo_conquista(Risk* risk, std::string NTerritorio) {
+  system("cls");
  std::cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
         <<"\n  Color: "<<risk->getColorJugadorEnTurno()
         <<"\n  Fichas disponibles: "<<risk->getFichasJugadorEnTurno()<<std::endl;
@@ -964,9 +965,9 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
     std::vector<Territorio*> territorios_jugador = jugador->GetTerritorios();
 
     Continente* cont = risk->getContinentedelPais(NTerritorio);
-    Territorio* territorioatacado = risk->getTerritorio(cont->GetNombreContinente(), NTerritorio);
-
-    if (NTerritorio != territorioatacado->getNombre()) {
+    Territorio* territoriodestino = risk->getTerritorio(cont->GetNombreContinente(), NTerritorio);
+    if(risk->territorioPerteneceAJugador( territoriodestino)->GetNombreJugador()!=jugador->GetNombreJugador()){
+    if (NTerritorio != territoriodestino->getNombre()) {
         std::cout << "Este territorio no está disponible." << std::endl;
         return;
     } else {
@@ -975,7 +976,7 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
         std::vector<Territorio*> caminoMinimo;
 
         for (int i = 0; i < territorios_jugador.size(); i++) {
-            std::vector<Territorio*> caminoActual = grafo.buscarCaminoDijkstra(territorios_jugador[i], territorioatacado);
+            std::vector<Territorio*> caminoActual = grafo.buscarCaminoDijkstra(territorios_jugador[i], territoriodestino);
 
             // Calcular el costo total en base a las fichas del territorio
             int costoTotal = 0;
@@ -991,7 +992,7 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
         }
 
         // Imprimir la información del camino con el costo mínimo
-        std::cout << "Camino más corto con menor costo total desde " << territorios_jugador[0]->getNombre() << " hasta " << territorioatacado->getNombre() << ": ";
+        std::cout << "Camino más corto con menor costo total desde " << territorios_jugador[0]->getNombre() << " hasta " << territoriodestino->getNombre() << ": ";
         for (int j = 0; j < caminoMinimo.size(); ++j) {
             std::cout << caminoMinimo[j]->getNombre();
             if (j < caminoMinimo.size() - 1) {
@@ -999,6 +1000,9 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
             }
         }
         std::cout << " (Costo total: " << costoMinimo << ")" << std::endl;
+    }
+    }else {
+      std::cout<<"este territorio ya pertenece al jugador"<<std::endl;
     }
 }
 
