@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include<string.h>
 #include <sstream>
 #include <string>
 #include "Risk.h"
@@ -43,7 +44,7 @@ struct InformacionJugador {
 
 string ingresarComando();
 void mensajeBienvenida();
-int identificarComando(string cadena);
+int identificarComando(char comadno[20][100],string cadena);
 string separarEspacio(string cadena, bool parametro);
 bool qParametros(string respuesta);
 void crearArchivo(const string& nombreArchivo);
@@ -76,7 +77,8 @@ infodos inf;
  ArbolHuffman<char> arbolHuffman;
  Risk risk;
  Grafo grafo;
-  
+  char comand[100];
+  char palabra[20][100];
 int main() {
   
   //instancia para la clase risk
@@ -106,18 +108,64 @@ grafo.inicializarGrafo(&risk);
     do {
       
       //std::cout<<"\t\tTURNO DEL JUGADOR "<<risk.getNameJugadorEnTurno()<<std::endl;
-    
-      std::cout<<risk.imprimirJugadoresInformacion()<<std::endl;
+      std::cout<<"Quieres ver como va la informacion de los jugadores\nsi\nno"<<std::endl;
+      std::string elecinfojug=ingresarComando();
+      if(elecinfojug=="si"){
+        system("cls");
+          std::cout<<risk.imprimirJugadoresInformacion()<<std::endl;
+          
+      }
+
+      
       std::cout<<"Introduce un comando Risk:"<<std::endl;
-        respuesta = ingresarComando();
-        valor = identificarComando(respuesta);
-        grafo.actualizarMatrizAdyacencia();
+
+        //respuesta = ingresarComando();
         
+      char palabras[20][100]; // Donde se van a guardar las palabras
+		for (int i = 0; i < 20; i++)
+		{
+			strcpy(palabras[i], " "); // limpia arreglo
+		}
+		cout << endl
+			 << "$";
+		cin.getline(comand, sizeof(comand));
+		char *p;
+		int contador = 0;
+		p = strtok(comand, " ");
+		while (p != NULL)
+		{ // Realiza separacion del comando por espacios
+			strcpy(palabras[contador], p);
+			contador++;
+			p = strtok(NULL, " ");
+		}
+
+    //para guardar el valor complementario del comando
+    if((strcmp(palabras[3], " ") != 0)){
+      identificante=palabras[1];
+    identificante+=" ";
+    identificante+=palabras[2];
+    identificante+=" ";
+    identificante+=palabras[3];
+    }else if(strcmp(palabras[2], " ") != 0){
+    identificante=palabras[1];
+    identificante+=" ";
+    identificante+=palabras[2];
+    }else if(strcmp(palabras[1], " ") != 0){
+      identificante=palabras[1];
+    }
+    
+    
+    respuesta=palabras[0];
+    
+    
+        valor = identificarComando(palabras,respuesta);
+        grafo.actualizarMatrizAdyacencia();
+        system("cls");
         switch (valor) {
             //inicializar con archivo
             case 1:
                 {
-                    string nombreArchivo = separarEspacio(respuesta, true);
+                    string nombreArchivo = identificante;
         
                     leerArchivo(nombreArchivo);
                 }
@@ -140,7 +188,7 @@ grafo.inicializarGrafo(&risk);
               //turno id_jugador
             case 3:
             risk.turnosEnCero();
-                turnoAux = separarEspacio(respuesta, true);
+                turnoAux = identificante;
 
                 if(!risk.estadoPartida()){
                     std::cout<<"-** Esta partida no ha sido inicializada correctamente **-\n";
@@ -167,7 +215,7 @@ grafo.inicializarGrafo(&risk);
                  
             case 5: 
                 {
-                string nombreArchivo = separarEspacio(respuesta, true);
+                string nombreArchivo = identificante;
                 crearArchivo(nombreArchivo );
                    
                 }
@@ -176,7 +224,7 @@ grafo.inicializarGrafo(&risk);
             case 6: 
                 {
                   
-                  nombreArchivo = separarEspacio(respuesta, true);
+                  nombreArchivo = identificante;
                   vector<pair<char, int>> frecuencias = arbolHuffman.calcularFrecuencias(nombreArchivo);
                   arbolHuffman.construirArbol(frecuencias);
                   jugadorInfo.nombre = arbolHuffman.codificar(nombreArchivo);
@@ -193,9 +241,9 @@ grafo.inicializarGrafo(&risk);
                     std::cout<<identificante<<std::endl;
                     costo_conquista(& risk,Nombrevar);
 
-                }else if (risk.estadoGanador()){}
+                }else if (risk.estadoGanador()){
                     std::cout<<"-** Esta partida ya tuvo un ganador **-\n";
-                
+                }
                 break;
               //conquista_mas_barata
             case 8:
@@ -204,6 +252,8 @@ grafo.inicializarGrafo(&risk);
 
             case 9:
                 std::cout << "comando exitoso" << endl;
+                std::cout << "help <comando>: Proporciona información de ayuda para los comandos de Risk.\n\nComandos disponibles:\n";
+
                 break;
 
             
@@ -220,7 +270,7 @@ grafo.inicializarGrafo(&risk);
                 break;
 
           case 11:
-            mostrarAyudaComando(respuesta.substr(respuesta.find(' ')));
+            mostrarAyudaComando(identificante);
             break;
 
             default:
@@ -358,6 +408,7 @@ void leerArchivo(const string &nombreArchivo)
 }
 
 string separarEspacio(string cadena, bool parametro) {
+
     string comando = cadena;
     size_t separar = cadena.find(' ');
 
@@ -372,8 +423,8 @@ string separarEspacio(string cadena, bool parametro) {
     return comando;
 }
 
-void mostrarAyudaComando(const string& comando) {
-  string com = separarEspacio(comando, true);
+void mostrarAyudaComando(const string& com) {
+  
   std::cout << endl;
     if (com == "inicializar") {
         std::cout << "inicializar <nombre_archivo>\n\n";
@@ -437,39 +488,39 @@ bool qParametros(string respuesta) {
 
 
 //recibe la primera parte del comando ingresado por el usuario y identificar a cual tipo corresponde
-int identificarComando(string cadena){
+int identificarComando(char palabras[20][100],std::string cadena){
     //guarda lo que ingresa el usuario
     string respuesta = separarEspacio(cadena, false);
     int valor=0;
 
-    if (respuesta == "inicializar" && qParametros(cadena) == true) { 
+    if (respuesta == "inicializar" && strcmp(palabras[1], " ") != 0) { 
         valor=1;
         
     } else if(respuesta == "inicializar"){
         valor=2;
 
-    } else if (respuesta == "turno" && qParametros(cadena) == true) {   
+    } else if (respuesta == "turno" && strcmp(palabras[1], " ") != 0) {   
         valor=3;   
         
     } else if (respuesta == "salir") { 
         valor=4;
-    } else if (respuesta == "guardar" && qParametros(cadena) == true) {
+    } else if (respuesta == "guardar" && strcmp(palabras[1], " ") != 0) {
         valor=5;
        
-    } else if (respuesta == "guardar_comprimido" && qParametros(cadena) == true) {
+    } else if (respuesta == "guardar_comprimido" && strcmp(palabras[1], " ") != 0) {
         valor=6;
        
-    } else if (respuesta == "costo_conquista" && qParametros(cadena) == true) {
+    } else if (respuesta == "costo_conquista" && strcmp(palabras[1], " ") != 0) {
         valor=7;
        
 
     } else if (respuesta == "conquista_mas_barata") {
         valor=8;
-    } else if (respuesta == "help" && qParametros(cadena) == true && separarEspacio(cadena, true)=="help"){
+    } else if (respuesta == "comandohelp"){
         valor=9;
-    } else if (respuesta.substr(0, respuesta.find(' ')) == "help" && qParametros(cadena) == false){
+    } else if (respuesta == "help" && strcmp(palabras[1], " ") == 0){
         valor = 10;
-    } else if (respuesta.substr(0, respuesta.find(' ')) == "help" && qParametros(cadena) == true) {
+    } else if (respuesta == "help" && strcmp(palabras[1], " ") != 0) {
       valor = 11;
     }
     return valor;
@@ -950,20 +1001,22 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
   system("cls");
  std::cout<<"\n  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
         <<"\n  Color: "<<risk->getColorJugadorEnTurno()
-        <<"\n  Fichas disponibles: "<<risk->getFichasJugadorEnTurno()<<std::endl;
+        <<"\n  Fichas disponibles: "<<risk->getFichasJugadorEnTurno()<<"\n\n"<<std::endl;
        
 
-    std::cout<<risk->buscarterritoriosJugador();
+   // std::cout<<risk->buscarterritoriosJugador();
   
 /*
   std::string prueba;
   std::cout<<NTerritorio<<std::endl;
   cin>>prueba;
 */
-
+    if(!(risk->getContinentedelPais(NTerritorio)) ||  !(risk->getTerritorio((risk->getContinentedelPais(NTerritorio))->GetNombreContinente(), NTerritorio) )){
+        std::cout<<"ESTE CONTINENTE NO EXISTE\n"<<std::endl;
+    }else{
     Jugador* jugador = risk->getJugador(risk->getNameJugadorEnTurno());
     std::vector<Territorio*> territorios_jugador = jugador->GetTerritorios();
-
+    
     Continente* cont = risk->getContinentedelPais(NTerritorio);
     Territorio* territoriodestino = risk->getTerritorio(cont->GetNombreContinente(), NTerritorio);
     if(risk->territorioPerteneceAJugador( territoriodestino)->GetNombreJugador()!=jugador->GetNombreJugador()){
@@ -992,7 +1045,7 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
         }
 
         // Imprimir la información del camino con el costo mínimo
-        std::cout << "Camino más corto con menor costo total desde " << territorios_jugador[0]->getNombre() << " hasta " << territoriodestino->getNombre() << ": ";
+        std::cout << "Camino más corto hasta " << territoriodestino->getNombre() << ": ";
         for (int j = 0; j < caminoMinimo.size(); ++j) {
             std::cout << caminoMinimo[j]->getNombre();
             if (j < caminoMinimo.size() - 1) {
@@ -1002,7 +1055,8 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
         std::cout << " (Costo total: " << costoMinimo << ")" << std::endl;
     }
     }else {
-      std::cout<<"este territorio ya pertenece al jugador"<<std::endl;
+      std::cout<<"\neste territorio ya pertenece al jugador\n"<<std::endl;
+    }
     }
 }
 
