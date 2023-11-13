@@ -236,6 +236,7 @@ grafo.inicializarGrafo(&risk);
               //costo_conquista <territorio>
             case 7:
               Nombrevar=identificante;
+              if(risk.estadoPartida()){
               if(!risk.estadoGanador()){
                     std::cout << "comando exitoso\n" << "costo_conquista <territorio>\n";
                     std::cout<<identificante<<std::endl;
@@ -243,6 +244,8 @@ grafo.inicializarGrafo(&risk);
 
                 }else if (risk.estadoGanador()){
                     std::cout<<"-** Esta partida ya tuvo un ganador **-\n";
+                }}else{
+                  std::cout<<"Esta partida todavia no se ha inicializado \n"<<std::endl;
                 }
                 break;
               //conquista_mas_barata
@@ -1045,7 +1048,7 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
         }
 
         // Imprimir la información del camino con el costo mínimo
-        std::cout << "Camino más corto hasta " << territoriodestino->getNombre() << ": ";
+        std::cout << "Para consquistar el territorio <" << territoriodestino->getNombre() << "> debes: ";
         for (int j = 0; j < caminoMinimo.size(); ++j) {
             std::cout << caminoMinimo[j]->getNombre();
             if (j < caminoMinimo.size() - 1) {
