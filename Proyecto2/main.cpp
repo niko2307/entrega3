@@ -57,18 +57,23 @@ void infoGuardar(void);
 void infoGuardarComprimido(void);
 void infoCostoConquista(void);
 void infoConquistaMasBarata(void);
-void crearArchivoBinario(const string& nombreArchivo,const   InformacionJugador& jugadorInfo);
-void crearArchivo(const string& nombreArchivo, const string& contenidoGuardar);
-//entrega 2
+
+//entrega 1
 void inicializarJuego(Risk* risk);
 void UbicarTropas(Risk* risk, bool inicializar);
-
 void fortificar(Risk* risk);
-
 void turno (Risk* risk);
 void atacar(Risk* risk);
 
+//entrega2
+void crearArchivoBinario(const string& nombreArchivo,const   InformacionJugador& jugadorInfo);
+void crearArchivo(const string& nombreArchivo, const string& contenidoGuardar);
+
+
+
+//entrega 3
 void costo_conquista(Risk* risk,std::string NTerritorio);
+void conquista_mas_barata(Risk* risk);
 
 string nombreArchivo;
 string identificante="";
@@ -250,8 +255,20 @@ grafo.inicializarGrafo(&risk);
                 break;
               //conquista_mas_barata
             case 8:
-                std::cout << "comando exitoso\n" << "conquista_mas_barata\n";
+                
+              if(risk.estadoPartida()){
+              if(!risk.estadoGanador()){
+                    std::cout << "comando exitoso\n" << "conquista_mas_barata\n";
+                    
+                    conquista_mas_barata(& risk);
+
+                }else if (risk.estadoGanador()){
+                    std::cout<<"-** Esta partida ya tuvo un ganador **-\n";
+                }}else{
+                  std::cout<<"Esta partida todavia no se ha inicializado \n"<<std::endl;
+                }
                 break;
+              //conquista_mas_barata
 
             case 9:
                 std::cout << "comando exitoso" << endl;
@@ -1063,4 +1080,6 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
     }
 }
 
+void conquista_mas_barata(Risk* risk){
 
+}
