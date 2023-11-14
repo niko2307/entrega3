@@ -1127,7 +1127,7 @@ void conquista_mas_barata(Risk* risk) {
     std::cout << "La conquista más barata disponible es avanzar sobre el territorio <" << caminoMinimo[caminoMinimo.size()-1]->getNombre() << ">"
               << " desde el territorio <" << caminoMinimo[0]->getNombre() << ">. Para conquistar el territorio <"
               << caminoMinimo[caminoMinimo.size()-1]->getNombre() << ">, debe atacar desde <" << caminoMinimo[0]->getNombre() << ">,"
-              << " pasando por los territorios: ";
+              << " pasando por los territorios: \n";
     
     for (int j = 0; j < caminoMinimo.size(); ++j) {
         std::cout << "<" << caminoMinimo[j]->getNombre() << ">";
@@ -1136,7 +1136,7 @@ void conquista_mas_barata(Risk* risk) {
         
     }
   
-    std::cout << ". Debe conquistar " << costoMinimo << " unidades de ejército." << std::endl;
+    std::cout << ".\n Debe conquistar " << costoMinimo << " unidades de ejército." << std::endl;
 std::string prueba;
   //std::cout<<territorios_jugador[i]->getNombre()<<territorio_Destino[k]->getNombre()<<std::endl;
  // cin>>prueba;
