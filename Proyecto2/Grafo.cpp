@@ -149,6 +149,7 @@ const int INFINITY_COST = 1000000;
         std::cout << "Territorios no válidos." << std::endl;
         return std::vector<Territorio*>();
     }
+   
 
     // Número de territorios en el grafo
     int numVertices = vertices.size();

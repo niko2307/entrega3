@@ -65,7 +65,7 @@ void fortificar(Risk* risk);
 void turno (Risk* risk);
 void atacar(Risk* risk);
 
-//entrega2
+//entrega 2
 void crearArchivoBinario(const string& nombreArchivo,const   InformacionJugador& jugadorInfo);
 void crearArchivo(const string& nombreArchivo, const string& contenidoGuardar);
 
@@ -1080,6 +1080,66 @@ void costo_conquista(Risk* risk, std::string NTerritorio) {
     }
 }
 
-void conquista_mas_barata(Risk* risk){
+void conquista_mas_barata(Risk* risk) {
+    system("cls");
+   
+    
+    Jugador* jugador = risk->getJugador(risk->getNameJugadorEnTurno());
+    std::vector<Territorio*> territorios_jugador = jugador->GetTerritorios();
+    
+    // Inicializar información del camino con el costo mínimo
+    int costoMinimo = 1000000;  // Puedes ajustar este valor según tus necesidades
+    std::vector<Territorio*> caminoMinimo;
+    std::vector<Continente*> conti =risk->getContinentes();
+    
+    for (int i = 0; i < territorios_jugador.size(); i++) {
+      
+        for (int j = 0; j < risk->getContinentes().size(); j++) {
+          
+              std::vector<Territorio*> territorio_Destino = conti[j]->GetPTerritorios();
+            for (int k = 0; k < territorio_Destino.size(); k++) {
+                
+                if (territorios_jugador[i]->getNombre()!=territorio_Destino[k]->getNombre()) {
+                    std::vector<Territorio*> caminoActual = grafo.buscarCaminoDijkstra(territorios_jugador[i], territorio_Destino[k]);
+                    
+  
+
+                    // Calcular el costo total en base a las fichas del territorio
+                    int costoTotal = 0;
+                    for (int l = 0; l < caminoActual.size(); ++l) {
+                        costoTotal += caminoActual[l]->GetQFichas();
+                    }
+                    
+                    // Comparar con el mínimo actual
+                    if (costoTotal < costoMinimo) {
+                        costoMinimo = costoTotal;
+                        caminoMinimo = caminoActual;
+                    }
+                }
+            }
+        }
+
+ 
+
+    }
+    
+    // Imprimir la información del camino con el costo mínimo
+    
+    std::cout << "La conquista más barata disponible es avanzar sobre el territorio <" << caminoMinimo[caminoMinimo.size()-1]->getNombre() << ">"
+              << " desde el territorio <" << caminoMinimo[0]->getNombre() << ">. Para conquistar el territorio <"
+              << caminoMinimo[caminoMinimo.size()-1]->getNombre() << ">, debe atacar desde <" << caminoMinimo[0]->getNombre() << ">,"
+              << " pasando por los territorios: ";
+    
+    for (int j = 1; j < caminoMinimo.size()-1; ++j) {
+        std::cout << "<" << caminoMinimo[j]->getNombre() << ">";
+        if (j < caminoMinimo.size() - 2) {
+            std::cout << ", ";
+        }
+    }
+  
+    std::cout << ". Debe conquistar " << costoMinimo << " unidades de ejército." << std::endl;
+std::string prueba;
+  //std::cout<<territorios_jugador[i]->getNombre()<<territorio_Destino[k]->getNombre()<<std::endl;
+ // cin>>prueba;
 
 }
