@@ -1119,7 +1119,6 @@ void conquista_mas_barata(Risk* risk) {
             }
         }
 
- 
 
     }
     
@@ -1130,11 +1129,11 @@ void conquista_mas_barata(Risk* risk) {
               << caminoMinimo[caminoMinimo.size()-1]->getNombre() << ">, debe atacar desde <" << caminoMinimo[0]->getNombre() << ">,"
               << " pasando por los territorios: ";
     
-    for (int j = 1; j < caminoMinimo.size()-1; ++j) {
+    for (int j = 0; j < caminoMinimo.size(); ++j) {
         std::cout << "<" << caminoMinimo[j]->getNombre() << ">";
-        if (j < caminoMinimo.size() - 2) {
-            std::cout << ", ";
-        }
+        
+            std::cout << "-> ";
+        
     }
   
     std::cout << ". Debe conquistar " << costoMinimo << " unidades de ejército." << std::endl;
