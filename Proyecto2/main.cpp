@@ -68,6 +68,7 @@ void atacar(Risk* risk);
 //entrega 2
 void crearArchivoBinario(const string& nombreArchivo,const   InformacionJugador& jugadorInfo);
 void crearArchivo(const string& nombreArchivo, const string& contenidoGuardar);
+void escribirEnArchivoBinario(const std::string& texto, std::ofstream& archivo);
 
 
 
@@ -334,54 +335,38 @@ void crearArchivo(const string& nombreArchivo) {
 //permite crear un archivo
 
 
+void escribirEnArchivoBinario(const std::string& texto, std::ofstream& archivo) {
+    archivo.write(texto.c_str(), texto.size());
+    archivo.write("\n", 1);
+}
+
+
+
 void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJugador& jugadorInfo) {
     try {
-        std::ofstream archivo(nombreArchivo, std::ios::binary | std::ios::app);
+        std::ofstream archivo(nombreArchivo , std::ios::binary | std::ios::app);
         if (archivo.is_open()) {
-            archivo.write(jugadorInfo.nombre.c_str(), jugadorInfo.nombre.size());
-            archivo.write(jugadorInfo.jugadores.c_str(), jugadorInfo.jugadores.size());
-            archivo.write("\n", 1);
-
-            archivo.write(jugadorInfo.nombrejug.c_str(), jugadorInfo.nombrejug.size());
-            archivo.write("\n", 1);
-
-            archivo.write(jugadorInfo.color.c_str(), jugadorInfo.color.size());
-            archivo.write("\n", 1);
-
-            archivo.write(jugadorInfo.cantidadPaises.c_str(), jugadorInfo.cantidadPaises.size());
-            archivo.write("\n", 1);
-
-            archivo.write(jugadorInfo.jugadort.c_str(), jugadorInfo.jugadort.size());
-            archivo.write("\n", 1);
+            escribirEnArchivoBinario(jugadorInfo.nombre, archivo);
+            escribirEnArchivoBinario(jugadorInfo.jugadores, archivo);
+            escribirEnArchivoBinario(jugadorInfo.nombrejug, archivo);
+            escribirEnArchivoBinario(jugadorInfo.color, archivo);
+            escribirEnArchivoBinario(jugadorInfo.cantidadPaises, archivo);
+            escribirEnArchivoBinario(jugadorInfo.jugadort, archivo);
 
             // Escribe las líneas de territorios con cambio de línea cada 8 bits
-            for (const std::string& codigoCantidadPaises : jugadorInfo.territorios) {
-                int contadorBits = 0;
-                for (char bit : codigoCantidadPaises) {
-                    archivo.write(&bit, 1);
-                    contadorBits++;
-                    if (contadorBits % 8 == 0) {
-                        archivo.write("\n", 1);
-                    }
-                }
+            for (const std::string& territorio : jugadorInfo.territorios) {
+                escribirEnArchivoBinario(territorio, archivo);
             }
 
             // Escribe las líneas de cantidades de ejército con cambio de línea cada 8 bits
-            for (const std::string& codigoCantidadeje : jugadorInfo.cantidadEjercito) {
-                int contadorBits = 0;
-                for (char bit : codigoCantidadeje) {
-                    archivo.write(&bit, 1);
-                    contadorBits++;
-                    if (contadorBits % 8 == 0) {
-                        archivo.write("\n", 1);
-                    }
-                }
+            for (const std::string& cantidadEjercito : jugadorInfo.cantidadEjercito) {
+                escribirEnArchivoBinario(cantidadEjercito, archivo);
             }
 
             archivo.write("\n", 1); // Agrega una línea para separar las entradas de diferentes jugadores
 
             archivo.close();
-            std::cout << "La partida ha sido guardada correctamente en " << nombreArchivo << "_codificado.bin." << std::endl;
+            std::cout << "La partida ha sido guardada correctamente en " << nombreArchivo  << std::endl;
         } else {
             std::cout << "No se pudo abrir el archivo para escritura." << std::endl;
         }
@@ -391,40 +376,47 @@ void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJuga
 }
 
 void leerArchivo(const std::string& nombreArchivo) {
-    std::cout << "Ingrese qué tipo de archivo desea leer: \n"
-              << "1. Archivo de texto\n"
-              << "2. Archivo binario\n";
+    std::ifstream archivo(nombreArchivo, std::ios::binary);
 
-    int opcion;
-    std::cin >> opcion;
-
-    if (opcion != 1 && opcion != 2) {
-        std::cerr << "Opción no válida." << std::endl;
+    if (!archivo) {
+        std::cerr << "Error: no se pudo abrir el archivo " << nombreArchivo << std::endl;
         return;
     }
 
-    std::ifstream archivo(nombreArchivo, std::ios::binary);
+    // Intentamos determinar si el archivo es binario mirando la extensión
+    bool esBinario = (nombreArchivo.length() > 4) && (nombreArchivo.substr(nombreArchivo.length() - 4) == ".bin");
+    // Tamaño del bloque en bytes (64 bits)
+    constexpr std::size_t tamanoBloque = 8;
 
-    if (archivo) {
-        std::string linea;
+    // Buffer para leer el bloque
+    char buffer[tamanoBloque];
 
-        while (std::getline(archivo, linea)) {
-            if (opcion == 2) {
-                // Decodifica la cadena de bits y muestra la palabra decodificada
-                std::string decoded=arbolHuffman.decodificar(linea);
-                std::cout << "Decodificado: " << decoded << std::endl;
-            } else if (opcion == 1) {
-                // Si es un archivo de texto, simplemente imprime el contenido de la línea
-                std::cout << linea << std::endl;
+    std::string bloqueActual;  // Para almacenar el bloque actual a decodificar
+
+    while (archivo.read(buffer, tamanoBloque)) {
+        if (esBinario) {
+            // Construye el bloque de 64 bits
+            bloqueActual.append(buffer, tamanoBloque);
+
+            // Si el bloqueActual tiene 64 bits, decodifícalo y muestra el resultado
+            if (bloqueActual.size() == tamanoBloque) {
+                std::string resultado = arbolHuffman.decodificar(bloqueActual);
+                std::cout << "Decodificado: " << resultado << std::endl;
+                // Aquí podrías manejar los datos decodificados según tus necesidades
+                // Por ejemplo, podrías montar los datos a la partida.
+
+                // Reinicia el bloqueActual para el próximo bloque
+                bloqueActual.clear();
             }
+        } else {
+            // Si es un archivo de texto, simplemente imprime el contenido del bloque
+            std::cout.write(buffer, tamanoBloque);
+            std::cout << std::endl;
         }
-
-        archivo.close();
-    } else {
-        std::cerr << "Error: no se pudo abrir el archivo " << nombreArchivo << std::endl;
     }
-}
 
+    archivo.close();
+}
 
 string separarEspacio(string cadena, bool parametro) {
 
@@ -591,20 +583,16 @@ void inicializarJuego(Risk* risk){
     vector<pair<char, int>> frecuencias = arbolHuffman.calcularFrecuencias(to_string(cantidadJugadores));
    arbolHuffman.construirArbol(frecuencias);
    jugadorInfo.jugadores=arbolHuffman.codificar(to_string(cantidadJugadores));
-  
-
- 
     inf.cantidadjug=cantidadJugadores;
 
   }while(cantidadJugadores<3 || cantidadJugadores>6);
 
-   ;
-
+   
 system("cls");
   for(int i=0; i<cantidadJugadores; i++){
     std::cout<<"Ingrese el nombre del jugador "<< i+1<<" : \n";
     nombreJug = ingresarComando();
-  inf.nombrejug.push_back(nombreJug);
+   inf.nombrejug.push_back(nombreJug);
    vector<pair<char, int>> frecuenciaNombre = arbolHuffman.calcularFrecuencias(nombreJug);
     arbolHuffman.construirArbol(frecuenciaNombre);
     jugadorInfo.nombrejug = arbolHuffman.codificar(nombreJug);
@@ -673,22 +661,18 @@ system("cls");
     inf.fichas=risk->getFichasJugadorEnTurno();
     inf.territorios.push_back(territorio);
     vector<pair<char, int>> frecuenciasTerritorio = arbolHuffman.calcularFrecuencias(territorio);
-   vector<pair<char, int>> frecuenciasColor = arbolHuffman.calcularFrecuencias(risk->getColorJugadorEnTurno());
-   vector<pair<char, int>> frecuenciasNombreJugador = arbolHuffman.calcularFrecuencias(risk->getColorJugadorEnTurno());
-  vector<pair<char, int>> frecuenciasFichas = arbolHuffman.calcularFrecuencias(to_string (risk->getFichasJugadorEnTurno()));
+    vector<pair<char, int>> frecuenciasColor = arbolHuffman.calcularFrecuencias(risk->getColorJugadorEnTurno());
+    vector<pair<char, int>> frecuenciasNombreJugador = arbolHuffman.calcularFrecuencias(risk->getColorJugadorEnTurno());
+   vector<pair<char, int>> frecuenciasFichas = arbolHuffman.calcularFrecuencias(to_string (risk->getFichasJugadorEnTurno()));
 
-   arbolHuffman.construirArbol(frecuenciasTerritorio);
-arbolHuffman.construirArbol(frecuenciasColor);
-arbolHuffman.construirArbol(frecuenciasNombreJugador);
-arbolHuffman.construirArbol(frecuenciasFichas);
+    arbolHuffman.construirArbol(frecuenciasTerritorio);
+     arbolHuffman.construirArbol(frecuenciasColor);
+    arbolHuffman.construirArbol(frecuenciasNombreJugador);
+    arbolHuffman.construirArbol(frecuenciasFichas);
 
-    jugadorInfo;
     jugadorInfo.territorios .push_back(arbolHuffman.codificar(territorio));
-   
     jugadorInfo.jugadort = arbolHuffman.codificar(risk->getNameJugadorEnTurno());
-    
     jugadorInfo.color = arbolHuffman.codificar(risk->getColorJugadorEnTurno());
-  
     jugadorInfo.cantidadPaises = arbolHuffman.codificar(to_string (risk->getFichasJugadorEnTurno()));
     
   }while(risk->ExistenterritoriosLibres());

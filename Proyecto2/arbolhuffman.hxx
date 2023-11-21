@@ -101,7 +101,6 @@ std::string ArbolHuffman<T>::codificar( const std::string& texto) {
         codigo += codigoCaracter;
     }
 
-    std::cout << "Se codificó" << std::endl;
 
     return codigo;
 }
@@ -159,7 +158,6 @@ std::string ArbolHuffman<T>::decodificar(std::string& codigo) {
         }
     }
 
-    std::cout << "Se descodificó" << std::endl;
 
     return textoDecodificado;
 }
