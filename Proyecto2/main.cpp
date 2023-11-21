@@ -328,10 +328,6 @@ void crearArchivo(const string& nombreArchivo) {
 }
 
 
-
-
-
-
 //permite crear un archivo
 
 
@@ -339,8 +335,6 @@ void escribirEnArchivoBinario(const std::string& texto, std::ofstream& archivo) 
     archivo.write(texto.c_str(), texto.size());
     archivo.write("\n", 1);
 }
-
-
 
 void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJugador& jugadorInfo) {
     try {
