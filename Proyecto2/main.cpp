@@ -334,14 +334,13 @@ void crearArchivo(const string& nombreArchivo) {
 //permite crear un archivo
 
 
-
 void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJugador& jugadorInfo) {
     try {
         std::ofstream archivo(nombreArchivo, std::ios::binary | std::ios::app);
         if (archivo.is_open()) {
             archivo.write(jugadorInfo.nombre.c_str(), jugadorInfo.nombre.size());
             archivo.write(jugadorInfo.jugadores.c_str(), jugadorInfo.jugadores.size());
-            archivo.write("\n", 1); // Cambio de línea después de cada cadena
+            archivo.write("\n", 1);
 
             archivo.write(jugadorInfo.nombrejug.c_str(), jugadorInfo.nombrejug.size());
             archivo.write("\n", 1);
@@ -355,25 +354,28 @@ void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJuga
             archivo.write(jugadorInfo.jugadort.c_str(), jugadorInfo.jugadort.size());
             archivo.write("\n", 1);
 
-            // Función auxiliar para escribir las líneas con cambio de línea cada 8 bits
-            auto escribirConSeparador = [&archivo](const std::string& linea) {
+            // Escribe las líneas de territorios con cambio de línea cada 8 bits
+            for (const std::string& codigoCantidadPaises : jugadorInfo.territorios) {
                 int contadorBits = 0;
-                for (char bit : linea) {
+                for (char bit : codigoCantidadPaises) {
                     archivo.write(&bit, 1);
                     contadorBits++;
                     if (contadorBits % 8 == 0) {
-                        archivo.write("\n", 1); // Cambio de línea cada 8 bits
+                        archivo.write("\n", 1);
                     }
                 }
-            };
-
-            // Escribe las líneas de territorios y cantidades de ejército
-            for (const std::string& codigoCantidadPaises : jugadorInfo.territorios) {
-                escribirConSeparador(codigoCantidadPaises);
             }
 
+            // Escribe las líneas de cantidades de ejército con cambio de línea cada 8 bits
             for (const std::string& codigoCantidadeje : jugadorInfo.cantidadEjercito) {
-                escribirConSeparador(codigoCantidadeje);
+                int contadorBits = 0;
+                for (char bit : codigoCantidadeje) {
+                    archivo.write(&bit, 1);
+                    contadorBits++;
+                    if (contadorBits % 8 == 0) {
+                        archivo.write("\n", 1);
+                    }
+                }
             }
 
             archivo.write("\n", 1); // Agrega una línea para separar las entradas de diferentes jugadores
@@ -389,7 +391,7 @@ void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJuga
 }
 
 //permite leer la información de un archivo
-void leerArchivo(const std::string &nombreArchivo) {
+void leerArchivo(const std::string& nombreArchivo) {
     std::cout << "Ingrese qué tipo de archivo desea leer: \n"
               << "1. Archivo de texto\n"
               << "2. Archivo binario\n";
@@ -409,16 +411,8 @@ void leerArchivo(const std::string &nombreArchivo) {
 
         while (std::getline(archivo, linea)) {
             if (opcion == 2) {
-                // Convierte cada grupo de 8 bits a un carácter
-                std::string binaryContent;
-                for (size_t i = 0; i < linea.length(); i += 32) {
-                    std::string bits = linea.substr(i, 32);
-                    char c = static_cast<char>(std::bitset<32>(bits).to_ulong());
-                    binaryContent += c;
-                }
-
-                // Decodifica la cadena de caracteres y muestra la palabra decodificada
-                std::string decoded = arbolHuffman.decodificar(binaryContent);
+                // Decodifica la cadena de bits y muestra la palabra decodificada
+                std::string decoded = arbolHuffman.decodificar(linea);
                 std::cout << "Decodificado: " << decoded << std::endl;
             } else if (opcion == 1) {
                 // Si es un archivo de texto, simplemente imprime el contenido de la línea
@@ -431,7 +425,6 @@ void leerArchivo(const std::string &nombreArchivo) {
         std::cerr << "Error: no se pudo abrir el archivo " << nombreArchivo << std::endl;
     }
 }
-
 
 
 string separarEspacio(string cadena, bool parametro) {
