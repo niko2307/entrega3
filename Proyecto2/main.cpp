@@ -328,10 +328,6 @@ void crearArchivo(const string& nombreArchivo) {
 }
 
 
-
-
-
-
 //permite crear un archivo
 
 
@@ -339,8 +335,6 @@ void escribirEnArchivoBinario(const std::string& texto, std::ofstream& archivo) 
     archivo.write(texto.c_str(), texto.size());
     archivo.write("\n", 1);
 }
-
-
 
 void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJugador& jugadorInfo) {
     try {
@@ -352,12 +346,10 @@ void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJuga
             escribirEnArchivoBinario(jugadorInfo.color, archivo);
             escribirEnArchivoBinario(jugadorInfo.cantidadPaises, archivo);
             escribirEnArchivoBinario(jugadorInfo.jugadort, archivo);
-
             // Escribe las líneas de territorios con cambio de línea cada 8 bits
             for (const std::string& territorio : jugadorInfo.territorios) {
                 escribirEnArchivoBinario(territorio, archivo);
             }
-
             // Escribe las líneas de cantidades de ejército con cambio de línea cada 8 bits
             for (const std::string& cantidadEjercito : jugadorInfo.cantidadEjercito) {
                 escribirEnArchivoBinario(cantidadEjercito, archivo);
@@ -382,15 +374,12 @@ void leerArchivo(const std::string& nombreArchivo) {
         std::cerr << "Error: no se pudo abrir el archivo " << nombreArchivo << std::endl;
         return;
     }
-
     // Intentamos determinar si el archivo es binario mirando la extensión
     bool esBinario = (nombreArchivo.length() > 4) && (nombreArchivo.substr(nombreArchivo.length() - 4) == ".bin");
     // Tamaño del bloque en bytes (64 bits)
     constexpr std::size_t tamanoBloque = 8;
-
     // Buffer para leer el bloque
     char buffer[tamanoBloque];
-
     std::string bloqueActual;  // Para almacenar el bloque actual a decodificar
 
     while (archivo.read(buffer, tamanoBloque)) {
@@ -580,11 +569,6 @@ void inicializarJuego(Risk* risk){
   do{
     std::cout<<"ingrese la cantidad de jugadores (3-6)"<<endl;
     cantidadJugadores = stoi(ingresarComando());
-    vector<pair<char, int>> frecuencias = arbolHuffman.calcularFrecuencias(to_string(cantidadJugadores));
-   arbolHuffman.construirArbol(frecuencias);
-   jugadorInfo.jugadores=arbolHuffman.codificar(to_string(cantidadJugadores));
-    inf.cantidadjug=cantidadJugadores;
-
   }while(cantidadJugadores<3 || cantidadJugadores>6);
 
    
@@ -592,10 +576,6 @@ system("cls");
   for(int i=0; i<cantidadJugadores; i++){
     std::cout<<"Ingrese el nombre del jugador "<< i+1<<" : \n";
     nombreJug = ingresarComando();
-   inf.nombrejug.push_back(nombreJug);
-   vector<pair<char, int>> frecuenciaNombre = arbolHuffman.calcularFrecuencias(nombreJug);
-    arbolHuffman.construirArbol(frecuenciaNombre);
-    jugadorInfo.nombrejug = arbolHuffman.codificar(nombreJug);
     risk->CrearJugador(nombreJug, cantidadJugadores);
     
   }
@@ -657,19 +637,28 @@ system("cls");
     std::cout<<risk->infoJug()<<endl;
     risk->turnoJugado(); 
     system("cls");
+
+//construccion del arbol huffman
+    inf.cantidadjug=cantidadJugadores;
+    inf.nombrejug.push_back(nombreJug);
     inf.color.push_back(risk->getColorJugadorEnTurno());
     inf.fichas=risk->getFichasJugadorEnTurno();
-    inf.territorios.push_back(territorio);
+    
+    //archivo bninario
     vector<pair<char, int>> frecuenciasTerritorio = arbolHuffman.calcularFrecuencias(territorio);
     vector<pair<char, int>> frecuenciasColor = arbolHuffman.calcularFrecuencias(risk->getColorJugadorEnTurno());
     vector<pair<char, int>> frecuenciasNombreJugador = arbolHuffman.calcularFrecuencias(risk->getColorJugadorEnTurno());
-   vector<pair<char, int>> frecuenciasFichas = arbolHuffman.calcularFrecuencias(to_string (risk->getFichasJugadorEnTurno()));
-
+    vector<pair<char, int>> frecuenciasFichas = arbolHuffman.calcularFrecuencias(to_string (risk->getFichasJugadorEnTurno()));
+    vector<pair<char, int>> frecuenciaNombre = arbolHuffman.calcularFrecuencias(nombreJug);
+    arbolHuffman.construirArbol(frecuenciaNombre);
+    jugadorInfo.nombrejug = arbolHuffman.codificar(nombreJug);
+    vector<pair<char, int>> frecuencias = arbolHuffman.calcularFrecuencias(to_string(cantidadJugadores));
+    arbolHuffman.construirArbol(frecuencias);
+    jugadorInfo.jugadores=arbolHuffman.codificar(to_string(cantidadJugadores));
     arbolHuffman.construirArbol(frecuenciasTerritorio);
-     arbolHuffman.construirArbol(frecuenciasColor);
+    arbolHuffman.construirArbol(frecuenciasColor);
     arbolHuffman.construirArbol(frecuenciasNombreJugador);
     arbolHuffman.construirArbol(frecuenciasFichas);
-
     jugadorInfo.territorios .push_back(arbolHuffman.codificar(territorio));
     jugadorInfo.jugadort = arbolHuffman.codificar(risk->getNameJugadorEnTurno());
     jugadorInfo.color = arbolHuffman.codificar(risk->getColorJugadorEnTurno());
@@ -768,8 +757,8 @@ std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
       
       
 //HUFFMAN, MODIFICAR
-      inf.ejercito.push_back(qtropas);
-        vector<pair<char, int>> frecuen = arbolHuffman.calcularFrecuencias(to_string(qtropas));
+    inf.ejercito.push_back(qtropas);
+   vector<pair<char, int>> frecuen = arbolHuffman.calcularFrecuencias(to_string(qtropas));
    arbolHuffman.construirArbol(frecuen);
    jugadorInfo.cantidadEjercito.push_back(arbolHuffman.codificar(to_string(qtropas)));
    
