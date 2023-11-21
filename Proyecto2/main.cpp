@@ -390,7 +390,6 @@ void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJuga
     }
 }
 
-//permite leer la información de un archivo
 void leerArchivo(const std::string& nombreArchivo) {
     std::cout << "Ingrese qué tipo de archivo desea leer: \n"
               << "1. Archivo de texto\n"
@@ -412,7 +411,7 @@ void leerArchivo(const std::string& nombreArchivo) {
         while (std::getline(archivo, linea)) {
             if (opcion == 2) {
                 // Decodifica la cadena de bits y muestra la palabra decodificada
-                std::string decoded = arbolHuffman.decodificar(linea);
+                std::string decoded=arbolHuffman.decodificar(linea);
                 std::cout << "Decodificado: " << decoded << std::endl;
             } else if (opcion == 1) {
                 // Si es un archivo de texto, simplemente imprime el contenido de la línea
