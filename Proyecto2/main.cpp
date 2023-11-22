@@ -8,10 +8,6 @@
 #include "grafo.h"
 #include <map>
 #include <bitset>
-
-
-
-
 using namespace std;
 struct  infodos
 {
@@ -69,7 +65,7 @@ void atacar(Risk* risk);
 void crearArchivoBinario(const string& nombreArchivo,const   InformacionJugador& jugadorInfo);
 void crearArchivo(const string& nombreArchivo, const string& contenidoGuardar);
 void escribirEnArchivoBinario(const std::string& texto, std::ofstream& archivo);
-
+void cargarInformacionDecodificada(const std::string& informacion);
 
 
 //entrega 3
@@ -316,10 +312,8 @@ void crearArchivo(const string& nombreArchivo) {
          }
          archivo << "\n";
          for ( int ejercito: inf.ejercito) {
-                  archivo <<"fichas vovidas al territorio"<< " " <<ejercito  << '\n';
+                  archivo <<"fichas movidas al territorio"<< " " <<ejercito  << '\n';
          }
-
-
         archivo.close();
         std::cout << "La partida ha sido guardada correctamente en " << nombreArchivo  << endl;
     } else {
@@ -328,8 +322,38 @@ void crearArchivo(const string& nombreArchivo) {
 }
 
 
-//permite crear un archivo
+void cargarInformacionDecodificada(const std::string& informacion) {
+    std::istringstream ss(informacion);
+    std::string tipoDato;
 
+    while (ss >> tipoDato) {
+        if (tipoDato == "cantidadjug") {
+            ss >> inf.cantidadjug;
+        } else if (tipoDato == "nombre") {
+            std::string nombre;
+            ss >> nombre;
+            inf.nombrejug.push_back(nombre);
+        } else if (tipoDato == "color") {
+            std::string color;
+            ss >> color;
+            inf.color.push_back(color);
+        } else if (tipoDato == "territorios") {
+            std::string territorio;
+            ss >> territorio;
+            inf.territorios.push_back(territorio);
+        } else if (tipoDato == "fichas") {
+            int fichas;
+            ss >> fichas;
+            inf.fichasd.push_back(fichas);
+        } else if (tipoDato == "ejercito") {
+            int ejercito;
+            ss >> ejercito;
+            inf.ejercito.push_back(ejercito);
+        }
+    }
+}
+
+//permite crear un archivo binario 
 
 void escribirEnArchivoBinario(const std::string& texto, std::ofstream& archivo) {
     archivo.write(texto.c_str(), texto.size());
@@ -396,17 +420,16 @@ void leerArchivo(const std::string& nombreArchivo) {
             if (bloqueActual.size() == tamanoBloque) {
                 std::string resultado = arbolHuffman.decodificar(bloqueActual);
                 std::cout << "Decodificado: " << resultado << std::endl;
-                // Aquí podrías manejar los datos decodificados según tus necesidades
-                // Por ejemplo, podrías montar los datos a la partida.
-
-                // Reinicia el bloqueActual para el próximo bloque
+              
                 bloqueActual.clear();
             }
         } else {
-            // Si es un archivo de texto, simplemente imprime el contenido del bloque
+            cargarInformacionDecodificada(buffer);
             std::cout.write(buffer, tamanoBloque);
             std::cout << std::endl;
+           
         }
+
     }
 
     archivo.close();
@@ -591,6 +614,7 @@ system("cls");
     arbolHuffman.construirArbol(frecuenciaNombre);
     jugadorInfo.nombrejug = arbolHuffman.codificar(nombreJug);
     risk->CrearJugador(nombreJug, cantidadJugadores);
+    inf.nombrejug.push_back(nombreJug);
     
   }
  
@@ -604,7 +628,7 @@ system("cls");
 
     std::cout<<"\n  Turno de: "<<risk->getNameJugadorEnTurno()<<"\n  Color: "<<risk->getColorJugadorEnTurno()<<"\n  FichasDisponibles: "<<risk->getFichasJugadorEnTurno()<<endl;
   //iniciarlizar tablero 
-
+  inf.color.push_back(risk->getColorJugadorEnTurno());
     std::cout<<"\tContinentes disponibles:"<<endl;
     
     std::cout<<risk->infoContinentes()<<endl;
@@ -632,6 +656,7 @@ system("cls");
     
       if(risk->estadoTerritorioLibre(continente , territorio)){
           territorioValido=true;
+           inf.territorios.push_back(territorio);
       }else{
         std::cout<<"\tNo se reconoce el territorio ingresado"<<endl;
         territorioValido=false;
@@ -651,9 +676,19 @@ system("cls");
     std::cout<<risk->infoJug()<<endl;
     risk->turnoJugado(); 
     system("cls");
+
+
+//construccion del arbol huffman
+    inf.cantidadjug=cantidadJugadores;
+    inf.fichas=risk->getFichasJugadorEnTurno();
+    
+    
+    //archivo bninario
+
     inf.color.push_back(risk->getColorJugadorEnTurno());
     inf.fichas=risk->getFichasJugadorEnTurno();
     inf.territorios.push_back(territorio);
+
     vector<pair<char, int>> frecuenciasTerritorio = arbolHuffman.calcularFrecuencias(territorio);
     vector<pair<char, int>> frecuenciasColor = arbolHuffman.calcularFrecuencias(risk->getColorJugadorEnTurno());
     vector<pair<char, int>> frecuenciasNombreJugador = arbolHuffman.calcularFrecuencias(risk->getColorJugadorEnTurno());
@@ -796,10 +831,6 @@ std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
      }while(Ganador!=true && jugar =="continuar" );
 
       std::cout<<"SE ACABO EL JUEGO"<<std::endl;
-
-
-
-
     
 }
 
@@ -1097,8 +1128,6 @@ void conquista_mas_barata(Risk* risk) {
                 }
             }
         }
-
-
     }
     
     // Imprimir la información del camino con el costo mínimo
