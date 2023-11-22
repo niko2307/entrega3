@@ -21,8 +21,20 @@ struct  infodos
   vector<int>fichasd;
   vector<int>ejercito;
 
-};
+//atacar
+    string jugadorEnTurnoAtaque;
+    string territorioAtacante;
+    string territorioColindante;
+    string combateContinuar;
 
+//fortificar
+    string jugadorFortificante;
+    string territorioOrigen;
+    string continenteOrigen;
+    string territorioDestino;
+    string continenteDestino;
+    int cantidadFichasMovidas;
+};
 
 struct InformacionJugador {
     string jugadort;
@@ -36,6 +48,20 @@ struct InformacionJugador {
     vector<string> cantidadEjercito;
     string cantidadTarjetas;
     vector<string> identificadoresTarjetas;
+//atacar
+   string jugadorEnTurnoAtaque;
+    string territorioAtacante;
+    string territorioColindante;
+    string combateContinuar;
+
+//fortificar
+    string jugadorFortificante;
+    string territorioOrigen;
+    string continenteOrigen;
+    string territorioDestino;
+    string continenteDestino;
+    string cantidadFichasMovidas;
+
 };
 
 string ingresarComando();
@@ -66,7 +92,7 @@ void crearArchivoBinario(const string& nombreArchivo,const   InformacionJugador&
 void crearArchivo(const string& nombreArchivo, const string& contenidoGuardar);
 void escribirEnArchivoBinario(const std::string& texto, std::ofstream& archivo);
 void cargarInformacionDecodificada(const std::string& informacion);
-
+void cargarInformacionbinaria(const std::string& informacion);
 
 //entrega 3
 void costo_conquista(Risk* risk,std::string NTerritorio);
@@ -290,7 +316,7 @@ grafo.inicializarGrafo(&risk);
 
     return 0;
 }
-
+//crear el archivo
 void crearArchivo(const string& nombreArchivo) {
     ofstream archivo(nombreArchivo ); 
     if (archivo.is_open()) {
@@ -314,14 +340,28 @@ void crearArchivo(const string& nombreArchivo) {
          for ( int ejercito: inf.ejercito) {
                   archivo <<"fichas movidas al territorio"<< " " <<ejercito  << '\n';
          }
+
+
+        archivo << "fase_fortificar\n";
+        archivo << "jugador_en_turno " << inf.jugadorFortificante << "\n";
+        archivo << "territorio_origen " <<  inf.territorioOrigen << "\n";
+        archivo << "continente_origen " <<  inf.continenteOrigen<< "\n";
+        archivo << "territorio_destino " <<inf.territorioDestino  << "\n";
+        archivo << "continente_destino " << inf.continenteDestino << "\n";
+        archivo<< "cantidad de fichas movidas"<<inf.cantidadFichasMovidas <<"\n";
+        archivo << "\n";
+        archivo << "fase_ataque\n";
+        archivo << "jugador_en_turno " << inf.jugadorEnTurnoAtaque << "\n";
+        archivo << "territorio_atacante " <<inf.territorioAtacante << "\n";
+        archivo << "territorio_colindante " << inf.territorioColindante << "\n";
+        archivo << "combate_continuar " <<   inf.combateContinuar << "\n";
         archivo.close();
         std::cout << "La partida ha sido guardada correctamente en " << nombreArchivo  << endl;
     } else {
         std::cout << "La partida no ha sido guardada correctamente." << endl;
     }
 }
-
-
+//cargar a la partida 
 void cargarInformacionDecodificada(const std::string& informacion) {
     std::istringstream ss(informacion);
     std::string tipoDato;
@@ -341,25 +381,112 @@ void cargarInformacionDecodificada(const std::string& informacion) {
             std::string territorio;
             ss >> territorio;
             inf.territorios.push_back(territorio);
-        } else if (tipoDato == "fichas") {
+        } else if (tipoDato == "fichas_vovidas_al_territorio") {
             int fichas;
             ss >> fichas;
             inf.fichasd.push_back(fichas);
-        } else if (tipoDato == "ejercito") {
+        } else if (tipoDato == "fichas_movidas_al_territorio") {
             int ejercito;
             ss >> ejercito;
             inf.ejercito.push_back(ejercito);
+        } else if (tipoDato == "fase_fortificar") {
+            // Leer datos específicos de la fase de fortificar
+            ss >> tipoDato; // "jugador_en_turno"
+            ss >> inf.jugadorFortificante;
+            ss >> tipoDato; // "territorio_origen"
+            ss >> inf.territorioOrigen;
+            ss >> tipoDato; // "continente_origen"
+            ss >> inf.continenteOrigen;
+            ss >> tipoDato; // "territorio_destino"
+            ss >> inf.territorioDestino;
+            ss >> tipoDato; // "continente_destino"
+            ss >> inf.continenteDestino;
+            ss >> tipoDato; // "cantidad_fichas_movidas"
+            ss >> inf.cantidadFichasMovidas;
+        } else if (tipoDato == "fase_ataque") {
+            // Leer datos específicos de la fase de ataque
+            ss >> tipoDato; // "jugador_en_turno"
+            ss >> inf.jugadorEnTurnoAtaque;
+            ss >> tipoDato; // "territorio_atacante"
+            ss >> inf.territorioAtacante;
+            ss >> tipoDato; // "territorio_colindante"
+            ss >> inf.territorioColindante;
+            ss >> tipoDato; // "combate_continuar"
+            ss >> inf.combateContinuar;
         }
     }
 }
 
-//permite crear un archivo binario 
+// caragar a la partida de binario 
+void cargarInformacionbinaria(const std::string& informacion) {
+    std::istringstream ss(informacion);
+    std::string tipoDato;
+
+    while (ss >> tipoDato) {
+        if (tipoDato == "jugadort") {
+            ss >> jugadorInfo.jugadort;
+        } else if (tipoDato == "nombre") {
+            ss >> jugadorInfo.nombre;
+        } else if (tipoDato == "jugadores") {
+            ss >> jugadorInfo.jugadores;
+        } else if (tipoDato == "color") {
+            ss >> jugadorInfo.color;
+        } else if (tipoDato == "nombrejug") {
+            ss >> jugadorInfo.nombrejug;
+        } else if (tipoDato == "territorios") {
+            std::string territorio;
+            ss >> territorio;
+            jugadorInfo.territorios.push_back(territorio);
+        } else if (tipoDato == "cantidadPaises") {
+            ss >> jugadorInfo.cantidadPaises;
+        } else if (tipoDato == "codigosPaises") {
+            std::string codigoPais;
+            ss >> codigoPais;
+            jugadorInfo.codigosPaises.push_back(codigoPais);
+        } else if (tipoDato == "cantidadEjercito") {
+            std::string cantidadEjercito;
+            ss >> cantidadEjercito;
+            jugadorInfo.cantidadEjercito.push_back(cantidadEjercito);
+        } else if (tipoDato == "cantidadTarjetas") {
+            ss >> jugadorInfo.cantidadTarjetas;
+        } else if (tipoDato == "identificadoresTarjetas") {
+            std::string identificadorTarjeta;
+            ss >> identificadorTarjeta;
+            jugadorInfo.identificadoresTarjetas.push_back(identificadorTarjeta);
+        } else if (tipoDato == "fase_ataque") {
+            // Leer datos específicos de la fase de ataque
+            ss >> tipoDato; // "jugadorEnTurnoAtaque"
+            ss >> jugadorInfo.jugadorEnTurnoAtaque;
+            ss >> tipoDato; // "territorioAtacante"
+            ss >> jugadorInfo.territorioAtacante;
+            ss >> tipoDato; // "territorioColindante"
+            ss >> jugadorInfo.territorioColindante;
+            ss >> tipoDato; // "combateContinuar"
+            ss >> jugadorInfo.combateContinuar;
+        } else if (tipoDato == "fase_fortificar") {
+            // Leer datos específicos de la fase de fortificar
+            ss >> tipoDato; // "jugadorFortificante"
+            ss >> jugadorInfo.jugadorFortificante;
+            ss >> tipoDato; // "territorioOrigen"
+            ss >> jugadorInfo.territorioOrigen;
+            ss >> tipoDato; // "continenteOrigen"
+            ss >> jugadorInfo.continenteOrigen;
+            ss >> tipoDato; // "territorioDestino"
+            ss >> jugadorInfo.territorioDestino;
+            ss >> tipoDato; // "continenteDestino"
+            ss >> jugadorInfo.continenteDestino;
+            ss >> tipoDato; // "cantidadFichasMovidas"
+            ss >> jugadorInfo.cantidadFichasMovidas;
+        }
+    }
+}
+//permite escribir en el  archivo binario 
 
 void escribirEnArchivoBinario(const std::string& texto, std::ofstream& archivo) {
     archivo.write(texto.c_str(), texto.size());
     archivo.write("\n", 1);
 }
-
+//permite crear un archivo binario 
 void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJugador& jugadorInfo) {
     try {
         std::ofstream archivo(nombreArchivo , std::ios::binary | std::ios::app);
@@ -370,19 +497,26 @@ void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJuga
             escribirEnArchivoBinario(jugadorInfo.color, archivo);
             escribirEnArchivoBinario(jugadorInfo.cantidadPaises, archivo);
             escribirEnArchivoBinario(jugadorInfo.jugadort, archivo);
-
+          
+            escribirEnArchivoBinario(jugadorInfo.jugadorEnTurnoAtaque,archivo);
+            escribirEnArchivoBinario(jugadorInfo.territorioAtacante,archivo);
+            escribirEnArchivoBinario(jugadorInfo.territorioColindante,archivo);
+            escribirEnArchivoBinario(jugadorInfo.combateContinuar,archivo);
+          
+            escribirEnArchivoBinario(jugadorInfo.jugadorFortificante,archivo);
+            escribirEnArchivoBinario(jugadorInfo.territorioOrigen,archivo);
+            escribirEnArchivoBinario(jugadorInfo.continenteOrigen,archivo);
+            escribirEnArchivoBinario(jugadorInfo.territorioDestino,archivo);
+            escribirEnArchivoBinario(jugadorInfo.continenteDestino,archivo);
             // Escribe las líneas de territorios con cambio de línea cada 8 bits
             for (const std::string& territorio : jugadorInfo.territorios) {
                 escribirEnArchivoBinario(territorio, archivo);
             }
-
             // Escribe las líneas de cantidades de ejército con cambio de línea cada 8 bits
             for (const std::string& cantidadEjercito : jugadorInfo.cantidadEjercito) {
                 escribirEnArchivoBinario(cantidadEjercito, archivo);
             }
-
             archivo.write("\n", 1); // Agrega una línea para separar las entradas de diferentes jugadores
-
             archivo.close();
             std::cout << "La partida ha sido guardada correctamente en " << nombreArchivo  << std::endl;
         } else {
@@ -392,25 +526,19 @@ void crearArchivoBinario(const std::string& nombreArchivo, const InformacionJuga
         std::cout << "Error al escribir en el archivo: " << e.what() << std::endl;
     }
 }
-
 void leerArchivo(const std::string& nombreArchivo) {
     std::ifstream archivo(nombreArchivo, std::ios::binary);
-
     if (!archivo) {
         std::cerr << "Error: no se pudo abrir el archivo " << nombreArchivo << std::endl;
         return;
     }
-
     // Intentamos determinar si el archivo es binario mirando la extensión
     bool esBinario = (nombreArchivo.length() > 4) && (nombreArchivo.substr(nombreArchivo.length() - 4) == ".bin");
     // Tamaño del bloque en bytes (64 bits)
     constexpr std::size_t tamanoBloque = 8;
-
     // Buffer para leer el bloque
     char buffer[tamanoBloque];
-
     std::string bloqueActual;  // Para almacenar el bloque actual a decodificar
-
     while (archivo.read(buffer, tamanoBloque)) {
         if (esBinario) {
             // Construye el bloque de 64 bits
@@ -419,20 +547,18 @@ void leerArchivo(const std::string& nombreArchivo) {
             // Si el bloqueActual tiene 64 bits, decodifícalo y muestra el resultado
             if (bloqueActual.size() == tamanoBloque) {
                 std::string resultado = arbolHuffman.decodificar(bloqueActual);
-                std::cout << "Decodificado: " << resultado << std::endl;
-              
                 bloqueActual.clear();
+                 cargarInformacionbinaria(resultado);
             }
         } else {
-            cargarInformacionDecodificada(buffer);
             std::cout.write(buffer, tamanoBloque);
             std::cout << std::endl;
-           
+           cargarInformacionDecodificada(buffer);
         }
-
     }
 
     archivo.close();
+    
 }
 
 string separarEspacio(string cadena, bool parametro) {
@@ -786,7 +912,7 @@ void turno (Risk* risk){
 std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
         elegiratacar = ingresarComando();
 
-        if(elegiratacar == "SI"){
+        if(elegiratacar == "si"){
         atacar(risk);
         }else{
           std::cout<<"NO se realizo ningun ataque"<<std::endl;
@@ -810,7 +936,7 @@ std::cout<<"Deseas Realizar un ataque\n SI \n NO"<<std::endl;
      //if(risk->getFichasJugadorEnTurno()>0){
       std::cout<<"Deseas Fortificar un territorio \n SI \n NO"<<std::endl;
         elegirFortificar = ingresarComando();
-        if(elegirFortificar == "SI"){
+        if(elegirFortificar == "si"){
         fortificar(risk);
         }else{
           std::cout<<"SIGUIENTE TURNO"<<std::endl;
@@ -849,8 +975,12 @@ void atacar(Risk* risk){
     std::cout<<"  Turno de Jugador: "<<risk->getNameJugadorEnTurno()
         <<"\n  Color: "<<risk->getColorJugadorEnTurno()
         <<"\n\nTUS TERRITORIOS: \n"<<endl;
-
-    std::cout<<risk->buscarterritoriosJugador();
+      vector<pair<char, int>> frecuenciasTerritorioatacque = arbolHuffman.calcularFrecuencias(risk->getNameJugadorEnTurno());
+      arbolHuffman.construirArbol(frecuenciasTerritorioatacque);
+      jugadorInfo.jugadorEnTurnoAtaque=arbolHuffman.codificar(risk->getNameJugadorEnTurno());
+      inf.jugadorEnTurnoAtaque = risk->getNameJugadorEnTurno();
+    
+     std::cout<<risk->buscarterritoriosJugador();
     std::cout<<"salir - para salir de la fase de ataque"<<std::endl;
     //evalua si el territorio seleccionado te pertenece
     
@@ -858,6 +988,10 @@ void atacar(Risk* risk){
       do{
         std::cout<<"\nElige el territorio con el que quieres atacar:\n";
         territorio = ingresarComando();
+        vector<pair<char, int>> frecuenciasTerritorioatacante = arbolHuffman.calcularFrecuencias(territorio);
+        arbolHuffman.construirArbol(frecuenciasTerritorioatacante);
+        jugadorInfo.territorioAtacante=arbolHuffman.codificar(territorio);
+        inf.territorioAtacante=territorio;
         continente = risk->buscarContinenteTerritorio(territorio);
         if(territorio =="salir"){
           break;
@@ -894,7 +1028,10 @@ if(territorio =="salir"){
             std::cout<<"\n-** Este territorio te pertenece **-\n\n";
             Colindante= false;
           }
-           
+          vector<pair<char, int>> frecuenciascolidante = arbolHuffman.calcularFrecuencias(colindante);
+          arbolHuffman.construirArbol(frecuenciascolidante);
+          jugadorInfo.territorioColindante=arbolHuffman.codificar(colindante);
+          inf.territorioColindante=colindante;
         }while(Colindante==false|| !risk->getTerritorio(continente,territorio)->esColindante(risk->getTerritorio(continente,colindante)));
         
 if(colindante !="retroceder"){
@@ -916,7 +1053,10 @@ if(colindante !="retroceder"){
           std::cout<<"Quieres seguir combatiendo con este pais:"<<std::endl;
           std::cout<<"SI \nNO"<<std::endl;
           combatir = ingresarComando();
-          
+          vector<pair<char, int>> frecuenciascombate = arbolHuffman.calcularFrecuencias(combatir);
+          arbolHuffman.construirArbol(frecuenciascombate);
+          jugadorInfo.combateContinuar=arbolHuffman.codificar(combatir);
+          inf.combateContinuar=combatir;
         }while(combatir == "SI");
        
     }
@@ -929,9 +1069,11 @@ if(colindante !="retroceder"){
         Fase=ingresarComando();
   system("cls");
 
+ 
+
   }while(Fase =="NO");
 
-
+  
 
 
 }
@@ -943,6 +1085,7 @@ system("cls");
 
  // Obtener el jugador en turno risk->getNameJugadorEnTurno()
     Jugador* jugadorEnTurno = risk->getJugador(risk->getNameJugadorEnTurno());
+     inf.jugadorFortificante = risk->getNameJugadorEnTurno();
     string nombreTerritorioOrigen = "", continenteOrigen= "",nombreTerritorioDestino= "",continenteDestino= "";
 
      std::cout<<risk->buscarterritoriosJugador();
@@ -952,10 +1095,18 @@ system("cls");
     do{
         std::cout<<"Ingrese el nombre del territorio de origen:\n";
          nombreTerritorioOrigen = ingresarComando();
+          vector<pair<char, int>> frecuenciasnombrefor = arbolHuffman.calcularFrecuencias(nombreTerritorioOrigen);
+          arbolHuffman.construirArbol(frecuenciasnombrefor);
+          jugadorInfo.jugadorFortificante=arbolHuffman.codificar(nombreTerritorioOrigen);
+          inf.territorioOrigen = nombreTerritorioOrigen;
          if(nombreTerritorioOrigen=="salir"){
           break;
          }
         continenteOrigen = risk->buscarContinenteTerritorio(nombreTerritorioOrigen);
+         vector<pair<char, int>> frecuenciasfortificar = arbolHuffman.calcularFrecuencias(continenteOrigen);
+          arbolHuffman.construirArbol(frecuenciasfortificar );
+          jugadorInfo.continenteOrigen=arbolHuffman.codificar(continenteOrigen);
+         inf.continenteOrigen = continenteOrigen;
 
        
         
@@ -971,7 +1122,16 @@ system("cls");
          }
         std::cout<<"\nIngrese el nombre del territorio de Destino:\n";
         nombreTerritorioDestino = ingresarComando();
+        vector<pair<char, int>> frecuenciascontides = arbolHuffman.calcularFrecuencias(nombreTerritorioDestino);
+          arbolHuffman.construirArbol(frecuenciascontides);
+          jugadorInfo.territorioDestino=arbolHuffman.codificar(nombreTerritorioDestino);
+        inf.territorioDestino = nombreTerritorioDestino;
+
         continenteDestino = risk->buscarContinenteTerritorio(nombreTerritorioDestino);
+        vector<pair<char, int>> frecuenciasterides = arbolHuffman.calcularFrecuencias(continenteDestino);
+          arbolHuffman.construirArbol(frecuenciasterides);
+          jugadorInfo.continenteDestino=arbolHuffman.codificar(continenteDestino);
+          inf.continenteDestino = continenteDestino;
 
       
         
@@ -1005,8 +1165,10 @@ if(nombreTerritorioOrigen!="salir"){
                 
                 territorioDestino->addFicha(ficha);
                 
-                
-                
+                vector<pair<char, int>> frecuenciaspiezas = arbolHuffman.calcularFrecuencias(to_string(cantidadFichas));
+                 arbolHuffman.construirArbol(frecuenciaspiezas);
+                 jugadorInfo.cantidadFichasMovidas=arbolHuffman.codificar(to_string(cantidadFichas));
+               inf.cantidadFichasMovidas = cantidadFichas; 
             }
             territorioOrigen->restarFichas(cantidadFichas);
 
@@ -1021,6 +1183,9 @@ if(nombreTerritorioOrigen!="salir"){
     }
 
 }
+  
+   
+   
 
 
 
